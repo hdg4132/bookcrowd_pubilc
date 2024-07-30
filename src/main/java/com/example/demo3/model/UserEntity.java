@@ -25,6 +25,8 @@ public class UserEntity {
     private String name;
     private String phoneNumber;
     private String userType;
+    private String address;
+    private String detailAddress;
     private String token;
     private LocalDateTime createdAt;
     private LocalDateTime editedAt;
@@ -38,6 +40,8 @@ public class UserEntity {
         this.name = dto.getName();
         this.phoneNumber = dto.getPhoneNumber();
         this.userType = dto.getUserType();
+        this.address = dto.getAddress();
+        this.detailAddress = dto.getDetailAddress();
         this.token = "";
         this.createdAt = LocalDateTime.now();
         this.editedAt = LocalDateTime.now();

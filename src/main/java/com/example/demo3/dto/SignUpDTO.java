@@ -17,6 +17,8 @@ public class SignUpDTO {
     private String confirmPassword;
     private String phoneNumber;
     private String userType;
+    private String address;
+    private String detailAddress;
     private LocalDateTime createdAt;
     private LocalDateTime editedAt;
     private LocalDateTime lastLoginAt;

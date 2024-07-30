@@ -18,6 +18,10 @@ public class ResponseDTO<D> {
         return ResponseDTO.set(true, message, null);
     }
 
+    public  static <D> ResponseDTO<D> setPass(boolean exists, String message) {
+        return ResponseDTO.set(true, message, null);
+    }
+
     public static <D> ResponseDTO<D> setFailed(String message)
     {
         return ResponseDTO.set(false, message, null);

@@ -1,0 +1,37 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+  
+  .pagination li {
+    margin: 0 5px;
+  }
+  
+  .pagination button {
+    background-color: transparent;
+    border: none;
+    color: black;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 50%;
+    width: 40px;
+    padding: 10px 15px;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  .pagination button:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .pagination .active button {
+    background-color: #FFB800;
+    color: white;
+  }
+  
+  .pagination .prev button, .pagination .next button {
+    border-radius: 0; /* 이전 및 다음 버튼의 모서리를 둥글게 하지 않습니다 */
+  }
+  

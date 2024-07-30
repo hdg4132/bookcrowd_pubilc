@@ -182,12 +182,11 @@ public class KeepingService {
             keeping.setKeepingId(entity.getKeepingId());
             keeping.setKeepStatus(entity.getKeepStatus());
             keeping.setLastBorrowed(entity.getLastBorrowed());
-            keeping.setNote(entity.getNote());
             keepingRepository.save(keeping);
-            log.info("keeping updated:{}", keeping.getKeepingId());
+            log.info("rent updated:{}", keeping.getKeepingId());
             return new KeepingDTO(keeping);
         } else {
-            log.warn("keeping not found: {}", entity.getKeepingId());
+            log.warn("rent not found: {}", entity.getKeepingId());
             throw new RuntimeException("rent not found");
         }
     }
