@@ -1,0 +1,85 @@
+/* 헤더 스타일 */
+.admin-header {
+  width: calc(100% - 20%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background-color: #fff;
+  margin-left: 20%;
+}
+
+.header-wrapper {
+  width: 100%;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.chat-management {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+/* 검색 영역 스타일 */
+.user-search {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.user-search input {
+  width: 200px;
+  font-size: 1em;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  margin: 0;
+  padding-left: 10px;
+  height: 40px;
+  text-align: left;
+}
+
+.search-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.search-button img {
+  width: 20px;
+  height: 20px;
+}
+
+/* 홈페이지 버튼 스타일 */
+.home-button {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 20px;
+}
+
+.home-button button {
+  cursor: pointer;
+  padding: 10px 45px;
+  background-color: #fe7070;
+  border: none;
+  color: white;
+}
+
+.back-button button {
+  cursor: pointer;
+  padding: 10px 45px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+}

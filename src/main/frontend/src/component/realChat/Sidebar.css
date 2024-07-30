@@ -1,0 +1,73 @@
+/* 사이드바 스타일 */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar {
+  width: 20%;
+  background-color: #555;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+}
+
+/* 네비게이션 래퍼 스타일 */
+.nav-wrapper {
+  height: 100%;
+  overflow: auto;
+}
+
+.nav-wrapper ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* 사이트 제목 스타일 */
+.nav-wrapper ul li:first-child {
+  display: flex;
+  padding: 20px;
+}
+
+.nav-wrapper ul li a {
+  color: white;
+  display: block;
+  text-decoration: none;
+}
+
+/* 네비게이션 아이템 스타일 */
+.nav-item {
+  display: block;
+  color: white;
+}
+
+.nav-item button {
+  cursor: pointer;
+  padding: 20px;
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+}
+
+#site-title {
+  border-bottom: 1px solid #fff;
+}
+
+#site-title p {
+  display: flex;
+  align-items: center;
+  font-size: 30px;
+  color: white;
+}
+
+#site-title span {
+  font-size: 18px;
+  color: white;
+}
+
+.nav-wrapper li:hover {
+  background-color: #111;
+}

@@ -1,0 +1,192 @@
+
+.bookInfo{
+    display: flex;
+    margin: 0 auto;
+    margin-top: 100px;
+    max-width: 80%;
+    border-bottom: 1px solid;
+    padding-bottom: 80px;
+}
+
+.img {
+    flex-basis: 35%;
+}
+
+.book_img img{
+    max-width: 320px;
+}
+
+.book_detail div{
+    display: flex;
+}
+
+.book_detail div p:nth-child(1){
+    width: 85px;
+}
+
+.info_detail {
+    flex-basis: 65%;
+    text-align: left;
+    margin-left: 107px;
+}
+
+.info_detail .btn{
+    align-content: baseline;
+    margin-top: 58px;
+}
+
+.info_detail .btn .btn_rent{
+    background-color: #199AE2;
+    color: white;
+    width: 190px;
+    height: 55px;
+    border-radius: 5px;
+    margin-right: 15px;
+}
+
+.isStore{
+    background-color: #414141;
+}
+
+.info_detail .btn .btn_wish{
+    background-color: white;
+    color: #199AE2;
+    width: 190px;
+    height: 55px;
+    border: 1px solid #199AE2;
+    border-radius: 5px;
+    margin-right: 15px;
+}
+
+.avilable{
+    margin-top: 53px;
+}
+
+
+
+.rent_item li {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    text-align: left;
+    font-size: 14px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.rent_item_wrap {
+    display: inline-block;
+    flex-basis: 80%;
+}
+
+.rent_item_up{
+    display: flex;
+}
+.rent_item_up .rentId{
+    flex-basis: 8%;
+}
+
+.rent_item_up .rentBookname{
+    flex-basis: 25%;  
+    margin-left: 60px;
+    text-overflow:ellipsis;
+}
+
+.rent_item_up .rentDate{
+    flex-basis: 23%;
+}
+
+.rent_item_up .rentUsername{
+    flex-basis: 12%;
+}
+
+.rent_item_up .rentISBN{
+    flex-basis: 20%;
+}
+
+.rent_item_up .rentButton{
+    display: flex;
+    align-items: center;
+}
+
+.rent_item_down{
+    display: flex;
+    margin-top: 10px;
+}
+
+.rent_item_down .rentUsername{
+    flex-basis: 14%;   
+}
+
+.rent_item_down .rentUserID{
+    flex-basis: 25%;
+}
+
+.rent_item_down .rentCurrent{
+    flex-basis: 25%;
+}
+
+.rent_item_down .rentLimit{
+    flex-basis: 25%;
+}
+
+.Rent_Admin_List{
+    display: flex;
+    max-width: 100%;
+    height: 100vh;
+}
+
+.rentButton{
+    display: flex;
+}
+
+.rentButton .approval button{
+    margin-right: 40px;
+    background-color: #9fd6f3;
+    width: 70px;
+    height: 40px;
+    align-content: center;
+    text-align: center;
+    border: 1px solid;
+    border-radius: 3px;
+}
+
+.rentButton .cancel button{
+    margin-right: 40px;
+    background-color: white;
+    color: red;
+    width: 70px;
+    height: 40px;
+    align-content: center;
+    text-align: center;
+    border: 1px solid;
+    border-radius: 3px;
+}
+
+.Admin_side{
+    flex-basis: 300px;
+    background-color: #999999;
+    color: white;
+}
+
+.Rent_Admin_List .rent_admin_wrap{
+    width: 100%;
+}
+
+.Admin_LOGO{
+    height: 90px;
+    border-bottom: 1px solid white;
+    align-content: center;
+
+}
+
+.Rent_Admin_List .rent_admin_wrap .rent_admin_header{
+    height: 90px;
+    border-bottom: 1px solid #999999;
+    align-content: center;
+
+}
+
+.Rent_Admin_List .rent_admin_wrap .rent_admin_header h3{
+    margin: 0;
+}

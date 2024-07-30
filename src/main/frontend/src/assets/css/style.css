@@ -1,0 +1,389 @@
+body {
+    font-family: Noto Sans KR;
+}
+
+.book-keeping-admin-container {
+    width: 1420px;
+    margin: 20px auto;
+    padding: 20px;
+}
+.member-management .member-flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.member-management .member-flex .search-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    margin: 18px 0;
+    background-color: white;
+    width: 288px;
+    height: 30px;
+}
+
+.member-management .member-flex .search-input {
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 14px;
+    flex-grow: 1;
+    border-radius: 4px;
+}
+
+.member-management .member-flex .search-input::placeholder {
+    color: #ccc;
+}
+
+.member-management .member-flex .search-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 3px;
+    margin: 0;
+}
+
+.member-management h1 {
+    margin-bottom: 20px;
+    margin-left: 20px;
+    font-size: 1.5rem;
+    font-weight: 54      0;
+}
+
+.member-management table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border-top: 3px solid #000;
+}
+
+
+
+.member-management th {
+    padding: 10px;
+    font-size: 18px ;
+    font-weight: 400;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-left: none;
+}
+
+.member-management  td {
+    padding-top: 10px;
+    padding-bottom: 5px;
+    font-size: 16px ;
+    font-weight: 400;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-left: none;
+    color: #666;
+}
+.member-management .col1{
+    width: 7%;
+}
+.member-management .col2{
+    width: 7%;
+}
+.member-management .col3{
+    width: 7%;
+}
+.member-management .col4{
+    width: 7%;
+}
+.member-management .col5{
+    width: 30%;
+}
+.member-management .col6{
+    width: 7%;
+}
+.member-management .col7{
+    width: 7%;
+}
+.member-management .col8{
+    width: 7%;
+}
+
+
+
+.member-management select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+.book-keeping-admin-btn1 {
+    border-radius: none;
+    padding: 5px 10px;
+    background-color: #fff;
+    font-weight: 530;
+    cursor: pointer;
+}
+.book-keeping-admin-btn2 {
+    padding: 5px 16px;
+    border: none;
+    background-color: #199AE2;
+    color: white;
+    cursor: pointer;
+}
+
+.book-keeping-register-container-flex4.upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.book-keeping-register-container-flex4 .file-input {
+    margin-bottom: 20px;
+}
+
+.book-keeping-register-container-flex4 .image-preview {
+    max-width: 300px;
+    max-height: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: none;
+}
+/* book-keeping */
+ 
+.book-keeping-container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+  }
+
+  .book-keeping-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border-top: 3px solid #000;
+  }
+
+  .book-keeping-container th{
+    padding: 10px;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+  }
+  .book-keeping-container td {
+    padding: 16px 10px;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    border-bottom: 1px solid #ccc; 
+    color: #666;
+  }
+
+  .book-keeping-container .col-title {
+    width: 70%;
+    text-align: left;
+    padding-left: 25px;
+  }
+
+  .book-keeping-container.col-status {
+    width: 1cqi;
+  }
+
+  .book-keeping-container.col-author {
+    width: 10%;
+  }
+
+  .book-keeping-container.col-date {
+    width: 10%;
+  }
+
+  /* book-keeping-register */
+
+  .book-keeping-register-container {
+    width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  .book-keeping-register-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  .book-keeping-register-container div {
+    margin-bottom: 18px;
+  }
+  .book-keeping-register-container span {
+    display: inline-block;
+    width: 120px;
+    font-size: 18px;
+    font-weight: 350;
+  }
+  .book-keeping-register-container input{
+    font-size: 16px;
+  }
+  
+  .book-keeping-register-container textarea {
+    width: calc(100% - 140px);
+    height: 244px;
+    padding: 8px;
+    font-size: 18px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    resize: none;
+    overflow: auto;
+  }
+  .book-keeping-register-container textarea.privacy-policy {
+    height: 132px;
+  }
+  .book-keeping-register-container textarea#terms-of-use {
+    height: 132px;
+  }
+  .book-keeping-register-container input[type="text"] {
+    width: 350px;
+    padding: 8px;
+    margin-left: 10px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+  }
+  .book-keeping-register-container label {
+    margin-left: 10px;
+  }
+  .book-keeping-register-container-flex0,
+  .book-keeping-register-container-flex1,
+  .book-keeping-register-container-flex2,
+  .book-keeping-register-container-flex3,
+  .book-keeping-register-container-flex4,
+  .book-keeping-register-container-flex5 {
+    display: flex;
+  }
+  .book-keeping-register-container-flex2 label {
+    margin-right: 20px;
+    font-size: 18px;
+    font-weight: 350;
+  }
+  .book-keeping-register-radio {
+    padding-left: 120px;
+    font-size: 18px;
+    font-weight: 350
+  }
+  .book-keeping-register-container button {
+    width: 125px;
+    height: 44px;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: 1px solid #199AE2;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 400;
+    background-color: #fff;
+    color: #199AE2;
+    cursor: pointer;
+  }
+  .book-keeping-register-container button:last-child {
+    background-color: #199AE2;
+    color: #fff;
+  }
+  .book-keeping-register-container button:hover {
+    opacity: 0.8;
+  }
+  .book-keeping-register-btn {
+    text-align: center;
+    margin-top: 30px;
+  }
+
+/* book-keeping-item */
+
+.book-keeping-item-container {
+    width: 1435px;
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.book-keeping-item-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+.book-keeping-item-container tbody {
+    border-top:3px solid #333 ;
+}
+.book-keeping-item-container .col1 {
+    width: 192px;
+    font-size: 18px;
+    font-weight: 500;
+    padding-left: 30px;
+
+}
+.book-keeping-item-container .col2 {
+    font-size: 18px;
+    font-weight: 400;
+}
+.book-keeping-item-container td {
+    padding: 10px;
+    text-align: left;            
+}
+.book-keeping-item-container .button-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.book-keeping-item-container .button-container button {
+    width: 190px;
+    height: 55px;
+    border: none;
+    font-size: 18px;
+    font-weight: 400;
+    border-radius: 5px;
+    background-color: #199AE2;
+    color: white;
+    cursor: pointer;
+    margin-top: 80px;
+    margin-bottom: 100px;
+}
+
+.book-keeping-item-container .pagination-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.book-keeping-item-container .pagination-item span {
+    margin: 0 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.book-keeping-item-container  .pagination-item span:hover {
+    background-color: #007bff;
+    color: white;
+}
+/* pagination-list */
+.pagination-list {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.pagination-list button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    background-color: white;
+    color: #ccc;
+    border-radius: 4px;
+}
+
+.pagination-list button.active {
+    color: #0056b3;
+}
+
+.pagination-list button:hover {
+    background-color: #0056b3;
+    color: white;
+}

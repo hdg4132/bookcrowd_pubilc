@@ -1,0 +1,142 @@
+/* 전체 요소의 박스 크기 및 여백 초기화 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* RealChatPage 컴포넌트의 래퍼 */
+.realchat-wrapper {
+  margin-left: 20%;
+  padding: 20px;
+}
+
+/* 유저 정보 스타일 */
+.realchat-user-info {
+  display: flex;
+  justify-content: flex-start;
+  background-color: white;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  border-top: 3px solid black;
+  border-bottom: 1px solid black;
+  margin-bottom: 20px;
+}
+
+.realchat-user-id  {
+  width: 200px;
+  margin-right: 70px;
+  text-align: center;
+}
+
+/* 채팅 컨테이너 스타일 */
+.realchat-container {
+  margin-top: 20px;
+}
+
+/* 채팅 창 스타일 */
+#realchat-window {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 10px;
+}
+
+/* 메시지 영역 스타일 */
+#realchat-messages {
+  flex: 1;
+  padding: 5px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 24px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+#realchat-messages p {
+  display: inline-block;
+  max-width: 60%;
+  padding: 10px 10px;
+  margin: 10px 10px 0 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  text-align: center;
+}
+
+#realchat-messages span {
+  margin: 5px 10px 5px 12px;
+}
+
+/* 왼쪽 메시지 스타일 */
+.realchat-left {
+  align-self: flex-start;
+  background-color: #fff;
+  border-top-left-radius: 0;
+}
+
+/* 왼쪽 메시지 날짜 스타일 */
+.realchat-left-date {
+  align-self: flex-start;
+  background-color: #fff;
+  border-top-left-radius: 0;
+  text-align: center;
+  font-size: 12px;
+}
+
+/* 오른쪽 메시지 스타일 */
+.realchat-right {
+  align-self: flex-end;
+  background-color: #199AE2;
+  color: #ffffff;
+  border-top-right-radius: 0;
+}
+
+/* 오른쪽 메시지 날짜 스타일 */
+.realchat-right-date {
+  align-self: flex-end;
+  background-color: #fff;
+  border-top-left-radius: 0;
+  text-align: center;
+  font-size: 12px;
+}
+
+/* 메시지 입력 영역 스타일 */
+.realchat-textarea-wrapper {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid black;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+#realchat-textarea {
+  margin-top: 20px;
+  background-color: #fff;
+  width: 80%;
+  padding: 0 10px 30px 10px;
+  font-size: 20px;
+  border: none;
+  color: black;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  resize: none;
+  text-align: left;
+}
+
+.realchat-send-button {
+  margin-top: 20px;
+  padding: 10px;
+  width: 15%;
+  height: 80px;
+  font-size: 30px;
+  border: none;
+  border-radius: 10px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+}

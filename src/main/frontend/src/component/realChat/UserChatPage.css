@@ -1,0 +1,199 @@
+/* 전체 요소의 박스 크기 및 여백 초기화 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* UserChat 컴포넌트의 래퍼 */
+.userchat-wrapper {
+  display: flex;
+}
+
+/* 채팅 아이콘 위치 및 스타일 */
+#userchat-icon {
+  position: fixed;
+  bottom: 100px;
+  right: 80px;
+  font-size: 30px;
+}
+
+#userchat-icon button {
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  position: relative;
+}
+
+#userchat-icon img {
+  width: 50px;
+  height: 50px;
+  filter: invert(35%) sepia(40%) saturate(6095%) hue-rotate(199deg) brightness(101%) contrast(108%);
+}
+
+/* 채팅 닫기 버튼 위치 및 스타일 */
+#userchat-close {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+}
+
+#userchat-close button {
+  background-color: transparent;
+  border: none;
+  font-size: 40px;
+}
+
+/* 채팅창 스타일 */
+#userchat-window {
+  position: fixed;
+  bottom: 100px;
+  right: 150px;
+  width: 400px;
+  height: 600px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 채팅 헤더 스타일 */
+.userchat-header {
+  padding: 20px;
+  color: #ffffff;
+  background-color: #199ae2;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.userchat-header p {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* 메시지 영역 스타일 */
+#userchat-messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+/* 사용자와 관리자 메시지 스타일 */
+.userchat-user,
+.userchat-admin {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.userchat-user {
+  flex-direction: row-reverse;
+}
+
+.userchat-profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.userchat-message-wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%;
+}
+
+.userchat-message-content {
+  display: inline-block;
+  max-width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  word-wrap: break-word;
+}
+
+.userchat-user .userchat-message-content {
+  margin-left: auto;
+  background-color: #199ae2;
+  color: #ffffff;
+  border-top-right-radius: 0;
+}
+
+.userchat-admin .userchat-message-content {
+  margin-right: auto;
+  background-color: #ebebeb;
+  border-top-left-radius: 0;
+}
+
+/* 메시지 날짜 스타일 */
+.userchat-date-user,
+.userchat-date-admin {
+  font-size: 12px;
+  color: #999;
+  display: block;
+  margin-top: 5px;
+}
+
+.userchat-user .userchat-date-user {
+  text-align: right;
+}
+
+.userchat-admin .userchat-date-admin {
+  text-align: left;
+}
+
+/* 메시지 입력 영역 스타일 */
+.userchat-textarea-wrapper {
+  display: flex;
+  background-color: white;
+  border-radius: 10px;
+}
+
+#userchat-textarea {
+  height: 70px;
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border-right: 1px solid #ccc;
+  outline: none;
+  resize: none;
+  text-align: left;
+}
+
+.userchat-send-button {
+  background-color: #199ae2;
+  color: white;
+  border: none;
+  height: 100%;
+  padding: 10px 30px;
+  border-bottom-right-radius: 10px;
+  cursor: pointer;
+}
+
+/* 스크롤바 스타일 */
+#userchat-messages::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 10px;
+}
+
+#userchat-messages::-webkit-scrollbar-thumb {
+  background: #199ae2;
+  border-radius: 10px;
+}
+
+#userchat-messages::-webkit-scrollbar-track {
+  background: #ebebeb;
+}

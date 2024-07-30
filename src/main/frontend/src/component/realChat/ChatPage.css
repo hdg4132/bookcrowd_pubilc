@@ -1,0 +1,131 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 유저 정보 래퍼 스타일 */
+.user-info-wrapper {
+  padding: 20px;
+  margin-left: 20%;
+}
+
+/* 채팅 유저 정보 스타일 */
+.chat-user-info {
+  display: flex;
+  justify-content: flex-start;
+  background-color: white;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  border-top: 3px solid black;
+  border-bottom: 1px solid black;
+  margin-bottom: 20px;
+}
+
+.user-id,
+.question-title {
+  width: 200px;
+  margin-right: 70px;
+}
+
+/* 유저 리스트 스타일 */
+.user-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 유저 아이템 스타일 */
+.user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* 유저 아이템 세부 정보 스타일 */
+.user-item-details {
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+  width: 200px;
+}
+
+.user-item-details ul {
+  display: flex;
+  align-items: center;
+}
+
+.user-item-details ul li {
+  display: inline-block;
+  width: 200px;
+  word-break: break-all;
+  margin-right: 70px;
+}
+
+/* 유저 아이템 액션 버튼 스타일 */
+.user-item-actions button {
+  padding: 15px;
+  margin-left: 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.user-item-actions button:last-child {
+  margin-right: 30px;
+}
+
+.user-item-actions a {
+  color: white;
+  text-decoration-line: none;
+}
+
+.user-item button:hover {
+  background-color: #0056b3;
+}
+
+/* 페이지네이션 스타일 */
+.pagination-wrapper nav {
+  display: flex;
+  justify-content: center;
+  margin-left: 20%;
+}
+
+.pagination {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.pagination li {
+  margin: 0 1px;
+  padding: 10px;
+}
+
+.pagination img {
+  width: 20px;
+  background-color: transparent;
+  filter: invert(35%) sepia(40%) saturate(6095%) hue-rotate(199deg) brightness(101%) contrast(108%);
+}
+
+/* 페이지네이션 버튼 스타일 */
+.pagination button  {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  padding: 0;
+}
+
+.pagination button:hover {
+  text-decoration: underline;
+}
+
+.current-page button {
+  font-weight: bold;
+}
