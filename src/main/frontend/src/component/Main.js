@@ -82,6 +82,21 @@ function Main() {
       <Link to="/editprofile">
         회원정보 수정페이지로 <Outlet />
       </Link>
+      <br />
+      <br />
+      <Link to="/realchat">
+        관리자 채팅으로<Outlet />
+      </Link>
+      <br />
+      <br />
+      <Link to="/userchat">
+        사용자 채팅으로<Outlet />
+      </Link>
+      <br />
+      <br />
+      <Link to="/chatpage">
+        채팅목록으로<Outlet />
+      </Link>
     </div>
   );
 }

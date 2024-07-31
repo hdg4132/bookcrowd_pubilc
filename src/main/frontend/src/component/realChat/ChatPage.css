@@ -1,13 +1,8 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 /* 유저 정보 래퍼 스타일 */
 .user-info-wrapper {
   padding: 20px;
   margin-left: 20%;
+  height: 630px;
 }
 
 /* 채팅 유저 정보 스타일 */
@@ -28,7 +23,11 @@
   width: 200px;
   margin-right: 70px;
 }
-
+.user-status {
+  width: 50px;
+  margin-left: 20px;
+  margin-right: 10px;
+}
 /* 유저 리스트 스타일 */
 .user-list {
   display: flex;
@@ -41,7 +40,17 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px;
+  height: 65px;
   border-bottom: 1px solid #ddd;
+}
+
+.user-item.unread .read-status{
+  color: black;
+  font-weight: bold;
+}
+
+.user-item .read-status {
+  color: #ccc;
 }
 
 /* 유저 아이템 세부 정보 스타일 */
@@ -62,6 +71,12 @@
   width: 200px;
   word-break: break-all;
   margin-right: 70px;
+}
+
+.user-item-details .read-status {
+  width: 50px;
+  margin-left: 20px;
+  margin-right: 10px;
 }
 
 /* 유저 아이템 액션 버튼 스타일 */
@@ -89,10 +104,11 @@
 }
 
 /* 페이지네이션 스타일 */
-.pagination-wrapper nav {
-  display: flex;
-  justify-content: center;
-  margin-left: 20%;
+.pagination-wrapper {
+display: flex;
+justify-content: center;
+align-items: center;
+margin-left: 20%;
 }
 
 .pagination {
@@ -100,6 +116,7 @@
   margin: 0;
   padding: 0;
   display: flex;
+  text-align: center;
 }
 
 .pagination li {
@@ -114,12 +131,17 @@
 }
 
 /* 페이지네이션 버튼 스타일 */
-.pagination button  {
+.pagination button {
   background: none;
   border: none;
   color: #007bff;
   cursor: pointer;
   padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
 }
 
 .pagination button:hover {
@@ -127,5 +149,9 @@
 }
 
 .current-page button {
+  font-size: 24px;
   font-weight: bold;
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
 }

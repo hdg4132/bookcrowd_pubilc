@@ -18,7 +18,7 @@ function LoginPage() {
     .then((response) => {
         console.log(response.data);
         const userData = response.data;
-        sessionStorage.setItem('userData', JSON.stringify(userData));
+        sessionStorage.setItem('userData', JSON.stringify(userData.data.user));
         navigate('/mypage');
     })
     .catch((error) => {

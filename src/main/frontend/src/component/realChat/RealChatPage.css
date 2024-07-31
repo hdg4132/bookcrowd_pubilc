@@ -5,7 +5,6 @@
   padding: 0;
 }
 
-
 /* RealChatPage 컴포넌트의 래퍼 */
 .realchat-wrapper {
   margin-left: 20%;
@@ -62,9 +61,9 @@
   max-width: 60%;
   padding: 10px 10px;
   margin: 10px 10px 0 10px;
-  border: 1px solid #ccc;
   border-radius: 10px;
-  text-align: center;
+  text-align: left;
+  word-wrap: break-word;
 }
 
 #realchat-messages span {
@@ -73,13 +72,14 @@
 
 /* 왼쪽 메시지 스타일 */
 .realchat-left {
+  border: 1px solid #ccc;
   align-self: flex-start;
   background-color: #fff;
   border-top-left-radius: 0;
 }
 
 /* 왼쪽 메시지 날짜 스타일 */
-.realchat-left-date {
+.realchat-left-date-user {
   align-self: flex-start;
   background-color: #fff;
   border-top-left-radius: 0;
@@ -96,7 +96,7 @@
 }
 
 /* 오른쪽 메시지 날짜 스타일 */
-.realchat-right-date {
+.realchat-right-date-admin {
   align-self: flex-end;
   background-color: #fff;
   border-top-left-radius: 0;
@@ -117,7 +117,7 @@
   margin-top: 20px;
   background-color: #fff;
   width: 80%;
-  padding: 0 10px 30px 10px;
+  padding: 10px 10px 20px 10px;
   font-size: 20px;
   border: none;
   color: black;
