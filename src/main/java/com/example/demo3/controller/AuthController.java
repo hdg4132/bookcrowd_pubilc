@@ -1,31 +1,36 @@
 package com.example.demo3.controller;
 
-import com.example.demo3.dto.LoginDTO;
-import com.example.demo3.dto.LoginResponseDTO;
-import com.example.demo3.dto.ResponseDTO;
-import com.example.demo3.dto.SignUpDTO;
-import com.example.demo3.model.UserEntity;
-import com.example.demo3.persistence.UserRepository;
+import com.example.demo3.dto.*;
 import com.example.demo3.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-    @Autowired AuthService authService;
-    @Autowired UserRepository userRepository;
+
+    @Autowired
+    AuthService authService;
 
     @PostMapping("/signUp")
     public ResponseDTO<?> signUp(@RequestBody SignUpDTO requestBody) {
-        ResponseDTO<?> result = authService.signUp(requestBody);
-        return result;
+        return authService.signUp(requestBody);
     }
 
     @PostMapping("/login")
     public ResponseDTO<?> login(@RequestBody LoginDTO requestBody) {
-        ResponseDTO<?> result = authService.login(requestBody);
-        return result;
+        return authService.login(requestBody);
     }
 
+    @PostMapping("/editprofile")
+    public ResponseDTO<?> updateProfile(@RequestBody UpdateProfileDTO dto) {
+        return authService.updateProfile(dto);
+    }
+
+    @PostMapping("/deleteAccount")
+    public ResponseEntity<ResponseDTO<?>> deleteAccount(@RequestBody DeleteAccountRequestDTO requestBody) {
+        ResponseDTO<?> result = authService.deleteAccount(requestBody);
+        return ResponseEntity.ok(result);
+    }
 }

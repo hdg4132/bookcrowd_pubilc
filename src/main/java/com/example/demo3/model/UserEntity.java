@@ -32,7 +32,7 @@ public class UserEntity {
     private LocalDateTime editedAt;
     private LocalDateTime lastLoginAt;
 
-    // 본인은 Email과 id를 동일하게 구성하기 위해 다음과 같이 작성하였다.
+    // 본인은 Email과 id를 동일하게 구성하기 위해 다음과 같이 작성하였습니다.
     public UserEntity(SignUpDTO dto) {
         this.id = dto.getEmail();
         this.email = dto.getEmail();
