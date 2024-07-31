@@ -23,4 +23,5 @@ public class SignUpDTO {
     private LocalDateTime editedAt;
     private LocalDateTime lastLoginAt;
     private String token;
+
 }

@@ -33,28 +33,54 @@ function Main() {
         대여로 <Outlet />
       </Link>
       <br />
+      <br />
       <Link to="/rent_admin">
         대여관리로 <Outlet />
       </Link>
+      <br />
       <br />
       <Link to="/books">
         유저키핑리스트로 <Outlet />
       </Link>
       <br />
+      <br />
       <Link to="/register">
         키핑신청으로 <Outlet />
       </Link>
+      <br />
       <br />
       <Link to="/book/:id">
         아이템상세피이지로 <Outlet />
       </Link>
       <br />
+      <br />
       <Link to="/admin/list">
         관리자페이지로 <Outlet />
       </Link>
       <br />
+      <br />
       <Link to="/admin/register">
         관리자작성페이지로 <Outlet />
+      </Link>
+      <br />
+      <br />
+      <Link to="/login">
+        로그인페이지로 <Outlet />
+      </Link>
+      <br />
+      <br />
+      <Link to="/signup">
+        회원가입페이지로 <Outlet />
+      </Link>
+      <br />
+      <br />
+      <Link to="/mypage">
+        마이페이지로 <Outlet />
+      </Link>
+      <br />
+      <br />
+      <Link to="/editprofile">
+        회원정보 수정페이지로 <Outlet />
       </Link>
     </div>
   );

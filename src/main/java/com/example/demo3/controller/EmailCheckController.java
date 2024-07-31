@@ -2,6 +2,7 @@ package com.example.demo3.controller;
 
 import com.example.demo3.dto.EmailCheckDto;
 import com.example.demo3.dto.ResponseDTO;
+import com.example.demo3.dto.SignUpDTO;
 import com.example.demo3.persistence.UserRepository;
 import com.example.demo3.service.EmailCheckService;
 import org.springframework.beans.factory.annotation.Autowired;
