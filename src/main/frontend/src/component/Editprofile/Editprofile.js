@@ -28,11 +28,13 @@ const Editprofile = () => {
       navigate("/");
     }
   }, [navigate]);
+  
+  console.log(userid);
 
   useEffect(() => {
     async function fetchUserData() {
       try {
-        const response = await axios.get("http://localhost:8000/getUserInfo", { params: { id: userid } });
+        const response = await axios.get("api/getUserInfo", { params: { id: userid } });
         const userData = response.data;
         console.log("User Data:", userData);
         setFormValues({
@@ -113,7 +115,7 @@ const Editprofile = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8000/checkEmailDuplication", { email: formValues.email });
+      const response = await axios.post("api/api/users/checkEmailDuplication", { email: formValues.email });
       if (response.data.duplicate) {
         setEmailDuplication(false);
         setFormErrors((prevErrors) => ({
@@ -121,6 +123,7 @@ const Editprofile = () => {
           email: "*중복된 이메일이 있습니다.",
         }));
       } else {
+        alert("사용가능한 이메일.");
         setEmailDuplication(true);
         setFormErrors((prevErrors) => {
           const { email, ...rest } = prevErrors;
@@ -141,14 +144,14 @@ const Editprofile = () => {
     if (Object.keys(errors).length === 0) {
       setIsSubmit(true);
       try {
-        const response = await axios.put("http://localhost:8000/editprofile", {
-          username: formValues.username,
+        const response = await axios.put("api/api/auth/editprofile", {
+          name: formValues.username,
           password: formValues.password,
           email: formValues.email,
           address: formValues.address,
-          detailaddress: formValues.detailaddress,
-          phonenumber: formValues.phoneNumber,
-          userid: userid,
+          detailAddress: formValues.detailaddress,
+          phoneNumber: formValues.phoneNumber,
+          id: userid,
         });
         console.log("서버 응답:", response.data);
         alert("회원정보가 수정되었습니다.");

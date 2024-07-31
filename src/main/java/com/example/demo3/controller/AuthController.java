@@ -23,7 +23,7 @@ public class AuthController {
         return authService.login(requestBody);
     }
 
-    @PostMapping("/editprofile")
+    @PutMapping("/editprofile")
     public ResponseDTO<?> updateProfile(@RequestBody UpdateProfileDTO dto) {
         return authService.updateProfile(dto);
     }

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name="user2")			// 본인 테이블명과 맞춰주어야 함
+@Table(name="user")			// 본인 테이블명과 맞춰주어야 함
 public class UserEntity {
     @Id
     private String id;

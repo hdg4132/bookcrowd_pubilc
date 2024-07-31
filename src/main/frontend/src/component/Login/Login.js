@@ -16,9 +16,10 @@ function LoginPage() {
         password: password,
     })
     .then((response) => {
-        console.log(response.data);
+        
         const userData = response.data;
-        sessionStorage.setItem('userData', JSON.stringify(userData));
+        console.log(userData.data.user);
+        sessionStorage.setItem('userData', JSON.stringify(userData.data.user));
         navigate('/mypage');
     })
     .catch((error) => {

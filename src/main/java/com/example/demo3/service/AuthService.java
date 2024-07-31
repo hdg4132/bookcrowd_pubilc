@@ -65,12 +65,13 @@ public class AuthService {
 
     public ResponseDTO<?> updateProfile(UpdateProfileDTO dto) {
         try {
-            UserEntity user = userRepository.findById(dto.getEmail()).orElse(null);
+            UserEntity user = userRepository.findById(dto.getId()).orElse(null);
             if (user == null) {
                 return ResponseDTO.setFailed("사용자를 찾을 수 없습니다.");
             }
 
             user.setName(dto.getUserName());
+            user.setEmail(dto.getEmail());
             user.setPhoneNumber(dto.getPhoneNumber());
             user.setAddress(dto.getAddress());
             user.setDetailAddress(dto.getDetailAddress());
