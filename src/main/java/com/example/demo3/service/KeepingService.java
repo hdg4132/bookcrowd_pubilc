@@ -40,7 +40,7 @@ public class KeepingService {
                 .map(KeepingDTO::new);
     }
 
-    public Page<KeepingDTO> userGivenInfo(final int userId, Pageable pageable) {
+    public Page<KeepingDTO> userGivenInfo(final String userId, Pageable pageable) {
         log.info("Given information from user: {}", userId);
         return keepingRepository.findByUserId(userId, pageable)
                 .map(KeepingDTO::new);

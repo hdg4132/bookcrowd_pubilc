@@ -5,16 +5,20 @@ import "../../assets/css/style.css"
 
 export default function KeepingItem() {
   const navigate = useNavigate();
+  const { id: keepingId } = useParams();
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const userId = JSON.parse(sessionStorage.getItem("userData")).userId;
-
   useEffect(() => {
+    if (!keepingId) {
+      setError(new Error("Invalid keeping ID"));
+      setLoading(false);
+      return;
+    }   
     setLoading(true);
     axios
-      .get(`/api/keepings/detail/${userId}`)
+      .get(`/api/keepings/detail/${keepingId}`)
       .then((response) => {
         setItem(response.data);
         setLoading(false);
@@ -24,11 +28,11 @@ export default function KeepingItem() {
         setError(error);
         setLoading(false);
       });
-  }, [userId]);
+  }, [keepingId]);
 
   const handleReturnRequest = () => {
     axios
-      .put(`/api/keepings/requestReturn/${userId}`)
+      .put(`/api/keepings/requestReturn/${keepingId}`)
       .then((response) => {
         console.log("Return request submitted successfully");
         navigate(-1);

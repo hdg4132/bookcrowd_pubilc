@@ -68,7 +68,7 @@ export default function KeepingList() {
           </thead>
           <tbody>
             {data.map((item) => (
-              <tr key={item.id} onClick={() => handleRowClick(item.keepingId)}>
+              <tr key={item.keepingId} onClick={() => handleRowClick(item.keepingId)}>
                 <td className="col-title">{item.bookName}</td>
                 <td className="col-status">{keepStatusMap[item.keepStatus]}</td>
                 <td className="col-author">{item.userName}</td>

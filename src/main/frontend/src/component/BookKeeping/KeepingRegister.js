@@ -12,8 +12,7 @@ export default function KeepingRegister() {
   });
   const navigate = useNavigate();
 
-  const user2 = JSON.parse(localStorage.getItem("userInfo"));
-  console.log(user2);
+  const userId = JSON.parse(sessionStorage.getItem("userData")).userId;
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -27,7 +26,7 @@ export default function KeepingRegister() {
     e.preventDefault();
     const requestData = {
       ...formData,
-      userId: user2.userId,
+      userId: userId,
       rentable: formData.rentable === "yes"
     };
     axios.post(`/api/keepings`, requestData)
