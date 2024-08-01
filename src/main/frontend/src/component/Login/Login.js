@@ -8,7 +8,7 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const [loginStatus, setLoginStatus] = useState("");
+  const [loginStatus] = useState("");
 
   const handleLogin = () => {
     axios.post('api/api/auth/login', {
@@ -16,8 +16,9 @@ function LoginPage() {
         password: password,
     })
     .then((response) => {
-        console.log(response.data);
+        
         const userData = response.data;
+        console.log(userData.data.user);
         sessionStorage.setItem('userData', JSON.stringify(userData.data.user));
         navigate('/mypage');
     })

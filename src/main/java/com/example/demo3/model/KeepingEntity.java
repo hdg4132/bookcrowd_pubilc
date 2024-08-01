@@ -25,8 +25,6 @@ public class KeepingEntity {
     private String note;
     private LocalDateTime keepDate = LocalDateTime.now();
     private LocalDateTime lastBorrowed;
-
-    private int userId;
-
+    private String userId;
     private int bookId;
 }

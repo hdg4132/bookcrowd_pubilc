@@ -1,14 +1,13 @@
 package com.example.demo3.model;
 
 import com.example.demo3.dto.SignUpDTO;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
 @Data
@@ -16,10 +15,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name="user2")			// 본인 테이블명과 맞춰주어야 함
+@Table(name="user")			// 본인 테이블명과 맞춰주어야 함
 public class UserEntity {
     @Id
-    private String id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String userId;
     private String email;
     private String password;
     private String name;
@@ -32,12 +33,11 @@ public class UserEntity {
     private LocalDateTime editedAt;
     private LocalDateTime lastLoginAt;
 
-    // 본인은 Email과 id를 동일하게 구성하기 위해 다음과 같이 작성하였습니다.
+
     public UserEntity(SignUpDTO dto) {
-        this.id = dto.getEmail();
+        this.name = dto.getName();
         this.email = dto.getEmail();
         this.password = dto.getPassword();
-        this.name = dto.getName();
         this.phoneNumber = dto.getPhoneNumber();
         this.userType = dto.getUserType();
         this.address = dto.getAddress();
