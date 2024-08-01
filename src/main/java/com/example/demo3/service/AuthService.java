@@ -8,12 +8,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class AuthService {
 
     @Autowired
-    UserRepository userRepository;
+    static UserRepository userRepository;
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -24,12 +25,12 @@ public class AuthService {
         String confirmPassword = dto.getConfirmPassword();
 
         // email 중복 확인
-        if(UserRepository.existsByEmail(email)) {
+        if (UserRepository.existsByEmail(email)) {
             return ResponseDTO.setFailed("중복된 Email 입니다.");
         }
 
         // password 확인
-        if(!password.equals(confirmPassword)) {
+        if (!password.equals(confirmPassword)) {
             return ResponseDTO.setFailed("비밀번호가 일치하지 않습니다.");
         }
 
@@ -89,14 +90,20 @@ public class AuthService {
         }
     }
 
-    public ResponseDTO<?> deleteAccount(DeleteAccountRequestDTO dto) {
-        try {
-            UserEntity user = userRepository.findByEmail(dto.getEmail()).orElse(null);
 
-            userRepository.delete(Objects.requireNonNull(user));
-            return ResponseDTO.setSuccess("회원 탈퇴가 완료되었습니다.");
-        } catch (Exception e) {
-            return ResponseDTO.setFailed("회원 탈퇴 중 오류가 발생했습니다.");
+
+    public static boolean deleteUserByEmail(String email) {
+        // 이메일로 사용자 검색
+        Optional<UserEntity> optionalUser = userRepository.findByEmail(email);
+
+        // 사용자 존재 여부 확인 및 삭제
+        if (optionalUser.isPresent()) {
+            UserEntity user = optionalUser.get();
+            userRepository.delete(user);
+            return true;
         }
+
+        // 사용자가 존재하지 않는 경우
+        return false;
     }
 }

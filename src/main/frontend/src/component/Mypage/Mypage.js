@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Pagination from './Paging.js';
 import { useNavigate } from "react-router-dom";
 import "./Mypage.css";
 
 function MyPage() {
     const [currentPage, setCurrentPage] = useState(1);
     const [showPopup, setShowPopup] = useState(false);
-    const [orders, setOrders] = useState([]);
     const itemsPerPage = 10;
     const navigate = useNavigate();
 
@@ -23,11 +21,25 @@ function MyPage() {
     };
 
     const handleDeleteAccount = async () => {
-        try {
-            const response = await axios.delete(`/orders/deleteAccount`);
+        const userData = JSON.parse(sessionStorage.getItem("userData"));
+        if (!userData) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
 
-            if (response.data === "Account deleted successfully") {
+        const { email } = userData; // userData에서 이메일을 가져옵니다.
+
+        try {
+            const response = await axios.delete('http://localhost:8080/api/auth/deleteAccount', {
+                params: { email } // 쿼리 파라미터로 이메일을 전달
+            });
+
+            if (response.data.success) {
                 setShowPopup(true);
+                sessionStorage.clear(); // 세션 정보 초기화
+                setTimeout(() => {
+                    navigate('/login'); // 3초 후 로그인 페이지로 리다이렉션
+                }, 3000); // 3초 후 이동
             } else {
                 alert("사용자 탈퇴에 실패하였습니다.");
             }
@@ -42,16 +54,14 @@ function MyPage() {
         navigate("/login");
     };
 
-    // const displayOrders = orders.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-
     return (
         <div>
             <div id="sub_banner">
-             <div className="container_fix">
-              <h2>MyPage</h2>
-              <p>마이페이지</p>
-           </div>
-      </div>
+                <div className="container_fix">
+                    <h2>MyPage</h2>
+                    <p>마이페이지</p>
+                </div>
+            </div>
             <div className="mypage">
                 <div className="mypage_header">
                     <p className="mypage_text">마이페이지</p>
@@ -61,7 +71,7 @@ function MyPage() {
                     <div className="sidebox">
                         <ul>
                             <li className="sidebox_text">
-                            <button className="sidebox_quitbutton">나의 대여내역</button>
+                                <button className="sidebox_quitbutton">나의 대여내역</button>
                             </li>
                             <li className="sidebox_text">
                                 <button className="sidebox_quitbutton">나의 보관내역</button>
@@ -81,23 +91,6 @@ function MyPage() {
                 <div className="MyTicketing">
                     <h3>나의 대여내역</h3>
                     <div className="post_line" />
-                    {/* {displayOrders.map((order) => (
-                        <div key={order.id}>
-                            <div className="movie_info">
-                                <div className="movieImage"/>
-                                <div className="info_text">
-                                    <p className="movie_text1"></p>
-                                    <p className="movie_text2"></p>
-                                    <p className="movie_text3"></p>
-                                </div>
-                            </div>
-                            <div className="post_line" />
-                        </div>
-                    ))} */}
-                    {/* <Pagination
-                        itemsPerPage={itemsPerPage}
-                        onPageChange={onPageChange}
-                    /> */}
                 </div>
             </div>
             {showPopup && (

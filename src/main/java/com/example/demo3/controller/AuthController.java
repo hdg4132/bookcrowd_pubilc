@@ -3,6 +3,7 @@ package com.example.demo3.controller;
 import com.example.demo3.dto.*;
 import com.example.demo3.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,9 +29,14 @@ public class AuthController {
         return authService.updateProfile(dto);
     }
 
-    @PostMapping("/deleteAccount")
-    public ResponseEntity<ResponseDTO<?>> deleteAccount(@RequestBody DeleteAccountRequestDTO requestBody) {
-        ResponseDTO<?> result = authService.deleteAccount(requestBody);
-        return ResponseEntity.ok(result);
+
+    @DeleteMapping("/deleteAccount")
+    public ResponseEntity<String> deleteAccount(@RequestParam String email) {
+        boolean success = AuthService.deleteUserByEmail(email);
+        if (success) {
+            return ResponseEntity.ok("회원정보 삭제 완료");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("존재하지 않는 유저");
+        }
     }
 }

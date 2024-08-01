@@ -12,5 +12,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
         return false;
     }
 
-    Optional<UserEntity> findByEmail(String email); // 수정: Optional 반환
+    Optional<UserEntity> findByEmail(String email);
 }
