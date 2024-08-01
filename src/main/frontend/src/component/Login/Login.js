@@ -18,7 +18,10 @@ function LoginPage() {
     .then((response) => {
         
         const userData = response.data;
+<<<<<<< HEAD
         console.log(userData.data.user);
+=======
+>>>>>>> 65165c137d00cc10cd5556bac641851a7a03b4ae
         sessionStorage.setItem('userData', JSON.stringify(userData.data.user));
         navigate('/mypage');
     })
