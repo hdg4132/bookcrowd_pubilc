@@ -1,14 +1,12 @@
 package com.example.demo3.model;
 
 import com.example.demo3.dto.SignUpDTO;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
 @Data
@@ -19,7 +17,8 @@ import java.time.LocalDateTime;
 @Table(name="user")			// 본인 테이블명과 맞춰주어야 함
 public class UserEntity {
     @Id
-    private String userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long uuid;
     private String email;
     private String password;
     private String name;
@@ -34,10 +33,9 @@ public class UserEntity {
 
 
     public UserEntity(SignUpDTO dto) {
-        this.userId = dto.getEmail();
+        this.name = dto.getName();
         this.email = dto.getEmail();
         this.password = dto.getPassword();
-        this.name = dto.getName();
         this.phoneNumber = dto.getPhoneNumber();
         this.userType = dto.getUserType();
         this.address = dto.getAddress();

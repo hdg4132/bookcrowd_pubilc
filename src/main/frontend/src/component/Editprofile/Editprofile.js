@@ -23,36 +23,13 @@ const Editprofile = () => {
   useEffect(() => {
     const userInfo = JSON.parse(sessionStorage.getItem("userData"));
     if (userInfo != null) {
-      setUserid(userInfo.id);
+      setUserid(userInfo.userId);
     } else {
       navigate("/");
     }
   }, [navigate]);
   
   console.log(userid);
-
-  useEffect(() => {
-    async function fetchUserData() {
-      try {
-        const response = await axios.get("api/getUserInfo", { params: { id: userid } });
-        const userData = response.data;
-        console.log("User Data:", userData);
-        setFormValues({
-          ...formValues,
-          username: userData.username,
-          email: userData.email,
-          phoneNumber: userData.phoneNumber,
-          address: userData.address,
-          detailaddress: userData.detailaddress,
-        });
-      } catch (error) {
-        console.error("사용자 정보 불러오기 오류:", error);
-      }
-    }
-    if (userid) {
-      fetchUserData();
-    }
-  }, [userid]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
