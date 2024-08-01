@@ -79,7 +79,7 @@
 }
 
 /* 왼쪽 메시지 날짜 스타일 */
-.realchat-left-date-user {
+.realchat-left-date {
   align-self: flex-start;
   background-color: #fff;
   border-top-left-radius: 0;
@@ -96,7 +96,7 @@
 }
 
 /* 오른쪽 메시지 날짜 스타일 */
-.realchat-right-date-admin {
+.realchat-right-date {
   align-self: flex-end;
   background-color: #fff;
   border-top-left-radius: 0;

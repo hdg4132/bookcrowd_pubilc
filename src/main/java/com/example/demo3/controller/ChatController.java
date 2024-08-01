@@ -1,41 +1,50 @@
 package com.example.demo3.controller;
 
-import com.example.demo3.dto.ChatMessage;
-import com.example.demo3.dto.ChatRoom;
+import com.example.demo3.dto.ChatMessageDTO;
+import com.example.demo3.dto.ChatRoomDTO;
 import com.example.demo3.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/chat")
 public class ChatController {
 
     @Autowired
     private ChatService chatService;
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
     @MessageMapping("/sendMessage")
-    @SendTo("/sub/room")
-    public ChatMessage sendMessage(ChatMessage chatMessage) {
+    public void sendMessage(ChatMessageDTO chatMessage) {
         chatMessage.setTimestamp(new java.util.Date());
-        return chatService.saveMessage(chatMessage);
+        ChatMessageDTO savedMessage = chatService.saveMessage(chatMessage);
+
+        messagingTemplate.convertAndSend("/sub/room/" + chatMessage.getRoomId(), savedMessage);
     }
 
-    @GetMapping("/messages")
-    @ResponseBody
-    public List<ChatMessage> getAllMessages() {
-        return chatService.getAllMessages();
+    @GetMapping("/userMessages")
+    public List<ChatMessageDTO> getAllUserMessages() {
+        return chatService.getAllUserMessages();
+    }
+
+    @GetMapping("/adminMessages")
+    public List<ChatMessageDTO> getAllAdminMessages() {
+        return chatService.getAllAdminMessages();
     }
 
     @GetMapping("/rooms")
-    @ResponseBody
-    public List<ChatRoom> getAllChatRooms() {
+    public List<ChatRoomDTO> getAllChatRooms() {
         return chatService.getAllChatRooms();
+    }
+
+    @PostMapping("/createRoom")
+    public ChatRoomDTO createRoom(@RequestBody ChatRoomDTO chatRoomDTO) {
+        return chatService.createRoom(chatRoomDTO);
     }
 }

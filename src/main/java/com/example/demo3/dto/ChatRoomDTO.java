@@ -1,21 +1,13 @@
 package com.example.demo3.dto;
 
-import jakarta.persistence.*;
-
 import java.sql.Timestamp;
 
-@Entity
-@Table(name = "chat_room")
-public class ChatRoom {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ChatRoomDTO {
     private Long roomId;
-
     private String userId;
     private String adminId;
     private Timestamp creationTime;
 
-    // Getters and Setters
     public Long getRoomId() {
         return roomId;
     }
