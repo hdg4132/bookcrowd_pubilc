@@ -4,12 +4,13 @@ import com.example.demo3.model.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface UserRepository extends JpaRepository <UserEntity, String> {
-    public boolean existsByEmailAndPassword(String email, String password);
+import java.util.Optional;
 
-    public static boolean existsByEmail(String email) {
+@Repository
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+    static boolean existsByEmail(String email) {
         return false;
     }
-}
 
+    Optional<UserEntity> findByEmail(String email); // 수정: Optional 반환
+}
