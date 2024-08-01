@@ -10,6 +10,8 @@ export default function AdminRegisterList() {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
+  const userId = JSON.parse(sessionStorage.getItem("userData")).userId;
+
   useEffect(() => {
     fetchKeepingsByStatus(currentStatus, page);
   }, [currentStatus, page]);

@@ -11,8 +11,8 @@ export default function KeepingList() {
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
 
-  const user2 = JSON.parse(localStorage.getItem("userInfo"));
-  console.log(user2);
+  const userId = JSON.parse(sessionStorage.getItem("userData")).userId;
+
 
   useEffect(() => {
     fetchData(page);
@@ -21,7 +21,7 @@ export default function KeepingList() {
   const fetchData = (page) => {
     setLoading(true);
     axios
-      .get(`/api/keepings/${user2.userId}?page=${page - 1}&size=10`)
+      .get(`/api/keepings/${userId}?page=${page - 1}&size=10`)
       .then((response) => {
         setData(response.data.content);
         setTotalPages(response.data.totalPages);
@@ -71,7 +71,7 @@ export default function KeepingList() {
               <tr key={item.id} onClick={() => handleRowClick(item.keepingId)}>
                 <td className="col-title">{item.bookName}</td>
                 <td className="col-status">{keepStatusMap[item.keepStatus]}</td>
-                <td className="col-author">{user2.userName}</td>
+                <td className="col-author">{item.userName}</td>
                 <td className="col-date">{item.keepDate}</td>
               </tr>
             ))}
