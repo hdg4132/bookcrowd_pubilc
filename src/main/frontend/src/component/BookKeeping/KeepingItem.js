@@ -4,16 +4,17 @@ import axios from "axios";
 import "../../assets/css/style.css"
 
 export default function KeepingItem() {
-  const { id } = useParams();
   const navigate = useNavigate();
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const userId = JSON.parse(sessionStorage.getItem("userData")).userId;
+
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`/api/keepings/detail/${id}`)
+      .get(`/api/keepings/detail/${userId}`)
       .then((response) => {
         setItem(response.data);
         setLoading(false);
@@ -23,11 +24,11 @@ export default function KeepingItem() {
         setError(error);
         setLoading(false);
       });
-  }, [id]);
+  }, [userId]);
 
   const handleReturnRequest = () => {
     axios
-      .put(`/api/keepings/requestReturn/${id}`)
+      .put(`/api/keepings/requestReturn/${userId}`)
       .then((response) => {
         console.log("Return request submitted successfully");
         navigate(-1);

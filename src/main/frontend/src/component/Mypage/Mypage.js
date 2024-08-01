@@ -64,7 +64,7 @@ function MyPage() {
                             <button className="sidebox_quitbutton">나의 대여내역</button>
                             </li>
                             <li className="sidebox_text">
-                                <button className="sidebox_quitbutton">나의 보관내역</button>
+                                <button className="sidebox_quitbutton" onClick={() => navigate("/books")}>나의 보관내역</button>
                             </li>
                             <li className="sidebox_text">
                                 <button className="sidebox_quitbutton">위시리스트</button>
