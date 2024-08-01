@@ -3,6 +3,7 @@ package com.example.demo3.service;
 import com.example.demo3.dto.BookDTO;
 import com.example.demo3.model.BookEntity;
 import com.example.demo3.persistence.BookRepository;
+import com.example.demo3.persistence.KeepingRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,12 @@ public class BookService {
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private KeepingRepository keepingRepository;
+
+    @Autowired
+    private KeepingService keepingService;
 
     public List<BookDTO> getAllBooks() {
         log.info("List of all the books");
@@ -50,7 +57,7 @@ public class BookService {
 
     public BookDTO updateBookInfo(final BookEntity entity) {
         validateFullInfo(entity);
-        final Optional<BookEntity> original = bookRepository.findById(entity.getBookId());
+        Optional<BookEntity> original = bookRepository.findById(entity.getBookId());
         if (original.isPresent()) {
             BookEntity book = original.get();
             book.setBookName(entity.getBookName());
@@ -61,32 +68,26 @@ public class BookService {
             book.setGenre(entity.getGenre());
             book.setPages(entity.getPages());
             book.setDescription(entity.getDescription());
-            book.setTotalQuantity(entity.getTotalQuantity());
-            book.setStock(entity.getStock());
             bookRepository.save(book);
             log.info("Book updated:{}", book.getBookId());
+            keepingService.updateKeepStatusAndQuantities(entity.getISBN());
             return new BookDTO(book);
+
         } else {
-            log.warn("Book not found: {}", entity.getBookId());
-            throw new RuntimeException("Book not found");
+            BookEntity newBook = new BookEntity();
+            newBook.setBookName(entity.getBookName());
+            newBook.setISBN(entity.getISBN());
+            newBook.setAuthor(entity.getAuthor());
+            newBook.setPublishDate(entity.getPublishDate());
+            newBook.setGenre(entity.getGenre());
+            newBook.setPages(entity.getPages());
+            newBook.setDescription(entity.getDescription());
+            bookRepository.save(newBook);
+            log.info("New book created: {}", newBook.getBookId());
+            keepingService.updateKeepStatusAndQuantities(entity.getISBN());
+            return new BookDTO(newBook);
         }
     }
 
-    @Transactional
-    public int createBookId(String bookName, String ISBN) {
-        BookEntity bookEntity = new BookEntity();
-        bookEntity.setBookName(bookName);
-        bookEntity.setISBN(ISBN);
-        BookEntity savedBook = bookRepository.save(bookEntity);
-        return savedBook.getBookId();
-    }
 
-
-//    @Transactional
-//    public void updateBookStatus(int bookId, int keepStatus) {
-//        BookEntity book = bookRepository.findById(bookId)
-//                .orElseThrow(() -> new IllegalArgumentException("There is no books to update"));
-//
-//        KeepingService.updateKeepStatusByBookId(bookId,keepStatus);
-//    }
 }
