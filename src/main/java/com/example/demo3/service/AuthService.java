@@ -65,7 +65,7 @@ public class AuthService {
 
     public ResponseDTO<?> updateProfile(UpdateProfileDTO dto) {
         try {
-            UserEntity user = userRepository.findById(dto.getId()).orElse(null);
+            UserEntity user = userRepository.findById(dto.getUserId()).orElse(null);
             if (user == null) {
                 return ResponseDTO.setFailed("사용자를 찾을 수 없습니다.");
             }

@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Table(name="user")			// 본인 테이블명과 맞춰주어야 함
 public class UserEntity {
     @Id
-    private String id;
+    private String userId;
     private String email;
     private String password;
     private String name;
@@ -32,9 +32,9 @@ public class UserEntity {
     private LocalDateTime editedAt;
     private LocalDateTime lastLoginAt;
 
-    // 본인은 Email과 id를 동일하게 구성하기 위해 다음과 같이 작성하였습니다.
+
     public UserEntity(SignUpDTO dto) {
-        this.id = dto.getEmail();
+        this.userId = dto.getEmail();
         this.email = dto.getEmail();
         this.password = dto.getPassword();
         this.name = dto.getName();

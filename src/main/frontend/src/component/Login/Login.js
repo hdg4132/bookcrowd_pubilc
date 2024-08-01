@@ -8,7 +8,7 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const [loginStatus, setLoginStatus] = useState("");
+  const [loginStatus] = useState("");
 
   const handleLogin = () => {
     axios.post('api/api/auth/login', {

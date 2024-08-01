@@ -1,5 +1,5 @@
 CREATE TABLE `user` (
-                        `id` varchar(255) NOT NULL,
+                        `userid` varchar(255) NOT NULL,
                         `email` varchar(255) DEFAULT NULL,
                         `name` varchar(255) DEFAULT NULL,
                         `password` varchar(255) DEFAULT NULL,

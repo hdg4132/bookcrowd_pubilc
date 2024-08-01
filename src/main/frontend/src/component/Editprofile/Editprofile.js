@@ -210,7 +210,7 @@ const Editprofile = () => {
                 onChange={handleChange}
               />
               <button type="button" onClick={checkEmailDuplication}>중복 확인</button>
-              {formErrors.email && <p>{formErrors.email}</p>}
+              {formErrors.email && <p className="emailerror">{formErrors.email}</p>}
             </div>
           </div>
           <div className="signup_form_con">

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SignUpDTO {
-    private String id;
+    private String userId;
     private String email;
     private String name;
     private String password;
