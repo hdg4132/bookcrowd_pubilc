@@ -157,7 +157,7 @@ export default function KeepingRegister() {
           </div>
           <div className="book-keeping-register-container-flex1">
             <span>ISBN 넘버</span>
-            <input type="text" id="isbn-number" name="isbn" maxLength={13} placeholder="숫자 13자리 - 없이" value={formData.isbn} onChange={handleChange} />
+            <input type="text" pattern="\d*" title="13자리 숫자로 입력하세요" id="isbn-number" name="isbn" maxLength={13} placeholder="숫자 13자리 - 없이" value={formData.isbn} onChange={handleChange} />
           </div>
           <div className="book-keeping-register-container-flex2">
             <span>대여가능 여부</span>

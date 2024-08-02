@@ -104,11 +104,11 @@ export default function AdminRegisterList() {
               ) : (
                 data.map((item) => (
                   <tr key={item.keepingId}>
-                    <td className="col1">{item.userId}</td>
+                    <td className="col1 table-cell">{item.userId}</td>
                     <td className="col2">{item.bookName}</td>
                     <td className="col3">{item.isbn}</td>
                     <td className="col4">{item.rentable ? "가능" : "불가능"}</td>
-                    <td className="col5">{item.note}</td>
+                    <td className="col5 table-cell">{item.note}</td>
                     <td className="col6">{keepStatusMap[item.keepStatus]}</td>
                     <td className="col7">
                       <button className="book-keeping-admin-btn1">
