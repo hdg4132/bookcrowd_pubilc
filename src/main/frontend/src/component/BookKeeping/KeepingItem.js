@@ -9,25 +9,27 @@ export default function KeepingItem() {
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
-    if (!keepingId) {
-      setError(new Error("Invalid keeping ID"));
-      setLoading(false);
-      return;
-    }   
-    setLoading(true);
+    const storedItems = JSON.parse(sessionStorage.getItem("keepingList"));
+    if(storedItems) {
+      setItems(storedItems);
+      console.log(storedItems)
+    } else {
+      console.error("No keeping list found in session storage");
+    }
+
     axios
-      .get(`/api/keepings/detail/${keepingId}`)
-      .then((response) => {
-        setItem(response.data);
-        setLoading(false);
-        console.log(response);
-      })
-      .catch((error) => {
-        setError(error);
-        setLoading(false);
-      });
+    .get(`/api/keepings/detail/${keepingId}`)
+    .then((response) => {
+      setItem(response.data);
+      setLoading(false);
+    })
+    .catch((error) => {
+      setError(error);
+      setLoading(true);
+    })
   }, [keepingId]);
 
   const handleReturnRequest = () => {
@@ -42,6 +44,27 @@ export default function KeepingItem() {
         alert("해당 책을 보유하고 있지 않습니다");
       });
   };
+
+  const handlePrev = () => {
+    const currentIndex = items.findIndex((item) => item.keepingId === Number(keepingId));
+    console.log(`Next Item ID: ${items[currentIndex + 1]?.keepingId}`); // 다음 아이템의 ID 로그 출력
+    if (currentIndex < items.length - 1) {
+      navigate(`/book/${items[currentIndex + 1].keepingId}`);
+    } else {
+      alert("최신 키핑한 책 페이지입니다.");
+    }
+  };
+
+  const handleNext = () => {
+    const currentIndex = items.findIndex((item) => item.keepingId === Number(keepingId));
+    if (currentIndex > 0) {
+      navigate(`/book/${items[currentIndex - 1].keepingId}`);
+    } else {
+      alert("처음 키핑한 책 페이지입니다.");
+    }
+  };
+
+
 
   if (loading) return <p>Loading....</p>;
   if (error) return <p>Error loading data: {error.message}</p>;
@@ -87,9 +110,9 @@ export default function KeepingItem() {
           )}
         </div>
         <div class="pagination-item">
-          <span>&lt; Prev</span>
+          <span onClick={handlePrev}>&lt; Prev</span>
           <span onClick={() => navigate("/books")}>&#9776; List</span>
-          <span>Next &gt;</span>
+          <span onClick={handleNext}>Next &gt;</span>
         </div>
       </div>
     </>

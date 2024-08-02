@@ -46,6 +46,10 @@ public class KeepingService {
                 .map(KeepingDTO::new);
     }
 
+    public List<KeepingEntity> getAllKeepingsByUserId(String userId) {
+        return keepingRepository.findByUserId(userId);
+    }
+
     public KeepingDTO getKeepingById(int keepingId) {
         log.info("Fetching keeping by id: {}", keepingId);
         KeepingEntity keepingEntity = keepingRepository.findById(keepingId)
@@ -121,21 +125,42 @@ public class KeepingService {
 
 
     @Transactional
-    public void borrowedBook(int keepingId, int userId) {
-        KeepingEntity keeping = keepingRepository.findById(keepingId)
-                .orElseThrow(() -> new IllegalArgumentException("There is no kept nor rented item"));
-        if (keeping.getKeepStatus() != 1) {
-            throw new RuntimeException("This book is currently all rented");
+    public void borrowBook(int bookId, String userId) {
+        // lastBorrowed가 null인 KeepingEntity를 먼저 조회
+        List<KeepingEntity> nullBorrowedKeepings = keepingRepository.findByBookIdAndLastBorrowedIsNullOrderByKeepDateAsc(bookId);
+
+        KeepingEntity keepingToBorrow = null;
+
+        if (!nullBorrowedKeepings.isEmpty()) {
+            // lastBorrowed가 null인 KeepingEntity 중 첫 번째 항목을 선택
+            keepingToBorrow = nullBorrowedKeepings.get(0);
+        } else {
+            // lastBorrowed가 null인 KeepingEntity가 없으면, lastBorrowed가 가장 오래된 KeepingEntity를 조회
+            List<KeepingEntity> borrowedKeepings = keepingRepository.findByBookIdAndLastBorrowedIsNotNullOrderByLastBorrowedAsc(bookId);
+
+            if (!borrowedKeepings.isEmpty()) {
+                // lastBorrowed가 가장 오래된 KeepingEntity 중 첫 번째 항목을 선택
+                keepingToBorrow = borrowedKeepings.get(0);
+            }
         }
-        BookEntity book = bookRepository.findById(keeping.getBookId())
+
+        if (keepingToBorrow == null) {
+            throw new RuntimeException("All books are currently rented or not available");
+        }
+
+        // 대여할 책 정보 조회
+        BookEntity book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new IllegalArgumentException("There is not a matching book found"));
         if (book.getStock() <= 0) {
             throw new RuntimeException("All the books are currently rented");
         }
 
-        keeping.setKeepStatus(2);
-        keepingRepository.save(keeping);
+        // 대여 상태로 변경
+        keepingToBorrow.setKeepStatus(2); // 상태를 대여 중으로 변경
+        keepingToBorrow.setLastBorrowed(LocalDateTime.now()); // 대여 시각 업데이트
+        keepingRepository.save(keepingToBorrow);
 
+        // 책 재고 감소
         book.setStock(book.getStock() - 1);
         bookRepository.save(book);
 
@@ -143,9 +168,9 @@ public class KeepingService {
     }
 
     @Transactional
-    public void returnedBook(int keepingId, int userId) {
+    public void returnedBook(int keepingId) {
         KeepingEntity keeping = keepingRepository.findById(keepingId)
-                .orElseThrow(() -> new IllegalArgumentException("There is no kept nor returned item"));
+                .orElseThrow(() -> new IllegalArgumentException("There is no kept nor rented item"));
         if (keeping.getKeepStatus() != 2) {
             throw new RuntimeException("This book has never been rented");
         }
@@ -153,14 +178,13 @@ public class KeepingService {
         BookEntity book = bookRepository.findById(keeping.getBookId())
                 .orElseThrow(() -> new IllegalArgumentException("There is no such a book"));
 
-        keeping.setKeepStatus(1);
+        keeping.setKeepStatus(1); // 상태를 보관 중으로 변경
+        keeping.setLastBorrowed(LocalDateTime.now()); // 반환 시각 업데이트
         keepingRepository.save(keeping);
 
+        // 책 재고 증가
         book.setStock(book.getStock() + 1);
         bookRepository.save(book);
-
-        keeping.setLastBorrowed(LocalDateTime.now());
-        keepingRepository.save(keeping);
 
         log.info("Book returned: {}", book.getBookId());
     }

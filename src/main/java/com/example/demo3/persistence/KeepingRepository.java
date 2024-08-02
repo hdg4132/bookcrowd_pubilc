@@ -14,4 +14,7 @@ public interface KeepingRepository extends JpaRepository <KeepingEntity, Integer
     List<KeepingEntity> findByISBN(String ISBN);
     Page<KeepingEntity> findByKeepStatus(int keepStatus, Pageable pageable);
     List<KeepingEntity> findByISBNAndRentableAndKeepStatus(String ISBN, boolean rentable, int keepStatus);
+    List<KeepingEntity> findByUserId(String userId);
+    List<KeepingEntity> findByBookIdAndLastBorrowedIsNullOrderByKeepDateAsc(int bookId);
+    List<KeepingEntity> findByBookIdAndLastBorrowedIsNotNullOrderByLastBorrowedAsc(int bookId);
 }

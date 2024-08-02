@@ -18,7 +18,7 @@ export default function AdminRegisterList() {
 
   const fetchKeepingsByStatus = (status, page) => {
     setLoading(true);
-    const url = status === "all" ? `/api/keepings/admin?page=${page}&size=10` : `/api/status/${status}?page=${page}&size=10`;
+    const url = status === "all" ? `/api/keepings/admin?page=${page}&size=10` : `/api/keepings/status/${status}?page=${page}&size=10`;
     axios
       .get(url)
       .then((response) => {
@@ -73,16 +73,6 @@ export default function AdminRegisterList() {
         <section className="member-management">
           <div className="member-flex">
             <h1>회원관리</h1>
-            <div className="search-container">
-              <input
-                type="text"
-                placeholder="검색어를 입력하세요"
-                className="search-input"
-              />
-              <button className="search-button">
-                <i className="fa-solid fa-magnifying-glass"></i>
-              </button>
-            </div>
           </div>
           <table>
             <thead>
@@ -107,43 +97,49 @@ export default function AdminRegisterList() {
               </tr>
             </thead>
             <tbody>
-              {data.map((item) => (
-                <tr key={item.keepingId}>
-                  <td className="col1">{item.userId}</td>
-                  <td className="col2">{item.bookName}</td>
-                  <td className="col3">{item.isbn}</td>
-                  <td className="col4">{item.rentable ? "가능" : "불가능"}</td>
-                  <td className="col5">{item.note}</td>
-                  <td className="col6">{keepStatusMap[item.keepStatus]}</td>
-                  <td className="col7">
-                    <button className="book-keeping-admin-btn1">
-                      책정보입력
-                    </button>
-                  </td>
-                  <td className="col8">
-                    {item.keepStatus === 3 ? (
-                      <button
-                        className="book-keeping-admin-btn2"
-                        onClick={() => handleApproveReturn(item.keepingId)}
-                      >
-                        반환승인
-                      </button>
-                    ) : (
-                      <button className="book-keeping-admin-btn2" disabled>
-                        반환승인
-                      </button>
-                    )}
-                  </td>
+              {data.length === 0 ? (
+                <tr>
+                  <td colSpan="8">데이터가 없습니다.</td>
                 </tr>
-              ))}
+              ) : (
+                data.map((item) => (
+                  <tr key={item.keepingId}>
+                    <td className="col1">{item.userId}</td>
+                    <td className="col2">{item.bookName}</td>
+                    <td className="col3">{item.isbn}</td>
+                    <td className="col4">{item.rentable ? "가능" : "불가능"}</td>
+                    <td className="col5">{item.note}</td>
+                    <td className="col6">{keepStatusMap[item.keepStatus]}</td>
+                    <td className="col7">
+                      <button className="book-keeping-admin-btn1">
+                        책정보입력
+                      </button>
+                    </td>
+                    <td className="col8">
+                      {item.keepStatus === 3 ? (
+                        <button
+                          className="book-keeping-admin-btn2"
+                          onClick={() => handleApproveReturn(item.keepingId)}
+                        >
+                          반환승인
+                        </button>
+                      ) : (
+                        <button className="book-keeping-admin-btn2" disabled>
+                          반환승인
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
           <div className="pagination-list">
-          <button onClick={() => handlePageChange(page - 1)} disabled={page === 0}>&laquo;</button>
+            <button onClick={() => handlePageChange(page - 1)} disabled={page === 0}>&laquo;</button>
             {Array.from({ length: totalPages }, (_, index) => (
               <button key={index} onClick={() => handlePageChange(index)}
-              className={page === index ? 'active' : ''}
-              disabled={page === index}>
+                className={page === index ? 'active' : ''}
+                disabled={page === index}>
                 {index + 1}
               </button>
             ))}
