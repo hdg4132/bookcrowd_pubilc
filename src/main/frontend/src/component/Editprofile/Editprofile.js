@@ -6,13 +6,13 @@ import "./Editprofile.css";
 const Editprofile = () => {
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState({
-    username: "",
+    userName: "",
     email: "",
     password: "",
     confirmPassword: "",
     phoneNumber: "",
     address: "",
-    detailaddress: "",
+    detailAddress: "",
   });
 
   const [formErrors, setFormErrors] = useState({});
@@ -37,20 +37,15 @@ const Editprofile = () => {
       ...formValues,
       [name]: value,
     });
-    if (name === "email") {
-      setEmailDuplication(false);
-      setFormErrors((prevErrors) => ({
-        ...prevErrors,
-        email: "*이메일 중복 확인을 해주세요.",
-      }));
-    }
+  
   };
+  
 
   const validate = (values) => {
     const errors = {};
 
-    if (!values.username) {
-      errors.username = "*성함을 입력해 주세요";
+    if (!values.userName) {
+      errors.userName = "*성함을 입력해 주세요";
     }
 
     if (!values.email) {
@@ -79,8 +74,8 @@ const Editprofile = () => {
       errors.address = "*주소를 입력해 주세요";
     }
 
-    if (!values.detailaddress) {
-      errors.detailaddress = "*상세 주소를 입력해 주세요";
+    if (!values.detailAddress) {
+      errors.detailAddress = "*상세 주소를 입력해 주세요";
     }
     return errors;
   };
@@ -90,49 +85,53 @@ const Editprofile = () => {
       alert("이메일을 입력해 주세요.");
       return;
     }
-
+  
     try {
-      const response = await axios.post("api/api/users/checkEmailDuplication", { email: formValues.email });
-      if (response.data.duplicate) {
-        setEmailDuplication(false);
-        setFormErrors((prevErrors) => ({
-          ...prevErrors,
-          email: "*중복된 이메일이 있습니다.",
-        }));
-      } else {
-        alert("사용가능한 이메일.");
-        setEmailDuplication(true);
+      const response = await axios.post(
+        'api/api/users/checkEmailDuplication',  // URL 수정
+        { email: formValues.email },
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+      console.log("서버 응답:", response.data);
+      setEmailDuplication(response.data.success);
+  
+      if (response.data.success) {
+        // 중복 확인 성공 시 이메일 오류 메시지 제거
         setFormErrors((prevErrors) => {
-          const { email, ...rest } = prevErrors;
-          return rest;
+          const { email, ...otherErrors } = prevErrors;
+          return otherErrors;
         });
       }
+      setIsSubmit(false);
+      alert(response.data.message);
     } catch (error) {
-      console.error("이메일 중복 확인 오류:", error);
+      console.error("이메일 중복 확인 중 오류:", error);
       alert("이메일 중복 확인 중 오류가 발생했습니다.");
     }
   };
+  
+  
 
   const handleUpdate = async (e) => {
     e.preventDefault();
     const errors = validate(formValues);
     setFormErrors(errors);
-
+  
     if (Object.keys(errors).length === 0) {
       setIsSubmit(true);
       try {
         const response = await axios.put("api/api/auth/editprofile", {
-          name: formValues.username,
+          name: formValues.userName,
           password: formValues.password,
           email: formValues.email,
           address: formValues.address,
-          detailAddress: formValues.detailaddress,
+          detailAddress: formValues.detailAddress,
           phoneNumber: formValues.phoneNumber,
           id: userid,
         });
         console.log("서버 응답:", response.data);
         alert("회원정보가 수정되었습니다.");
-        window.location.href = "/mypage";
+        navigate("/mypage");
       } catch (error) {
         if (error.response) {
           console.log("서버 응답 오류:", error.response.status, error.response.data);
@@ -149,6 +148,7 @@ const Editprofile = () => {
       }
     }
   };
+  
 
   return (
     <div>
@@ -166,13 +166,13 @@ const Editprofile = () => {
             <div>
               <input
                 type="text"
-                name="username"
+                name="userName"
                 id="name"
-                value={formValues.username}
+                value={formValues.userName}
                 placeholder="성함을 입력하세요"
                 onChange={handleChange}
               />
-              {formErrors.username && <p>{formErrors.username}</p>}
+              {formErrors.userName && <p>{formErrors.userName}</p>}
             </div>
           </div>
           <div className="signup_form_con">
@@ -186,7 +186,7 @@ const Editprofile = () => {
                 placeholder="이메일을 입력하세요"
                 onChange={handleChange}
               />
-              <button type="button" onClick={checkEmailDuplication}>중복 확인</button>
+              <button type="button" className="btn_check" onClick={checkEmailDuplication}>중복 확인</button>
               {formErrors.email && <p className="emailerror">{formErrors.email}</p>}
             </div>
           </div>
@@ -247,17 +247,17 @@ const Editprofile = () => {
             </div>
           </div>
           <div className="signup_form_con">
-            <label htmlFor="detailaddress">상세 주소</label>
+            <label htmlFor="detailAddress">상세 주소</label>
             <div>
               <input
                 type="text"
-                name="detailaddress"
-                id="detailaddress"
-                value={formValues.detailaddress}
+                name="detailAddress"
+                id="detailAddress"
+                value={formValues.detailAddress}
                 placeholder="상세주소를 입력하세요"
                 onChange={handleChange}
               />
-              {formErrors.detailaddress && <p>{formErrors.detailaddress}</p>}
+              {formErrors.detailAddress && <p>{formErrors.detailAddress}</p>}
             </div>
           </div>
           <div id="btn_signup">

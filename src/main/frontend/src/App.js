@@ -18,6 +18,8 @@ import KeepingRegister from "./component/BookKeeping/KeepingRegister";
 import Login from "./component/Login/Login";
 import Signup from "./component/Signup/Signup";
 import Mypage from "./component/Mypage/Mypage";
+import WishList from "./component/Wishlist/Wishlist";
+import MyBookStorage from "./component/Mybookstorage/Mybookstorage";
 import Header from "./component/Header";
 import Editprofile from "./component/Editprofile/Editprofile";
 
@@ -47,6 +49,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/mypage" element={<Mypage />} />
+        <Route path="/wishlist" element={<WishList />} />
+        <Route path="/mybookstorage" element={<MyBookStorage />} />
         <Route path="/editprofile" element={<Editprofile />} />
       </Routes>
     </div>

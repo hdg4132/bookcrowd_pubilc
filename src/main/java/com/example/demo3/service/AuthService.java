@@ -72,8 +72,9 @@ public class AuthService {
                 return ResponseDTO.setFailed("사용자를 찾을 수 없습니다.");
             }
 
-            user.setName(dto.getUserName());
+            user.setName(dto.getName());
             user.setEmail(dto.getEmail());
+            user.setPassword(dto.getPassword());
             user.setPhoneNumber(dto.getPhoneNumber());
             user.setAddress(dto.getAddress());
             user.setDetailAddress(dto.getDetailAddress());

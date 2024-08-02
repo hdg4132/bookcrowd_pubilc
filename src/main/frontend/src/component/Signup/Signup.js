@@ -73,7 +73,7 @@ const Signup = () => {
     }
   
     try {
-      const response = await axios.post("api/api/users/checkEmailDuplication",
+      const response = await axios.post('api/api/users/checkEmailDuplication',
         {email:formValues.email}, // 이메일을 직접 보내는 경우
         { headers: { 'Content-Type': 'application/json' } }
       );

@@ -6,7 +6,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class UpdateProfileDTO {
-    private String userName;
+    private String name;
     private String email;
     private String password;
     private String phoneNumber;
