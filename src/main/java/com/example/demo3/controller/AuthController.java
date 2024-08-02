@@ -32,7 +32,7 @@ public class AuthController {
 
     @DeleteMapping("/deleteAccount")
     public ResponseEntity<String> deleteAccount(@RequestParam String email) {
-        boolean success = AuthService.deleteUserByEmail(email);
+        boolean success = authService.deleteUserByEmail(email);
         if (success) {
             return ResponseEntity.ok("회원정보 삭제 완료");
         } else {

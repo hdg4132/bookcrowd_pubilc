@@ -1,12 +1,8 @@
 package com.example.demo3.controller;
 
-import com.example.demo3.dto.EmailCheckDto;
 import com.example.demo3.dto.ResponseDTO;
-import com.example.demo3.dto.SignUpDTO;
-import com.example.demo3.persistence.UserRepository;
 import com.example.demo3.service.EmailCheckService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -21,7 +17,7 @@ public class EmailCheckController {
     @PostMapping("/checkEmailDuplication")
     public ResponseDTO<?> checkEmailDuplication(@RequestBody Map<String, String> requestBody) {
         String email = requestBody.get("email");
-        boolean isDuplicate = UserRepository.existsByEmail(email);
+        boolean isDuplicate = emailCheckService.isEmailDuplicated(email);
         if (isDuplicate) {
             return ResponseDTO.setFailed("이미 존재하는 이메일입니다.");
         } else {

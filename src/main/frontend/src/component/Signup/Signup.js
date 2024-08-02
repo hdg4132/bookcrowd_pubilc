@@ -114,7 +114,7 @@ const Signup = () => {
     if (true) {
             
       try {
-        await axios.post('api/api/auth/signUp', formValues);
+        await axios.post("api/api/auth/signUp", formValues);
         alert('회원가입 완료');
         window.location.href = '/login';
       } catch (error) {
