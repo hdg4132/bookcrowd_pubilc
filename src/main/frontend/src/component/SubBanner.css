@@ -1,0 +1,31 @@
+@import url(./reset.css);
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+
+*{font-family:'Noto Sans KR', sans-serif; box-sizing: border-box;}
+
+.container_fix{width: 1440px; padding: 0 15px; margin: 0 auto; position: relative; max-width:100%}
+
+.subBanner{position: relative; padding-top: 135px;}
+.subBanner.subBanner_storage{background:url(../assets/subbanner_storage.png) no-repeat 70% center/cover; }
+.subBanner img{width: 100%;}
+.subBanner.subBanner_checkout{background:url(../assets/subbanner_checkout.png) no-repeat 30% center/cover; }
+.subBanner img{width: 100%;}
+.subBanner.subBanner_community{background:url(../assets/subbanner_community.png) no-repeat 70% center/cover; }
+.subBanner img{width: 100%;}
+.subBanner.subBanner_member{background:url(../assets/subbanner_member.png) no-repeat 30% center/cover; }
+.subBanner img{width: 100%;}
+.subBanner .subBanner_txt{width: 100%; padding: 100px 0; color:#fff; text-align: center; text-shadow: rgba(0,0,0,.15) 0 3px 3px}
+.subBanner .subBanner_subTt{font-size: 18px; font-weight:300; }
+.subBanner .subBanner_tt{font-weight:600; font-size:42px; margin-top: 15px;}
+
+.sub_title{padding: 60px 0 25px;}
+.sub_title > div{display: flex; justify-content: space-between;}
+.sub_title .sub_title_txt{font-size: 24px; font-weight:500; color:#333; }
+.board_search{display: flex; border:1px solid #ddd; }
+.board_search input{border:none; padding: 0 10px; height: 30px; line-height: 30px; color:#333}
+.board_search input::placeholder{color:#ccc}
+.board_search button{background: none; border:none;padding: 0 10px; }
+.board_search .icon_search{width: 13px;height: 13px; position: relative;display: block;}
+.board_search .icon_search:before{content:''; display: block; width: 10px; height: 10px; border-radius:50%; border:1px solid #199AE2; position: absolute;left: 0; top: 0;}
+.board_search .icon_search:after{content:''; display: block; width: 5px; height: 1px; background: #199AE2; position: absolute;right: 0; bottom: 0; transform:rotate(45deg) translate(0%,-130%)}

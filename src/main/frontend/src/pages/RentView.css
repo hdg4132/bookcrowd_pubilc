@@ -1,0 +1,42 @@
+.book_info{display: flex;}
+.book_info .img_wrap{width: 320px; margin-right: 100px;}
+.book_info .img_wrap img{width: 100%;
+    height: 100%; object-fit: cover;}
+
+.book_info .info_wrap{width: calc(100% - 420px); }
+.book_info .info_wrap .book_tt{font-size:32px; font-weight:600; margin-bottom: 32px; color:#333;}
+.book_info .info_wrap .book_info_con{}
+.book_info .info_wrap .book_info_con li{display: flex; margin-bottom: 15px}
+.book_info .info_wrap .book_info_con li:last-child{margin-top: 50px;}
+.book_info .info_wrap .book_info_con li p{font-size:18px; color:#333;}
+.book_info .info_wrap .book_info_con li p.info_tt{width: 140px; font-weight:500}
+.book_info .info_wrap .book_info_con li p.info_con{color:#666;}
+.book_info .info_wrap .book_info_con li p.info_con span{color:#199AE2; font-weight:600;}
+
+.book_btn{display: flex; margin-top: 90px;}
+.book_btn .btn{border:1px solid #199AE2; border-radius:5px; background: none; display: block; color:#199AE2; display: flex; align-items: center; justify-content: center; width: 160px; height: 50px; font-size:16px; font-weight:500;}
+.book_btn .btn.btn_color{background: #199AE2; color:#fff; font-weight:400; margin-left: 20px;}
+.book_btn .btn img{display: inline-block; margin-right: 15px;}
+
+.book_detail{margin-top:80px ;padding:40px 0 80px; border-top:1px solid #333;}
+.book_detail h5{color:#555; font-size:24px; font-weight:600; margin-bottom: 40px ;}
+.book_detail p{color:#666; font-size:16px; line-height: 1.6;}
+
+.btn_sec{margin-top: 40px; display: flex; justify-content: flex-end; }
+.btn_sec .btn{ cursor:pointer; background: none; border:1px solid #199AE2; border-radius:5px; padding:3px 18px; color:#199AE2; font-weight:500; margin-left: 10px;}
+
+.paging_sec{margin-top: 30px; position: relative; border:1px solid #efefef; border-width:1px 0; padding: 15px 0; margin-bottom: 50px;}
+.paging_sec .prev{float:left;}
+.paging_sec > button{background: none; border:none;}
+.paging_sec > button span{width: 15px; height: 15px; display: inline-block; margin-right: 10px; position: relative;}
+.paging_sec > button .arrow:after{content:''; display: block; width: 10px; height: 10px; border:1px solid #666; border-width:1px 1px 0 0; position: absolute; top: 50%; left: 50%;}
+.paging_sec .prev .arrow:after{transform:translate(-50%,-25%) rotate(-135deg)}
+.paging_sec .next .arrow{margin-right: 0; margin-left: 10px;}
+.paging_sec .next .arrow:after{transform:translate(-50%,-25%) rotate(45deg)}
+.paging_sec .list{position: absolute; left: 50%; transform:translateX(-50%); padding-left: 26px;}
+.paging_sec .list span{width: 16px; height: 1px; background: #666; position: absolute; top: 50%; transform:translateY(-50%); left: 0;}
+.paging_sec .list span:after{content:''; display: block; width: 100%; height: 1px; background: #666; position: absolute; top: -7px; }
+.paging_sec .list span:before{content:''; display: block; width: 100%; height: 1px; background: #666; position: absolute; bottom: -7px;}
+.paging_sec .next{float:right;}
+
+.clearfix:after{content:''; display: block; clear:both;}

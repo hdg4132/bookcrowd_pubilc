@@ -14,8 +14,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "books")
 public class BookEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "book_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //auto increment 설정
     private int bookId;
     private String ISBN;
     private String bookName;
@@ -26,6 +25,7 @@ public class BookEntity {
     private String genre;
     private int pages;
     private String description;
+    private int available;
     private int stock;
     private int totalQuantity;
 }

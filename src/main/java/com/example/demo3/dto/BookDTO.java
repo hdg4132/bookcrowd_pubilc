@@ -1,5 +1,6 @@
 package com.example.demo3.dto;
 
+
 import com.example.demo3.model.BookEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,7 @@ public class BookDTO {
     private String genre;
     private int pages;
     private String description;
+    private int available;
     private int stock;
     private int totalQuantity;
 
@@ -35,6 +37,7 @@ public class BookDTO {
         this.genre = entity.getGenre();
         this.pages = entity.getPages();
         this.description = entity.getDescription();
+        this.available = entity.getAvailable();
         this.stock = entity.getStock();
         this.totalQuantity = entity.getTotalQuantity();
     }
@@ -51,6 +54,7 @@ public class BookDTO {
                 .genre(dto.getGenre())
                 .pages(dto.getPages())
                 .description(dto.getDescription())
+                .available(dto.getAvailable())
                 .stock(dto.getStock())
                 .totalQuantity(dto.getTotalQuantity())
                 .build();

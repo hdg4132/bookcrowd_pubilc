@@ -1,0 +1,34 @@
+.adm_side{
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 300px;
+    background: #333; color:#fff;}
+.adm_title{
+    padding: 18px 30px; border-bottom:1px solid #ccc; font-size:24px; font-weight:600; }
+.adm_title span{font-size:16px;
+    display: inline-block;
+    margin-left: 10px;
+    padding-left: 10px;
+    position: relative;}
+.adm_title span:before{content:'';
+    display: block;
+    width: 1px;
+    height: 14px;
+    background: #fff;
+    position: absolute;
+    left: 0;
+    bottom: 0;}
+.adm_nav{
+    padding: 30px;}
+.adm_nav li{}
+.adm_nav li a{font-size:16px;
+    line-height: 40px; cursor:pointer;}
+    
+.adm_con{width:calc(100% - 300px); margin-left: 300px; padding: 95px 30px;}
+
+.adm_header{padding: 9px 15px; background: #fff; position: fixed; display: flex;
+    z-index: 1; align-items: center; justify-content: flex-end; box-shadow:0 3px 15px rgba(0,0,0,.15)}
+.adm_header .btn_home{background: #FE7070; color:#fff; padding: 13px 30px; border-radius:5px}
+

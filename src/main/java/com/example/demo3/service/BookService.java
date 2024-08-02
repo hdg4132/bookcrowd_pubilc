@@ -3,91 +3,115 @@ package com.example.demo3.service;
 import com.example.demo3.dto.BookDTO;
 import com.example.demo3.model.BookEntity;
 import com.example.demo3.persistence.BookRepository;
-import com.example.demo3.persistence.KeepingRepository;
-import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@Slf4j
 public class BookService {
 
-    @Autowired
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
     @Autowired
-    private KeepingRepository keepingRepository;
-
-    @Autowired
-    private KeepingService keepingService;
+    public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     public List<BookDTO> getAllBooks() {
-        log.info("List of all the books");
-        return bookRepository.findAll().stream()
-                .map(BookDTO::new)
+        List<BookEntity> books = bookRepository.findAll();
+        return books.stream()
+                .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
-    public BookDTO createBasicInfo(final BookEntity entity) {
-        validateBasicInfo(entity);
-        bookRepository.save(entity);
-        log.info("Submitted new book: {}", entity.getBookId());
-        return new BookDTO(entity);
+    public BookDTO getBookById(int bookId) {
+        BookEntity book = bookRepository.findById(bookId).orElse(null);
+        return (book != null) ? convertToDTO(book) : null;
     }
 
+    public BookDTO addBook(BookDTO bookDTO, MultipartFile file) {
+        // 파일 저장 처리
 
-    private void validateBasicInfo(BookEntity entity) {
-        if (entity == null || entity.getBookName() == null || entity.getISBN() == null) {
-            log.warn("Invalid basic info: {}", entity);
-            throw new RuntimeException("You MUST have bookName and ISBN");
+        BookEntity book = convertToEntity(bookDTO, file);
+        BookEntity savedBook = bookRepository.save(book);
+        return convertToDTO(savedBook);
+    }
+
+    public BookDTO updateBook(int bookId, BookDTO bookDTO) {
+        BookEntity existingBook = bookRepository.findById(bookId).orElse(null);
+        if (existingBook != null) {
+            BeanUtils.copyProperties(bookDTO, existingBook, "bookId");
+            bookRepository.save(existingBook);
+            return convertToDTO(existingBook);
         }
+        return null;
     }
 
-    private void validateFullInfo(BookEntity entity) {
-        if (entity == null || entity.getBookId() == 0 || entity.getBookName() == null || entity.getISBN() == null) {
-            log.warn("Invalid full info: {}", entity);
-            throw new RuntimeException("BookId bookName and ISBN must not be null");
+    public boolean deleteBook(int bookId) {
+        if (bookRepository.existsById(bookId)) {
+            bookRepository.deleteById(bookId);
+            return true;
         }
+        return false;
     }
 
-    public BookDTO updateBookInfo(final BookEntity entity) {
-        validateFullInfo(entity);
-        Optional<BookEntity> original = bookRepository.findById(entity.getBookId());
-        if (original.isPresent()) {
-            BookEntity book = original.get();
-            book.setBookName(entity.getBookName());
-            book.setBookImgUrl(entity.getBookImgUrl());
-            book.setPublisher(entity.getPublisher());
-            book.setAuthor(entity.getAuthor());
-            book.setPublishDate(entity.getPublishDate());
-            book.setGenre(entity.getGenre());
-            book.setPages(entity.getPages());
-            book.setDescription(entity.getDescription());
-            bookRepository.save(book);
-            log.info("Book updated:{}", book.getBookId());
-            keepingService.updateKeepStatusAndQuantities(entity.getISBN());
-            return new BookDTO(book);
+    private BookEntity convertToEntity(BookDTO bookDTO, MultipartFile file) {
+        // 파일 저장 처리
+        String filePath = saveFile(file);
+        return BookEntity.builder()
+                .bookId(bookDTO.getBookId())
+                .ISBN(bookDTO.getISBN())
+                .bookName(bookDTO.getBookName())
+                .bookImgUrl(filePath)
+                .publisher(bookDTO.getPublisher())
+                .author(bookDTO.getAuthor())
+                .publishDate(bookDTO.getPublishDate())
+                .genre(bookDTO.getGenre())
+                .pages(bookDTO.getPages())
+                .description(bookDTO.getDescription())
+                .available(bookDTO.getAvailable())
+                .stock(bookDTO.getStock())
+                .totalQuantity(bookDTO.getTotalQuantity())
+                .build();
+    }
+    private BookDTO convertToDTO(BookEntity book) {
+        return BookDTO.builder()
+                .bookId(book.getBookId())
+                .ISBN(book.getISBN())
+                .bookName(book.getBookName())
+                .bookImgUrl(book.getBookImgUrl())
+                .publisher(book.getPublisher())
+                .author(book.getAuthor())
+                .publishDate(book.getPublishDate())
+                .genre(book.getGenre())
+                .pages(book.getPages())
+                .description(book.getDescription())
+                .available(book.getAvailable())
+                .stock(book.getStock())
+                .totalQuantity(book.getTotalQuantity())
+                .build();
+    }
 
-        } else {
-            BookEntity newBook = new BookEntity();
-            newBook.setBookName(entity.getBookName());
-            newBook.setISBN(entity.getISBN());
-            newBook.setAuthor(entity.getAuthor());
-            newBook.setPublishDate(entity.getPublishDate());
-            newBook.setGenre(entity.getGenre());
-            newBook.setPages(entity.getPages());
-            newBook.setDescription(entity.getDescription());
-            bookRepository.save(newBook);
-            log.info("New book created: {}", newBook.getBookId());
-            keepingService.updateKeepStatusAndQuantities(entity.getISBN());
-            return new BookDTO(newBook);
+    private String saveFile(MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        String filePath = fileName;
+
+        try {
+            Path path = Paths.get(filePath);
+            Files.write(path, file.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }
 
+        return filePath;
+    }
 
 }
