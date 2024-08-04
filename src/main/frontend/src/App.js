@@ -14,6 +14,12 @@ import Header from "./component/Header";
 import Storage from "./pages/Storage"
 import classNames from "classnames";
 import RentView from "./pages/RentView";
+import UserChatPage from "./component/realChat/UserChatPage";
+import RealChatPage from "./component/realChat/RealChatPage";
+import ChatPage from "./component/realChat/ChatPage";
+import Login from "./component/Login/Login";
+import Signup from "./component/Signup/Signup";
+import Mypage from "./component/Mypage/Mypage";
 // 현재 경로를 가져오기 위한 코드
 const currentPath = window.location.pathname;
 
@@ -44,6 +50,12 @@ function App() {
         <Route path="/rent/:id" element={<RentView />} />
         <Route path="/rent_admin" element={<Rent_admin />} />
         <Route path="/rent_admin_canceled" element={<Rent_admin_canceled />} />
+        <Route path="/userchat" element={<UserChatPage />} />
+        <Route path="/realchat" element={<RealChatPage />} />
+        <Route path="/chatpage" element={<ChatPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/mypage" element={<Mypage />} />
       </Routes>
     </div>
   );
