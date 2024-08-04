@@ -28,7 +28,7 @@ const ChatPage = () => {
 
   useEffect(() => {
     const filtered = chatRooms.filter((room) =>
-      room.userId.toLowerCase().includes(searchTerm.toLowerCase())
+      room.email ? room.email.toLowerCase().includes(searchTerm.toLowerCase()) : false
     );
     setFilteredChatRooms(filtered);
   }, [searchTerm, chatRooms]);
@@ -64,8 +64,12 @@ const ChatPage = () => {
     startIdx + itemsPerPage
   );
 
-  const handleChat = (roomId, userId) => {
-    navigate(`/realchat?roomId=${roomId}&userId=${userId}`);
+  const handleChat = (roomId, email) => {
+    if (roomId && email) {
+      navigate(`/realchat?roomId=${roomId}&email=${email}`);
+    } else {
+      console.error("Invalid roomId or email:", roomId, email);
+    }
   };
 
   return (
@@ -81,7 +85,7 @@ const ChatPage = () => {
           <div className="user-info-wrapper">
             <div className="chat-user-info">
               <p className="user-status">상태</p>
-              <p className="user-id">회원아이디</p>
+              <p className="user-id">회원 이메일</p> {/* 회원아이디 -> 회원 이메일 */}
               <p className="question-title">대화 미리보기</p>
             </div>
             <div className="user-list">
@@ -95,14 +99,14 @@ const ChatPage = () => {
                       <li className="read-status">
                         {room.unread ? "안읽음" : "읽음"}
                       </li>
-                      <li>{room.userId}</li>
+                      <li>{room.email || "알 수 없는 사용자"}</li> {/* userId 대신 email */}
                       <li>{room.latestMessage || "대화 없음"}</li>
                     </ul>
                   </div>
                   <div className="user-item-actions">
                     <button
                       type="button"
-                      onClick={() => handleChat(room.roomId, room.userId)}
+                      onClick={() => handleChat(room.roomId, room.email)}
                     >
                       채팅하기
                     </button>

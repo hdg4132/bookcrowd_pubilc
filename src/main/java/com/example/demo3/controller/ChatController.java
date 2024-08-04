@@ -22,10 +22,8 @@ public class ChatController {
 
     @MessageMapping("/sendMessage")
     public void sendMessage(ChatMessageDTO chatMessage) {
-        chatMessage.setTimestamp(new java.util.Date());
-        ChatMessageDTO savedMessage = chatService.saveMessage(chatMessage);
-
-        messagingTemplate.convertAndSend("/sub/room/" + chatMessage.getRoomId(), savedMessage);
+        // 메시지를 클라이언트에 전송
+        messagingTemplate.convertAndSend("/sub/room/" + chatMessage.getRoomId(), chatMessage);
     }
 
     @GetMapping("/userMessages")
@@ -43,8 +41,20 @@ public class ChatController {
         return chatService.getAllChatRooms();
     }
 
+    // 특정 채팅방의 메시지 가져오기
+    @GetMapping("/rooms/{roomId}/messages")
+    public List<ChatMessageDTO> getMessagesByRoomId(@PathVariable Long roomId) {
+        return chatService.getMessagesByRoomId(roomId);
+    }
+
     @PostMapping("/createRoom")
     public ChatRoomDTO createRoom(@RequestBody ChatRoomDTO chatRoomDTO) {
         return chatService.createRoom(chatRoomDTO);
+    }
+
+    // 메시지 저장 엔드포인트
+    @PostMapping("/messages")
+    public void saveMessage(@RequestBody ChatMessageDTO chatMessageDTO) {
+        chatService.saveMessage(chatMessageDTO);
     }
 }

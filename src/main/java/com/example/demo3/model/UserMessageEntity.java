@@ -12,11 +12,13 @@ public class UserMessageEntity {
 
     private Long roomId;
     private String userId;
+    private String email;
     private String content;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
 
+    // Getters and Setters
     public Long getMessageId() {
         return messageId;
     }
@@ -39,6 +41,14 @@ public class UserMessageEntity {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getContent() {

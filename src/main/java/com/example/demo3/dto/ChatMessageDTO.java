@@ -1,18 +1,21 @@
 package com.example.demo3.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class ChatMessageDTO {
     private Long messageId;
     private Long roomId;
     private String userId;
+    private String email;
     private String sender;
     private String content;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "UTC")
     private Date timestamp;
 
+    // Getters and Setters
     public Long getMessageId() {
         return messageId;
     }
@@ -35,6 +38,14 @@ public class ChatMessageDTO {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getSender() {
