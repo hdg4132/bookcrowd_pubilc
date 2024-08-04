@@ -6,12 +6,12 @@ import {useNavigate, useParams} from "react-router-dom";
 
 const RentWrite =()=>{
     const nav = useNavigate();
-    const {id} =  useParams();
+    // const {id} =  useParams();
     const [input, setInput] = useState({
         isbn:"", bookName:"",  author:"", publishDate:"", publisher:"", pages:"", genre:"", description:""
     })
     const [file, setFile] = useState()
-    const [isEdit, setIsEdit] = useState(false)
+    // const [isEdit, setIsEdit] = useState(false)
     const onChangeInput = (e) => {
         const { name, value} = e.target;
 
@@ -39,56 +39,39 @@ const RentWrite =()=>{
         formData.append("genre",input.genre);
         formData.append("pages",input.pages);
         formData.append("description",input.description);
-        try{
-            if(isEdit){
-                await axios
-                    .put(`http://localhost:8080/books/edit/${id}`,
-                        formData, {
-                            headers: {
-                                'Content-Type': 'multipart/form-data'
-                            }
-                        })
-                    .then((res) => {
-                        nav(`../../rent/${res.data.bookId}`)
-                        console.log(JSON.stringify(res.data))
-                    })
-            }else{
-                await axios
-                    .post('http://localhost:8080/books/write',
-                        formData, {
-                            headers: {
-                                'Content-Type': 'multipart/form-data'
-                            }
-                        })
-                    .then((res) => {
-                        nav(`../../rent/${res.data.bookId}`)
-                        console.log(JSON.stringify(res.data))
-                    })
-            }
-        }catch(err){
-            console.log(err)
-        }
+
+        await axios
+            .post('http://localhost:8080/books/write',
+                formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+            .then((res) => {
+                nav(`../../rent/${res.data.bookId}`)
+                console.log(JSON.stringify(res.data))
+            })
 
     }
-    useEffect(() => {
-       if(id){
-           setIsEdit(true);
-           axios.get(`http://localhost:8080/books/${id}`)
-               .then(response=> {
-                   setInput({
-                       isbn: response.data.ISBN,
-                       bookName: response.data.bookName,
-                       author: response.data.author,
-                       publishDate: response.data.publishDate,
-                       publisher: response.data.publisher,
-                       pages: response.data.pages,
-                       genre: response.data.genre,
-                       description: response.data.description
-                   })
-               })
-               .catch(err => console.error(err));
-       }
-    }, [id]);
+    // useEffect(() => {
+    //    if(id){
+    //        setIsEdit(true);
+    //        axios.get(`http://localhost:8080/books/${id}`)
+    //            .then(response=> {
+    //                setInput({
+    //                    isbn: response.data.ISBN,
+    //                    bookName: response.data.bookName,
+    //                    author: response.data.author,
+    //                    publishDate: response.data.publishDate,
+    //                    publisher: response.data.publisher,
+    //                    pages: response.data.pages,
+    //                    genre: response.data.genre,
+    //                    description: response.data.description
+    //                })
+    //            })
+    //            .catch(err => console.error(err));
+    //    }
+    // }, [id]);
 
 
 
@@ -136,7 +119,7 @@ const RentWrite =()=>{
                     </p>
                     <div className="btn_area">
                         <button type="submit" className="btn btn_write">
-                            {isEdit?`수정하기`:`작성하기`}
+                            작성하기
                         </button>
                         <a href="" className="btn btn_cancel">
                             취소

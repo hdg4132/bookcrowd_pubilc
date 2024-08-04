@@ -62,12 +62,10 @@ public class BookController {
           @RequestParam("pages") int pages,
           @RequestParam("description") String description
   ) {
-    // 파일 저장 경로
     String fileName = file.getOriginalFilename();
     Path filePath = Paths.get("src/main/resources/static/files/" + fileName);
 
     try {
-      // 파일을 서버에 저장
       Files.write(filePath, file.getBytes());
     } catch (IOException e) {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -76,7 +74,7 @@ public class BookController {
     BookDTO bookDTO = BookDTO.builder()
             .ISBN(ISBN)
             .bookName(bookName)
-            .bookImgUrl(file.getOriginalFilename()) // 파일 경로 설정
+            .bookImgUrl(file.getOriginalFilename())
             .publisher(publisher)
             .author(author)
             .publishDate(publishDate)

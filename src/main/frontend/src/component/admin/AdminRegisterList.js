@@ -1,6 +1,7 @@
 import React, { useEffect, useState} from "react";
 import axios from "axios";
 import "../../assets/css/style.css"
+import AdmLayout from "../AdmLayout";
 
 export default function AdminRegisterList() {
   const [data, setData] = useState([]);
@@ -69,7 +70,8 @@ export default function AdminRegisterList() {
 
   return (
     <>
-      <div className="book-keeping-admin-container">
+      <AdmLayout/>
+      <div className="book-keeping-admin-container adm_con">
         <section className="member-management">
           <div className="member-flex">
             <h1>회원관리</h1>

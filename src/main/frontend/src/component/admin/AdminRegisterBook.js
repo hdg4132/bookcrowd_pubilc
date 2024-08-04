@@ -1,11 +1,13 @@
 import React from "react";
 
 import "../../assets/css/style.css"
+import AdmLayout from "../AdmLayout";
 
 export default function AdminRegisterBook() {
   return (
     <>
-      <div class="book-keeping-register-container">
+      <AdmLayout/>
+      <div class="book-keeping-register-container adm_con">
         <form>
           <div class="book-keeping-register-container-flex0">
             <span>도서 명</span>
