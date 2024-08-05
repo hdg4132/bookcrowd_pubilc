@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class ChatRoomDTO {
     private Long roomId;
-    private String userId;
+    private Long userId;
     private String email;
     private String adminId;
     private Timestamp creationTime;
@@ -18,11 +18,11 @@ public class ChatRoomDTO {
         this.roomId = roomId;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
