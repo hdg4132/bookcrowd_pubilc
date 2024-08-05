@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./Mypage.css";
+import "./Wishlist.css";
 
 function MyPage() {
     const [currentPage, setCurrentPage] = useState(1);
@@ -70,11 +70,11 @@ function MyPage() {
                 <div className="mypage_side">
                     <div className="sidebox">
                         <ul>
-                        <li className="sidebox_text">
+                            <li className="sidebox_text">
                                 <button className="sidebox_quitbutton" onClick={() => navigate("/mypage")}>나의 대여내역</button>
                             </li>
                             <li className="sidebox_text">
-                                <button className="sidebox_quitbutton" onClick={() => navigate("/books")}>나의 보관내역</button>
+                                <button className="sidebox_quitbutton" onClick={() => navigate("/mybookstorage")}>나의 보관내역</button>
                             </li>
                             <li className="sidebox_text">
                                 <button className="sidebox_quitbutton" onClick={() => navigate("/wishlist")}>위시리스트</button>
@@ -89,7 +89,7 @@ function MyPage() {
                     </div>
                 </div>
                 <div className="MyTicketing">
-                    <h3>나의 대여내역</h3>
+                    <h3>위시리스트</h3>
                     <div className="post_line" />
                 </div>
             </div>

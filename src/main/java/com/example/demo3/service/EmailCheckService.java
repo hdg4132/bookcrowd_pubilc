@@ -11,7 +11,6 @@ public class EmailCheckService {
     private UserRepository userRepository;
 
     public boolean isEmailDuplicated(String email) {
-        return UserRepository.existsByEmail(email);
+        return userRepository.existsByEmail(email);
     }
-
 }

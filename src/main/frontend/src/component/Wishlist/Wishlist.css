@@ -30,7 +30,6 @@
 }
 
 html, body {
-    text-align: center;
     min-height: 100%;
 }
 
@@ -225,7 +224,6 @@ html, body {
     height: 19px;
     color: #999999;
 }
-
 
 .popup {
     position: fixed;
