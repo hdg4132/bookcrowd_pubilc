@@ -12,7 +12,7 @@ public class AdminMessageEntity {
 
     private Long roomId;
     private String adminId;
-    private String userId;
+    private Long userId;
     private String email;
     private String content;
 
@@ -44,11 +44,11 @@ public class AdminMessageEntity {
         this.adminId = adminId;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

@@ -7,7 +7,7 @@ import java.util.Date;
 public class ChatMessageDTO {
     private Long messageId;
     private Long roomId;
-    private String userId;
+    private Long userId;
     private String email;
     private String sender;
     private String content;
@@ -32,11 +32,11 @@ public class ChatMessageDTO {
         this.roomId = roomId;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
