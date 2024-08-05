@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../assets/css/style.css";
+import SubBanner from "../SubBanner";
 
 export default function KeepingList() {
   const [data, setData] = useState([]);
