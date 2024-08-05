@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "../../assets/css/style.css"
+import SubBanner from "../SubBanner";
 
 export default function KeepingItem() {
   const navigate = useNavigate();
@@ -73,6 +74,7 @@ export default function KeepingItem() {
 
   return (
     <>
+    <SubBanner page_name={"storage"} title_en={"Book Storage"} title_kr={"책 보관하기"} search />
       <div class="book-keeping-item-container">
         <table>
           <tbody>

@@ -33,6 +33,18 @@ export default function AdminRegisterList() {
       });
   };
 
+  const handleApproveKeeping = (keepingId) => {
+    axios
+    .put(`/api/keepings/approveKeeping/${keepingId}`)
+    .then((response) => {
+      console.log("Keeping approved successfully");
+      fetchKeepingsByStatus(currentStatus, page);
+    })
+    .catch((error) => {
+      console.log("Error approving keeping:", error);
+    });
+  };
+
   const handleApproveReturn = (keepingId) => {
     axios
       .put(`/api/keepings/approveReturn/${keepingId}`)

@@ -139,6 +139,11 @@ body {
   text-align: center;
   border-bottom: 1px solid #ccc;
 }
+
+.book-keeping-container tr {
+  cursor: pointer;
+}
+
 .book-keeping-container td {
   padding: 16px 10px;
   font-size: 16px;
@@ -149,7 +154,7 @@ body {
 }
 
 .book-keeping-container .col-title {
-  width: 70%;
+  width: 68%;
   text-align: left;
   padding-left: 25px;
 }
@@ -309,6 +314,7 @@ body {
   cursor: pointer;
   margin-top: 80px;
   margin-bottom: 100px;
+  text-align: center;
 }
 
 .book-keeping-item-container .pagination-item {

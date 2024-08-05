@@ -9,7 +9,7 @@ import RentList from "./pages/RentList";
 import RentListAdm from "./pages/RentListAdm";
 import RentWrite from "./pages/RentWrite";
 import Header from "./component/Header";
-import classNames from "classnames";
+// import classNames from "classnames";
 import RentView from "./pages/RentView";
 import Rent_admin from "./component/Rent_Admin/Rent_admin";
 import Rent_admin_return from "./component/Rent_Admin/Rent_admin_return";
