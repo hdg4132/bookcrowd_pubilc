@@ -5,7 +5,7 @@ import "./Signup.css";
 
 const Signup = () => {
   const [formValues, setFormValues] = useState({
-    userName: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -29,8 +29,8 @@ const Signup = () => {
   const validate = (values) => {
     const errors = {};
 
-    if (!values.userName) {
-      errors.userName = "*성함을 입력해 주세요";
+    if (!values.name) {
+      errors.name = "*성함을 입력해 주세요";
     }
 
     if (!values.email) {
@@ -149,16 +149,16 @@ const Signup = () => {
         <h3>회원가입</h3>
         <form className="signup_form" onSubmit={handleSubmit}>
           <div className="signup_form_con">
-            <label htmlFor="userName">성함</label>
+            <label htmlFor="name">성함</label>
             <div>
               <input
                 type="text"
-                id="userName"
-                value={formValues.userName}
+                id="name"
+                value={formValues.name}
                 placeholder="성함"
                 onChange={handleChange}
               />
-              {formErrors.userName && <p>{formErrors.userName}</p>}
+              {formErrors.name && <p>{formErrors.name}</p>}
             </div>
           </div>
           <div className="signup_form_con">
