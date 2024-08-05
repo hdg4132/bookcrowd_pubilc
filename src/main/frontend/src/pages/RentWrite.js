@@ -6,12 +6,12 @@ import {useNavigate, useParams} from "react-router-dom";
 
 const RentWrite =()=>{
     const nav = useNavigate();
-    // const {id} =  useParams();
+    const {id} =  useParams();
     const [input, setInput] = useState({
         isbn:"", bookName:"",  author:"", publishDate:"", publisher:"", pages:"", genre:"", description:""
     })
     const [file, setFile] = useState()
-    // const [isEdit, setIsEdit] = useState(false)
+    const [isEdit, setIsEdit] = useState(false)
     const onChangeInput = (e) => {
         const { name, value} = e.target;
 
@@ -28,7 +28,7 @@ const RentWrite =()=>{
         e.preventDefault();
         const formData = new FormData();
         formData.append("bookId",input.bookId);
-        formData.append("ISBN",input.ISBN);
+        formData.append("ISBN",input.isbn);
         formData.append("bookName",input.bookName);
         if (file) {
             formData.append("file", file);
@@ -40,38 +40,53 @@ const RentWrite =()=>{
         formData.append("pages",input.pages);
         formData.append("description",input.description);
 
-        await axios
-            .post('http://localhost:8080/books/write',
-                formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                })
-            .then((res) => {
-                nav(`../../rent/${res.data.bookId}`)
-                console.log(JSON.stringify(res.data))
-            })
+       if(isEdit){
+           await axios
+               .put(`http://localhost:8080/books/edit/${id}`,
+                   formData, {
+                       headers: {
+                           'Content-Type': 'multipart/form-data'
+                       }
+                   })
+               .then((res) => {
+                   nav(`../../rent/${res.data.bookId}`)
+                   console.log(JSON.stringify(res.data))
+               })
+       }else{
+           await axios
+               .post('http://localhost:8080/books/write',
+                   formData, {
+                       headers: {
+                           'Content-Type': 'multipart/form-data'
+                       }
+                   })
+               .then((res) => {
+                   nav(`../../rent/${res.data.bookId}`)
+                   console.log(JSON.stringify(res.data))
+               })
+       }
 
     }
-    // useEffect(() => {
-    //    if(id){
-    //        setIsEdit(true);
-    //        axios.get(`http://localhost:8080/books/${id}`)
-    //            .then(response=> {
-    //                setInput({
-    //                    isbn: response.data.ISBN,
-    //                    bookName: response.data.bookName,
-    //                    author: response.data.author,
-    //                    publishDate: response.data.publishDate,
-    //                    publisher: response.data.publisher,
-    //                    pages: response.data.pages,
-    //                    genre: response.data.genre,
-    //                    description: response.data.description
-    //                })
-    //            })
-    //            .catch(err => console.error(err));
-    //    }
-    // }, [id]);
+    useEffect(() => {
+       if(id){
+           setIsEdit(true);
+           axios.get(`http://localhost:8080/books/${id}`)
+               .then(response=> {
+                   setInput({
+                       isbn: response.data.isbn,
+                       bookName: response.data.bookName,
+                       author: response.data.author,
+                       file: response.data.file,
+                       publishDate: response.data.publishDate,
+                       publisher: response.data.publisher,
+                       pages: response.data.pages,
+                       genre: response.data.genre,
+                       description: response.data.description,
+                   })
+               })
+               .catch(err => console.error(err));
+       }
+    }, [id]);
 
 
 
@@ -114,12 +129,13 @@ const RentWrite =()=>{
                     </p>
                     <p>
                         <label htmlFor="file">책 이미지</label>
-                        <input onChange={onFileChange} type="file" name="bookImgUrl" id="bookImgUrl" value={input.bookImgUrl}
+                        <input onChange={onFileChange} type="file" name="bookImgUrl" id="bookImgUrl" value={input.file}
                                accept="image/gif, image/jpeg, image/png"/>
+                        <span>기존 이미지: </span>
                     </p>
                     <div className="btn_area">
                         <button type="submit" className="btn btn_write">
-                            작성하기
+                            {isEdit ? '수정하기':'작성하기'}
                         </button>
                         <a href="" className="btn btn_cancel">
                             취소

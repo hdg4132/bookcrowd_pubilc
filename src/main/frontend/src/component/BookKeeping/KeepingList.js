@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../assets/css/style.css";
+import SubBanner from "../SubBanner";
 
 export default function KeepingList() {
   const [data, setData] = useState([]);
@@ -76,6 +77,7 @@ export default function KeepingList() {
 
   return (
     <>
+      <SubBanner title_kr={"책 보관하기"} title_en={"Storage Book"} page_name={"storage"} search/>
       <div className="book-keeping-container">
         <table>
           <thead>

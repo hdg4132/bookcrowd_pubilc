@@ -52,7 +52,7 @@ public class BookController {
   // 새 책 추가
   @PostMapping("/write")
   public ResponseEntity<BookDTO> addBook(
-          @RequestParam("file") MultipartFile file,
+          @RequestPart("file") MultipartFile file,
           @RequestParam("ISBN") String ISBN,
           @RequestParam("bookName") String bookName,
           @RequestParam("publisher") String publisher,
@@ -64,7 +64,8 @@ public class BookController {
   ) {
     String fileName = file.getOriginalFilename();
     Path filePath = Paths.get("src/main/resources/static/files/" + fileName);
-
+    String ext = fileName.substring(fileName.indexOf("."));
+    String changeName = ISBN + ext;
     try {
       Files.write(filePath, file.getBytes());
     } catch (IOException e) {
@@ -90,7 +91,27 @@ public class BookController {
   @PutMapping("/edit/{id}")
   public ResponseEntity<BookDTO> updateBook
   (@PathVariable("id") int bookId,
-   @RequestBody BookDTO bookDTO) {
+   @RequestPart("file") MultipartFile file,
+   @RequestParam("ISBN") String ISBN,
+   @RequestParam("bookName") String bookName,
+   @RequestParam("publisher") String publisher,
+   @RequestParam("author") String author,
+   @RequestParam("publishDate") String publishDate,
+   @RequestParam("genre") String genre,
+   @RequestParam("pages") int pages,
+   @RequestParam("description") String description) {
+    BookDTO bookDTO = BookDTO.builder()
+            .ISBN(ISBN)
+            .bookName(bookName)
+            .bookImgUrl(file.getOriginalFilename())
+            .publisher(publisher)
+            .author(author)
+            .publishDate(publishDate)
+            .genre(genre)
+            .pages(pages)
+            .description(description)
+            .build();
+
     BookDTO updatedBook = bookService.updateBook(bookId, bookDTO);
     if (updatedBook != null) {
       return new ResponseEntity<>(updatedBook, HttpStatus.OK);
