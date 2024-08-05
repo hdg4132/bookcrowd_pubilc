@@ -12,10 +12,12 @@ public class ChatRoomEntity {
 
     private String userId;
     private String adminId;
+    private String email;
 
     @Column(name = "creation_time")
     private Timestamp creationTime;
 
+    // Getters and Setters
     public Long getRoomId() {
         return roomId;
     }
@@ -38,6 +40,14 @@ public class ChatRoomEntity {
 
     public void setAdminId(String adminId) {
         this.adminId = adminId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Timestamp getCreationTime() {

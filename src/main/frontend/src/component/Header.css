@@ -3,6 +3,14 @@
   margin: 0;
   padding: 0;
 }
+header{
+
+  position: fixed;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
 #container_box {
   display: flex;
   margin: 0 auto;
@@ -11,10 +19,6 @@
   align-items: center;
   max-width: calc(100% - 30px);
   justify-content: space-between;
-  position: fixed;
-  top: 40px;
-  left: 50%;
-  transform: translateX(-50%);
   background-color: #ffffff;
   padding: 0 30px;
   transition: 0.3s;

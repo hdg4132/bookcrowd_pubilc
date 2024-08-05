@@ -28,7 +28,7 @@ function Main() {
   localStorage.setItem("book", JSON.stringify(book));
 
   return (
-    <div className="App">
+    <div className="main_sec">
       <Link to="/rent">
         대여로 <Outlet />
       </Link>

@@ -14,10 +14,15 @@ const UserChatPage = () => {
   const messagesEndRef = useRef(null);
 
   const userinfo = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userinfo ? userinfo.userId : null;
+  const email = userinfo ? userinfo.email : null; // 이메일 가져오기
   const [roomId, setRoomId] = useState(null);
 
   useEffect(() => {
-    if (!userinfo) return;
+    if (!userId) {
+      console.error("사용자 정보가 없습니다.");
+      return;
+    }
 
     const socket = new SockJS("http://localhost:8080/ws");
     const client = new Client({
@@ -29,16 +34,31 @@ const UserChatPage = () => {
         console.log(str);
       },
       onConnect: (frame) => {
-        console.log("Connected: " + frame);
+        console.log("WebSocket 연결 성공: " + frame);
         setConnected(true);
 
+        // 채팅방을 생성하고 이전 메시지를 로드합니다.
         axios
           .post("http://localhost:8080/chat/createRoom", {
-            userId: userinfo.id,
+            userId: userId,
             adminId: "admin",
+            email: email, // 이메일 전달
           })
           .then((response) => {
             setRoomId(response.data.roomId);
+
+            // 이전 메시지 로드
+            axios
+              .get(
+                `http://localhost:8080/chat/rooms/${response.data.roomId}/messages`
+              )
+              .then((res) => {
+                setMessages(res.data);
+              })
+              .catch((err) => {
+                console.error("메시지를 불러오는 중 오류 발생:", err);
+              });
+
             client.subscribe(`/sub/room/${response.data.roomId}`, (message) => {
               const newMessage = JSON.parse(message.body);
               setMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -49,8 +69,8 @@ const UserChatPage = () => {
           });
       },
       onStompError: (frame) => {
-        console.error("Broker reported error: " + frame.headers["message"]);
-        console.error("Additional details: " + frame.body);
+        console.error("STOMP 브로커 오류: " + frame.headers["message"]);
+        console.error("추가 정보: " + frame.body);
       },
     });
 
@@ -62,7 +82,7 @@ const UserChatPage = () => {
         stompClient.deactivate();
       }
     };
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -77,10 +97,22 @@ const UserChatPage = () => {
       const message = {
         sender: "user",
         content: input,
-        userId: userinfo.id,
+        userId: userId,
+        email: email,
         roomId: roomId,
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString(), 
       };
+
+      // 메시지를 서버에 저장
+      axios
+        .post("http://localhost:8080/chat/messages", message)
+        .then((response) => {
+          console.log("메시지가 저장되었습니다:", response.data);
+        })
+        .catch((error) => {
+          console.error("메시지 저장 중 오류 발생:", error);
+        });
+
       stompClient.publish({
         destination: `/pub/sendMessage`,
         body: JSON.stringify(message),
@@ -131,7 +163,9 @@ const UserChatPage = () => {
                         <p>{msg.content}</p>
                       </div>
                       <span className={`userchat-date-${msg.sender}`}>
-                        {new Date(msg.timestamp).toLocaleTimeString()}
+                        {new Date(msg.timestamp).toLocaleString("ko-KR", {
+                          timeZone: "Asia/Seoul",
+                        })}
                       </span>
                     </div>
                   </>
@@ -141,7 +175,9 @@ const UserChatPage = () => {
                       <p>{msg.content}</p>
                     </div>
                     <span className={`userchat-date-${msg.sender}`}>
-                      {new Date(msg.timestamp).toLocaleTimeString()}
+                      {new Date(msg.timestamp).toLocaleString("ko-KR", {
+                        timeZone: "Asia/Seoul",
+                      })}
                     </span>
                   </div>
                 )}
