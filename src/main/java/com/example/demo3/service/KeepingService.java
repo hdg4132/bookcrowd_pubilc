@@ -40,13 +40,13 @@ public class KeepingService {
                 .map(KeepingDTO::new);
     }
 
-    public Page<KeepingDTO> userGivenInfo(final String userId, Pageable pageable) {
+    public Page<KeepingDTO> userGivenInfo(final Long userId, Pageable pageable) {
         log.info("Given information from user: {}", userId);
         return keepingRepository.findByUserId(userId, pageable)
                 .map(KeepingDTO::new);
     }
 
-    public List<KeepingEntity> getAllKeepingsByUserId(String userId) {
+    public List<KeepingEntity> getAllKeepingsByUserId(Long userId) {
         return keepingRepository.findByUserId(userId);
     }
 
@@ -125,7 +125,7 @@ public class KeepingService {
 
 
     @Transactional
-    public void borrowBook(int bookId, String userId) {
+    public void borrowBook(int bookId, Long userId) {
         // lastBorrowed가 null인 KeepingEntity를 먼저 조회
         List<KeepingEntity> nullBorrowedKeepings = keepingRepository.findByBookIdAndLastBorrowedIsNullOrderByKeepDateAsc(bookId);
 

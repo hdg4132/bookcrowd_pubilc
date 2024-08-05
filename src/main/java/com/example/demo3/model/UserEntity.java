@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long uuid;
+    private Long userId;
     private String email;
     @Column(nullable = false)
     private String password;

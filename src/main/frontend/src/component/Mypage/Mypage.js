@@ -2,21 +2,37 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Mypage.css";
+import RentItem from "./Rent_user.js";
+import Pagination from "./Pagination.js";
 
 function MyPage() {
     const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10); // 페이지당 아이템 수
+    const [rentItems, setRentItems] = useState([]);
+    const [totalItems, setTotalItems] = useState(0);
     const [showPopup, setShowPopup] = useState(false);
-    const itemsPerPage = 10;
     const navigate = useNavigate();
 
     useEffect(() => {
         const userInfo = sessionStorage.getItem("userData");
         if (!userInfo) {
             navigate("/login");
+        } else {
+            fetchRentItems();
         }
-    }, [navigate]);
+    }, [navigate, currentPage]);
 
-    const onPageChange = (pageNumber) => {
+    const fetchRentItems = async () => {
+        try {
+            const response = await axios.get(`/rents/all?page=${currentPage}&size=${itemsPerPage}`);
+            setRentItems(response.data.items);
+            setTotalItems(response.data.totalItems); // 총 아이템 수를 업데이트
+        } catch (error) {
+            console.error("대여 내역을 불러오는 중 오류가 발생했습니다:", error);
+        }
+    };
+
+    const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
@@ -27,19 +43,19 @@ function MyPage() {
             return;
         }
 
-        const { email } = userData; // userData에서 이메일을 가져옵니다.
+        const { email } = userData;
 
         try {
             const response = await axios.delete('api/api/auth/deleteAccount', {
-                params: { email } // 쿼리 파라미터로 이메일을 전달
+                params: { email }
             });
 
             if (response.data.success) {
                 setShowPopup(true);
-                sessionStorage.clear(); // 세션 정보 초기화
+                sessionStorage.clear();
                 setTimeout(() => {
-                    navigate('/login'); // 3초 후 로그인 페이지로 리다이렉션
-                }, 3000); // 3초 후 이동
+                    navigate('/login');
+                }, 3000);
             } else {
                 alert("사용자 탈퇴에 실패하였습니다.");
             }
@@ -70,7 +86,7 @@ function MyPage() {
                 <div className="mypage_side">
                     <div className="sidebox">
                         <ul>
-                        <li className="sidebox_text">
+                            <li className="sidebox_text">
                                 <button className="sidebox_quitbutton" onClick={() => navigate("/mypage")}>나의 대여내역</button>
                             </li>
                             <li className="sidebox_text">
@@ -91,6 +107,16 @@ function MyPage() {
                 <div className="MyTicketing">
                     <h3>나의 대여내역</h3>
                     <div className="post_line" />
+                    <ul className="rent_item">
+                        {rentItems && rentItems.map((item) => (
+                          <RentItem key={item.rentId} {...item} />
+                        ))}
+                    </ul>
+                    <Pagination
+                        totalItems={totalItems}
+                        itemsPerPage={itemsPerPage}
+                        onPageChange={handlePageChange}
+                    />
                 </div>
             </div>
             {showPopup && (

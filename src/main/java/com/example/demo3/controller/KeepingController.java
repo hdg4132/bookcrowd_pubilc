@@ -29,14 +29,14 @@ public class KeepingController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<Page<KeepingDTO>> userGivenInfo(
-            @PathVariable String userId,
+            @PathVariable Long userId,
             @PageableDefault(sort = "keepDate", direction = Sort.Direction.DESC)  Pageable pageable) {
         Page<KeepingDTO> keepings = keepingService.userGivenInfo(userId, pageable);
         return new ResponseEntity<>(keepings, HttpStatus.OK);
     }
 
     @GetMapping("/all/{userId}")
-    public List<KeepingEntity> getAllKeepingsByUserId(@PathVariable String userId) {
+    public List<KeepingEntity> getAllKeepingsByUserId(@PathVariable Long userId) {
         return keepingService.getAllKeepingsByUserId(userId);
     }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "./Paging.css"
+import "./Pagination.css"
 
 const Pagination = ({ totalItems, itemsPerPage, onPageChange }) => {
   // 현재 페이지 상태를 관리
