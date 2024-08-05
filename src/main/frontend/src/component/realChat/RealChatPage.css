@@ -7,8 +7,8 @@
 
 /* RealChatPage 컴포넌트의 래퍼 */
 .realchat-wrapper {
-  margin-left: 20%;
   padding: 20px;
+  margin: 90px 0 80px 300px;
 }
 
 /* 유저 정보 스타일 */
@@ -25,9 +25,11 @@
 }
 
 .realchat-user-id  {
-  width: 200px;
+  width: 100%;
+  padding: 10px;
   margin-right: 70px;
-  text-align: center;
+  text-align: left;
+  font-size: 24px;
 }
 
 /* 채팅 컨테이너 스타일 */

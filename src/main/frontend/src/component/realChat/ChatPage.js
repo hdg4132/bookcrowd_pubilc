@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
 import "./reset.css";
 import "./ChatPage.css";
+import AdmLayout from "../AdmLayout";
 
 const ChatPage = () => {
   const navigate = useNavigate();
@@ -28,7 +27,9 @@ const ChatPage = () => {
 
   useEffect(() => {
     const filtered = chatRooms.filter((room) =>
-      room.email ? room.email.toLowerCase().includes(searchTerm.toLowerCase()) : false
+      room.email
+        ? room.email.toLowerCase().includes(searchTerm.toLowerCase())
+        : false
     );
     setFilteredChatRooms(filtered);
   }, [searchTerm, chatRooms]);
@@ -66,7 +67,7 @@ const ChatPage = () => {
 
   const handleChat = (roomId, email) => {
     if (roomId && email) {
-      navigate(`/realchat?roomId=${roomId}&email=${email}`);
+      navigate(`/adm/realchat?roomId=${roomId}&email=${email}`);
     } else {
       console.error("Invalid roomId or email:", roomId, email);
     }
@@ -74,18 +75,13 @@ const ChatPage = () => {
 
   return (
     <div>
-      <Header
-        title="1:1 채팅 관리"
-        showSearch={true}
-        onSearchChange={handleSearchChange}
-      />
-      <Sidebar />
+      <AdmLayout />
       <div className="chat-wrapper">
         <div className="chat-content">
           <div className="user-info-wrapper">
             <div className="chat-user-info">
               <p className="user-status">상태</p>
-              <p className="user-id">회원 이메일</p> {/* 회원아이디 -> 회원 이메일 */}
+              <p className="user-id">회원 이메일</p>
               <p className="question-title">대화 미리보기</p>
             </div>
             <div className="user-list">
@@ -99,7 +95,7 @@ const ChatPage = () => {
                       <li className="read-status">
                         {room.unread ? "안읽음" : "읽음"}
                       </li>
-                      <li>{room.email || "알 수 없는 사용자"}</li> {/* userId 대신 email */}
+                      <li>{room.email || "알 수 없는 사용자"}</li>
                       <li>{room.latestMessage || "대화 없음"}</li>
                     </ul>
                   </div>
@@ -118,7 +114,7 @@ const ChatPage = () => {
         </div>
         <div className="pagination-wrapper">
           <nav aria-label="pagination">
-            <ul className="pagination">
+            <ul className="adm-pagination">
               <li>
                 <button
                   type="button"
