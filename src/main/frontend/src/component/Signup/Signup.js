@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Signup.css";
+import Text1 from "./SignupText1";
+import Text2 from "./SignupText2";
 
 const Signup = () => {
   const [formValues, setFormValues] = useState({
-    userName: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -29,8 +31,8 @@ const Signup = () => {
   const validate = (values) => {
     const errors = {};
 
-    if (!values.userName) {
-      errors.userName = "*성함을 입력해 주세요";
+    if (!values.name) {
+      errors.name = "*성함을 입력해 주세요";
     }
 
     if (!values.email) {
@@ -149,16 +151,16 @@ const Signup = () => {
         <h3>회원가입</h3>
         <form className="signup_form" onSubmit={handleSubmit}>
           <div className="signup_form_con">
-            <label htmlFor="userName">성함</label>
+            <label htmlFor="name">성함</label>
             <div>
               <input
                 type="text"
-                id="userName"
-                value={formValues.userName}
+                id="name"
+                value={formValues.name}
                 placeholder="성함"
                 onChange={handleChange}
               />
-              {formErrors.userName && <p>{formErrors.userName}</p>}
+              {formErrors.name && <p>{formErrors.name}</p>}
             </div>
           </div>
           <div className="signup_form_con">
@@ -255,9 +257,7 @@ const Signup = () => {
           <div className="signup_form_policybox">
             <p>개인정보 처리방침</p>
             <div className="policy_box">
-              <textarea className="policy-box" rows="4" cols="100" readOnly>
-                {/* 개인정보 처리 방침 내용 */}
-              </textarea>
+             <Text1 />
             </div>
             <div className="checkbox-container">
               <input
@@ -271,10 +271,8 @@ const Signup = () => {
           </div>
           <div className="signup_form_TermsofUse">
             <p>이용약관</p>
-            <div className="TermsofUse">
-              <textarea className="TermsofUse" rows="4" cols="100" readOnly>
-                {/* 이용약관 내용 */}
-              </textarea>
+            <div className="TermsofUse">             
+             <Text2 />
             </div>
             <div className="checkbox-container">
               <input

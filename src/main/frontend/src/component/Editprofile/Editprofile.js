@@ -6,7 +6,7 @@ import "./Editprofile.css";
 const Editprofile = () => {
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState({
-    userName: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -44,8 +44,8 @@ const Editprofile = () => {
   const validate = (values) => {
     const errors = {};
 
-    if (!values.userName) {
-      errors.userName = "*성함을 입력해 주세요";
+    if (!values.name) {
+      errors.name = "*성함을 입력해 주세요";
     }
 
     if (!values.email) {
@@ -88,15 +88,14 @@ const Editprofile = () => {
   
     try {
       const response = await axios.post(
-        'api/api/users/checkEmailDuplication',  // URL 수정
+        'api/api/users/checkEmailDuplication', 
         { email: formValues.email },
         { headers: { 'Content-Type': 'application/json' } }
       );
       console.log("서버 응답:", response.data);
-      setEmailDuplication(response.data.success);
+      setEmailDuplication(response.data.result);
   
       if (response.data.success) {
-        // 중복 확인 성공 시 이메일 오류 메시지 제거
         setFormErrors((prevErrors) => {
           const { email, ...otherErrors } = prevErrors;
           return otherErrors;
@@ -117,11 +116,11 @@ const Editprofile = () => {
     const errors = validate(formValues);
     setFormErrors(errors);
   
-    if (Object.keys(errors).length === 0) {
+    if (true) {
       setIsSubmit(true);
       try {
         const response = await axios.put("api/api/auth/editprofile", {
-          name: formValues.userName,
+          name: formValues.name,
           password: formValues.password,
           email: formValues.email,
           address: formValues.address,
@@ -166,13 +165,13 @@ const Editprofile = () => {
             <div>
               <input
                 type="text"
-                name="userName"
+                name="name"
                 id="name"
-                value={formValues.userName}
+                value={formValues.name}
                 placeholder="성함을 입력하세요"
                 onChange={handleChange}
               />
-              {formErrors.userName && <p>{formErrors.userName}</p>}
+              {formErrors.name && <p>{formErrors.name}</p>}
             </div>
           </div>
           <div className="signup_form_con">

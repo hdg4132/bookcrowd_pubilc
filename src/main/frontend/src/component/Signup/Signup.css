@@ -12,7 +12,10 @@
 }
 
 html, body{font-family: 'Pretendard-Regular';}
-html * , body *{box-sizing: border-box;}
+html * , body *{
+    text-align: center;
+    box-sizing: border-box;
+}
 
 .container_fix {
     width: 1310px;
@@ -27,7 +30,7 @@ html * , body *{box-sizing: border-box;}
 }
 
 
-.container_fix h2{
+#sub_banner h2{
     padding-top: 97px;
     font-style: normal;
     font-family: 'Pretendard-Regular';

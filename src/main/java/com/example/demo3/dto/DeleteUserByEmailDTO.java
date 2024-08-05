@@ -8,11 +8,13 @@ import lombok.Setter;
 public class DeleteUserByEmailDTO {
 
     // Getter 및 Setter
+    private Long userId;
     private String email;
     private String password;
 
     // 생성자
-    public DeleteUserByEmailDTO(String email, String password) {
+    public DeleteUserByEmailDTO(Long userId, String email, String password) {
+        this.userId = userId;
         this.email = email;
         this.password = password;
     }

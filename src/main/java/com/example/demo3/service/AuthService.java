@@ -19,6 +19,7 @@ public class AuthService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public ResponseDTO<?> signUp(SignUpDTO dto) {
+        String name = dto.getName();
         String email = dto.getEmail();
         String password = dto.getPassword();
         String confirmPassword = dto.getConfirmPassword();
@@ -67,7 +68,7 @@ public class AuthService {
 
     public ResponseDTO<?> updateProfile(UpdateProfileDTO dto) {
         try {
-            UserEntity user = userRepository.findByEmail(dto.getEmail()).orElse(null);
+            UserEntity user = userRepository.findById(dto.getId()).orElse(null);
             if (user == null) {
                 return ResponseDTO.setFailed("사용자를 찾을 수 없습니다.");
             }
@@ -92,7 +93,7 @@ public class AuthService {
 
     public ResponseDTO<?> deleteAccount(DeleteUserByEmailDTO dto) {
         try {
-            UserEntity user = userRepository.findByEmail(dto.getEmail()).orElse(null);
+            UserEntity user = userRepository.findByUserId(dto.getUserId()).orElse(null);
             if (user == null || !bCryptPasswordEncoder.matches(dto.getPassword(), user.getPassword())) {
                 return ResponseDTO.setFailed("비밀번호가 일치하지 않거나 사용자가 존재하지 않습니다.");
             }
