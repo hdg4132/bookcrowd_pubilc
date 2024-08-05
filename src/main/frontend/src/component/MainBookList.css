@@ -1,0 +1,12 @@
+.book_list_slide .swiper-slide {
+  display: flex;
+  margin-top: 50px;
+  margin-right: 100px !important;
+}
+.book_list_slide .img {
+  width: 320px;
+  height: 472px;
+}
+.book_list_slide .swiper-wrapper {
+  transition-timing-function: linear;
+}

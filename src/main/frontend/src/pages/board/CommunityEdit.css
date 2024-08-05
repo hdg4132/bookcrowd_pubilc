@@ -1,0 +1,49 @@
+.edit_form {
+  border-top: 2px solid black;
+  padding: 20px;
+}
+.form_group {
+  margin-bottom: 20px;
+  display: flex;
+}
+.form_group label,
+.form_group_h3 {
+  width: 38px;
+  font-size: 18px;
+  font-weight: 800;
+  margin-right: 30px;
+}
+
+.title_box {
+  width: 100%;
+}
+.content_box {
+  height: 300px;
+  width: 100%;
+}
+.form_buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 70px;
+}
+.edit_btn_list {
+  margin-right: 10px;
+  color: orange;
+  background-color: #fff;
+  border: 1px solid orange;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 5px;
+}
+.edit_btn_list:hover {
+  background-color: orange;
+  color: #fff;
+}
+.edit_btn_write {
+  color: #fff;
+  background-color: orange;
+  border: 1px solid orange;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}

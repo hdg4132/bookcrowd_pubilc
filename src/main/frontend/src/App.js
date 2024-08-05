@@ -30,6 +30,12 @@ import Editprofile from "./component/Editprofile/Editprofile";
 
 import AdminRegisterBook from "./component/admin/AdminRegisterBook";
 import AdminRegisterList from "./component/admin/AdminRegisterList";
+import Home from "./component/Home";
+import Footer from "./component/Footer";
+import CommunityList from "./pages/board/CommunityList";
+import CommunityDetail from "./pages/board/CommunityDetail";
+import CommunityEdit from "./pages/board/CommunityEdit";
+
 // 현재 경로를 가져오기 위한 코드
 const currentPath = window.location.pathname;
 
@@ -45,6 +51,7 @@ function App() {
       <Header/>
       <Routes>
         <Route path="/" element={<Main />} />
+        <Route path="/home" element={<Home />} />
         {/* 240722 sjh 책 대여하기 */}
         <Route path='/adm/rent/write' element={<RentWrite/>}/>
         <Route path='/adm/rent/' element={<RentListAdm/>}/>
@@ -68,7 +75,13 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/editprofile" element={<Editprofile />} />
+        {/* 240805 kwj 커뮤니티 */}
+        <Route path="/community" element={<CommunityList />} />
+        <Route path="/community/:id" element={<CommunityDetail />} />
+        <Route path="/communityEdit" element={<CommunityEdit />} />
+        {/* 240805 kwj 커뮤니티 */}
       </Routes>
+      <Footer />
     </div>
   );
 }
