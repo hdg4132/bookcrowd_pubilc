@@ -20,7 +20,7 @@ function LoginPage() {
         const userData = response.data;
         console.log(userData.data.user);
         sessionStorage.setItem('userData', JSON.stringify(userData.data.user));
-        navigate('/mypage');
+        navigate('/userchat');
     })
     .catch((error) => {
         console.error("Login error:", error);

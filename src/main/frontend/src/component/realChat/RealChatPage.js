@@ -3,8 +3,7 @@ import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
+import AdmLayout from "../AdmLayout";
 import "./reset.css";
 import "./RealChatPage.css";
 
@@ -121,8 +120,7 @@ const RealChatPage = () => {
 
   return (
     <div>
-      <Header title="1:1 채팅관리" backButton={true} />
-      <Sidebar />
+      <AdmLayout />
       <div className="realchat-main-content">
         <div className="realchat-wrapper">
           <div className="realchat-user-info-wrapper">

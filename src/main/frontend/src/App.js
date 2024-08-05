@@ -61,8 +61,8 @@ function App() {
         <Route path="/rent_admin_return" element={<Rent_admin_return />} />
         <Route path="/rent_admin_canceled" element={<Rent_admin_canceled />} />
         <Route path="/userchat" element={<UserChatPage />} />
-        <Route path="/realchat" element={<RealChatPage />} />
-        <Route path="/chatpage" element={<ChatPage />} />
+        <Route path="/adm/realchat" element={<RealChatPage />} />
+        <Route path="/adm/chatpage" element={<ChatPage />} />
         <Route path="/bookmatch" element={<RentBookmatch />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

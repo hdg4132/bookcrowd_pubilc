@@ -94,7 +94,7 @@ function Main() {
       </Link>
       <br />
       <br />
-      <Link to="/chatpage">
+      <Link to="/adm/chatpage">
         채팅목록으로<Outlet />
       </Link>
     </div>
