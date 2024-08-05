@@ -8,7 +8,7 @@ export default function KeepingList() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
   const userId = JSON.parse(sessionStorage.getItem("userData")).userId;
@@ -16,7 +16,7 @@ export default function KeepingList() {
   useEffect(() => {
     fetchAllKeepings()
       .then(() => fetchData(page))
-      .catch(error => {
+      .catch((error) => {
         setError(error);
         setLoading(false);
       });
@@ -42,7 +42,10 @@ export default function KeepingList() {
       .get(`/api/keepings/all/${userId}`)
       .then((response) => {
         sessionStorage.setItem("keepingList", JSON.stringify(response.data));
-        console.log("Saved to sessionStorage:", sessionStorage.getItem("keepingList"));
+        console.log(
+          "Saved to sessionStorage:",
+          sessionStorage.getItem("keepingList")
+        );
       })
       .catch((error) => {
         console.error("Error fetching all keepings:", error);
@@ -77,7 +80,12 @@ export default function KeepingList() {
 
   return (
     <>
-    <SubBanner page_name={"storage"} title_en={"Book Storage"} title_kr={"책 보관하기"} search />
+      <SubBanner
+        page_name={"storage"}
+        title_en={"Book Storage"}
+        title_kr={"책 보관하기"}
+        search
+      />
       <div className="book-keeping-container">
         <table>
           <thead>
@@ -98,9 +106,14 @@ export default function KeepingList() {
               </tr>
             ) : (
               data.map((item) => (
-                <tr key={item.keepingId} onClick={() => handleRowClick(item.keepingId)}>
+                <tr
+                  key={item.keepingId}
+                  onClick={() => handleRowClick(item.keepingId)}
+                >
                   <td className="col-title">{item.bookName}</td>
-                  <td className="col-status">{keepStatusMap[item.keepStatus]}</td>
+                  <td className="col-status">
+                    {keepStatusMap[item.keepStatus]}
+                  </td>
                   <td className="col-author">{item.userName}</td>
                   <td className="col-date">{item.keepDate}</td>
                 </tr>
@@ -108,31 +121,31 @@ export default function KeepingList() {
             )}
           </tbody>
         </table>
-        {totalPages > 1 && (
-          <div className="pagination-list">
+
+        <div className="pagination-list">
+          <button
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 0}
+          >
+            &laquo;
+          </button>
+          {Array.from({ length: totalPages }, (_, index) => (
             <button
-              onClick={() => handlePageChange(page - 1)}
-              disabled={page === 1}
+              key={index}
+              onClick={() => handlePageChange(index)}
+              className={page === index ? "active" : ""}
+              disabled={page === index}
             >
-              &laquo;
+              {index + 1}
             </button>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={index + 1}
-                onClick={() => handlePageChange(index + 1)}
-                className={page === index + 1 ? "active" : ""}
-              >
-                {index + 1}
-              </button>
-            ))}
-            <button
-              onClick={() => handlePageChange(page + 1)}
-              disabled={page === totalPages}
-            >
-              &raquo;
-            </button>
-          </div>
-        )}
+          ))}
+          <button
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page === totalPages - 1}
+          >
+            &raquo;
+          </button>
+        </div>
       </div>
     </>
   );
