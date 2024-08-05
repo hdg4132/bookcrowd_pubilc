@@ -1,6 +1,6 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../../assets/css/style.css"
+import "../../assets/css/style.css";
 import AdmLayout from "../AdmLayout";
 
 export default function AdminRegisterList() {
@@ -19,7 +19,10 @@ export default function AdminRegisterList() {
 
   const fetchKeepingsByStatus = (status, page) => {
     setLoading(true);
-    const url = status === "all" ? `/api/keepings/admin?page=${page}&size=10` : `/api/keepings/status/${status}?page=${page}&size=10`;
+    const url =
+      status === "all"
+        ? `/api/keepings/admin?page=${page}&size=10`
+        : `/api/keepings/status/${status}?page=${page}&size=10`;
     axios
       .get(url)
       .then((response) => {
@@ -33,16 +36,16 @@ export default function AdminRegisterList() {
       });
   };
 
-  const handleApproveKeeping = (keepingId) => {
+  const handleApproveKeeping = (ISBN) => {
     axios
-    .put(`/api/keepings/approveKeeping/${keepingId}`)
-    .then((response) => {
-      console.log("Keeping approved successfully");
-      fetchKeepingsByStatus(currentStatus, page);
-    })
-    .catch((error) => {
-      console.log("Error approving keeping:", error);
-    });
+      .put(`/api/keepings/updateStatus/${ISBN}`)
+      .then((response) => {
+        console.log("Keeping approved successfully");
+        fetchKeepingsByStatus(currentStatus, page);
+      })
+      .catch((error) => {
+        console.log("Error approving keeping:", error);
+      });
   };
 
   const handleApproveReturn = (keepingId) => {
@@ -67,14 +70,14 @@ export default function AdminRegisterList() {
     if (newPage >= 0 && newPage < totalPages) {
       setPage(newPage);
     }
-  }
+  };
 
   const keepStatusMap = {
     0: "승인 대기",
     1: "보관 중",
     2: "대여 중",
     3: "반환 신청",
-    4: "반환 완료"
+    4: "반환 완료",
   };
 
   if (loading) return <p>Loading....</p>;
@@ -82,7 +85,7 @@ export default function AdminRegisterList() {
 
   return (
     <>
-      <AdmLayout/>
+      <AdmLayout />
       <div className="book-keeping-admin-container adm_con">
         <section className="member-management">
           <div className="member-flex">
@@ -97,7 +100,10 @@ export default function AdminRegisterList() {
                 <th className="col4">대여가능여부</th>
                 <th className="col5">비고</th>
                 <th className="col6">
-                  <select value={currentStatus} onChange={handleStatusButtonClick}>
+                  <select
+                    value={currentStatus}
+                    onChange={handleStatusButtonClick}
+                  >
                     <option value="all">전체 보기</option>
                     <option value="0">승인 대기</option>
                     <option value="1">보관 중</option>
@@ -121,7 +127,9 @@ export default function AdminRegisterList() {
                     <td className="col1 table-cell">{item.userId}</td>
                     <td className="col2">{item.bookName}</td>
                     <td className="col3">{item.isbn}</td>
-                    <td className="col4">{item.rentable ? "가능" : "불가능"}</td>
+                    <td className="col4">
+                      {item.rentable ? "가능" : "불가능"}
+                    </td>
                     <td className="col5 table-cell">{item.note}</td>
                     <td className="col6">{keepStatusMap[item.keepStatus]}</td>
                     <td className="col7">
@@ -130,18 +138,29 @@ export default function AdminRegisterList() {
                       </button>
                     </td>
                     <td className="col8">
-                      {item.keepStatus === 3 ? (
+                      {item.keepStatus === 0 ? (
+                        <button
+                          className="book-keeping-admin-btn2"
+                          onClick={() => handleApproveKeeping(item.isbn)}
+                        >
+                          보관 승인
+                        </button>
+                      ) : item.keepStatus === 1 ? (
+                        <button className="book-keeping-admin-btn2" disabled>
+                          책 보관중
+                        </button>
+                      ) : item.keepStatus === 3 ? (
                         <button
                           className="book-keeping-admin-btn2"
                           onClick={() => handleApproveReturn(item.keepingId)}
                         >
-                          반환승인
+                          반환 승인
                         </button>
-                      ) : (
+                      ) : item.keepStatus === 4 ? (
                         <button className="book-keeping-admin-btn2" disabled>
-                          반환승인
+                          반환 완료
                         </button>
-                      )}
+                      ) : null}
                     </td>
                   </tr>
                 ))
@@ -149,15 +168,28 @@ export default function AdminRegisterList() {
             </tbody>
           </table>
           <div className="pagination-list">
-            <button onClick={() => handlePageChange(page - 1)} disabled={page === 0}>&laquo;</button>
+            <button
+              onClick={() => handlePageChange(page - 1)}
+              disabled={page === 0}
+            >
+              &laquo;
+            </button>
             {Array.from({ length: totalPages }, (_, index) => (
-              <button key={index} onClick={() => handlePageChange(index)}
-                className={page === index ? 'active' : ''}
-                disabled={page === index}>
+              <button
+                key={index}
+                onClick={() => handlePageChange(index)}
+                className={page === index ? "active" : ""}
+                disabled={page === index}
+              >
                 {index + 1}
               </button>
             ))}
-            <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPages - 1}>&raquo;</button>
+            <button
+              onClick={() => handlePageChange(page + 1)}
+              disabled={page === totalPages - 1}
+            >
+              &raquo;
+            </button>
           </div>
         </section>
       </div>

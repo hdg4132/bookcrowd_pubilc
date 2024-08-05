@@ -9,7 +9,7 @@ import RentList from "./pages/RentList";
 import RentListAdm from "./pages/RentListAdm";
 import RentWrite from "./pages/RentWrite";
 import Header from "./component/Header";
-// import classNames from "classnames";
+import classNames from "classnames";
 import RentView from "./pages/RentView";
 import Rent_admin from "./component/Rent_Admin/Rent_admin";
 import Rent_admin_return from "./component/Rent_Admin/Rent_admin_return";
@@ -55,8 +55,8 @@ function App() {
         <Route path="/books" element={<KeepingList />} />
         <Route path="/register" element={<KeepingRegister />} />
         <Route path="/book/:id" element={<KeepingItem />} />
-        <Route path="/admin/list" element={<AdminRegisterList />} />
-        <Route path="/admin/register" element={<AdminRegisterBook />} />
+        <Route path="/adm/list" element={<AdminRegisterList />} />
+        <Route path="/adm/register" element={<AdminRegisterBook />} />
         <Route path="/rent_admin" element={<Rent_admin />} />
         <Route path="/rent_admin_return" element={<Rent_admin_return />} />
         <Route path="/rent_admin_canceled" element={<Rent_admin_canceled />} />

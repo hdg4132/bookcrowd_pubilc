@@ -54,12 +54,12 @@ function Main() {
       </Link>
       <br />
       <br />
-      <Link to="/admin/list">
+      <Link to="/adm/list">
         관리자페이지로 <Outlet />
       </Link>
       <br />
       <br />
-      <Link to="/admin/register">
+      <Link to="/adm/register">
         관리자작성페이지로 <Outlet />
       </Link>
       <br />
