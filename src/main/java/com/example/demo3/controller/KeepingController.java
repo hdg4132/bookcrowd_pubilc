@@ -52,6 +52,12 @@ public class KeepingController {
         return new ResponseEntity<>(savedKeeping, HttpStatus.CREATED);
     }
 
+    @PutMapping("/updateStatus/{ISBN}")
+    public ResponseEntity<?> updateKeepStatus(@PathVariable String ISBN) {
+        keepingService.updateKeepStatusAndQuantities(ISBN);
+        return ResponseEntity.ok("KeepStatus updated");
+    }
+
     @PutMapping("/requestReturn/{keepingId}")
     public ResponseEntity<Void> requestReturn(@PathVariable int keepingId) {
         keepingService.requestReturn(keepingId);
