@@ -16,9 +16,11 @@ export default function KeepingItem() {
     const storedItems = JSON.parse(sessionStorage.getItem("keepingList"));
     if(storedItems) {
       setItems(storedItems);
-      console.log(storedItems)
+      // console.log(storedItems)
     } else {
       console.error("No keeping list found in session storage");
+      navigate("/login");
+      return;
     }
 
     axios
@@ -29,16 +31,16 @@ export default function KeepingItem() {
     })
     .catch((error) => {
       setError(error);
-      setLoading(true);
+      setLoading(false);
     })
-  }, [keepingId]);
+  }, [keepingId, navigate]);
 
   const handleReturnRequest = () => {
     axios
       .put(`/api/keepings/requestReturn/${keepingId}`)
       .then((response) => {
         console.log("Return request submitted successfully");
-        navigate(-1);
+        navigate("/books");
       })
       .catch((error) => {
         console.error("Error submitting return request:", error);
@@ -107,6 +109,8 @@ export default function KeepingItem() {
         <div class="button-container">
           {item.keepStatus === 4 ? (
             <button disabled>반환완료</button>
+          ) : item.keepStatus === 3 ? (
+            <button onClick={handleReturnRequest} disabled>반환신청완료</button>
           ) : (
             <button onClick={handleReturnRequest}>반환신청하기</button>
           )}

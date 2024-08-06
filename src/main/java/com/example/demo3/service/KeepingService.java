@@ -107,9 +107,12 @@ public class KeepingService {
         int stockIncrease = 0;
         int totalQuantityIncrease = 0;
 
+        BookEntity book = optionalBook.get();
+
         for (KeepingEntity keeping : keepings) {
             if (keeping.getKeepStatus() == 0) {
                 keeping.setKeepStatus(1);
+                keeping.setBookId(book.getBookId());
                 keepingRepository.save(keeping);
                 if (keeping.isRentable()) {
                     stockIncrease++;
@@ -118,7 +121,7 @@ public class KeepingService {
             }
         }
 
-            BookEntity book = optionalBook.get();
+
             book.setStock(book.getStock() + stockIncrease);
             book.setTotalQuantity(book.getTotalQuantity() + totalQuantityIncrease);
             bookRepository.save(book);
@@ -129,7 +132,7 @@ public class KeepingService {
 
 
     @Transactional
-    public void borrowBook(int bookId, String userId) {
+    public void borrowBook(int bookId) {
         // lastBorrowed가 null인 KeepingEntity를 먼저 조회
         List<KeepingEntity> nullBorrowedKeepings = keepingRepository.findByBookIdAndLastBorrowedIsNullOrderByKeepDateAsc(bookId);
 
