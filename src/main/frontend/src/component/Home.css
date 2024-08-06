@@ -97,18 +97,6 @@
   font-size: 38px;
   font-weight: 600;
 }
-.section_2 .book_list_box {
-  margin-top: 60px;
-  width: 1813px;
-  overflow: hidden;
-}
-.book_list_box_item {
-  display: flex;
-}
-.book_list_box_item img {
-  width: 320px;
-  height: 472px;
-}
 .community_content {
   display: flex;
   margin-top: 50px;

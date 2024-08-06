@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import SubBanner from "../../component/SubBanner";
 import "./CommunityDetail.css";
@@ -29,13 +30,23 @@ export default function CommunityDetail() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const posts = JSON.parse(localStorage.getItem("posts")) || [];
-    const foundPost = posts.find((item) => item.id === parseInt(id));
-    setPost(foundPost);
+    axios
+      .get(`http://localhost:8080/api/community/${id}`)
+      .then((response) => {
+        setPost(response.data);
+      })
+      .catch((error) => {
+        console.error("게시글을 가져오는 데 실패했습니다:", error);
+      });
 
-    const savedComments =
-      JSON.parse(localStorage.getItem(`comments_${id}`)) || [];
-    setComments(savedComments);
+    axios
+      .get(`http://localhost:8080/api/community/${id}/comments`)
+      .then((response) => {
+        setComments(response.data);
+      })
+      .catch((error) => {
+        console.error("댓글을 가져오는 데 실패했습니다:", error);
+      });
   }, [id]);
 
   const handleCommentChange = (event) => {
@@ -49,14 +60,18 @@ export default function CommunityDetail() {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (comment.trim()) {
-      const newComments = [
-        ...comments,
-        { id: Date.now(), author: loggedInUser, comment },
-      ];
-      setComments(newComments);
-      setComment("");
-
-      localStorage.setItem(`comments_${id}`, JSON.stringify(newComments));
+      axios
+        .post(`http://localhost:8080/api/community/${id}/comments`, {
+          writer: loggedInUser,
+          comment,
+        })
+        .then((response) => {
+          setComments([...comments, response.data]);
+          setComment("");
+        })
+        .catch((error) => {
+          console.error("댓글을 추가하는 데 실패했습니다:", error);
+        });
     }
   };
 
@@ -69,32 +84,48 @@ export default function CommunityDetail() {
   const handleSaveEdit = (event) => {
     event.preventDefault();
     if (editCommentText.trim()) {
-      const updatedComments = comments.map((c) =>
-        c.id === editCommentId ? { ...c, comment: editCommentText } : c
-      );
-      setComments(updatedComments);
-      setEditCommentId(null);
-      setEditCommentText("");
-
-      localStorage.setItem(`comments_${id}`, JSON.stringify(updatedComments));
+      axios
+        .put(
+          `http://localhost:8080/api/community/${id}/comments/${editCommentId}`,
+          {
+            comment: editCommentText,
+          }
+        )
+        .then((response) => {
+          const updatedComments = comments.map((c) =>
+            c.id === editCommentId ? response.data : c
+          );
+          setComments(updatedComments);
+          setEditCommentId(null);
+          setEditCommentText("");
+        })
+        .catch((error) => {
+          console.error("댓글 수정에 실패했습니다:", error);
+        });
     }
   };
 
   const handleDelete = (commentId) => {
-    const updatedComments = comments.filter((c) => c.id !== commentId);
-    setComments(updatedComments);
-
-    localStorage.setItem(`comments_${id}`, JSON.stringify(updatedComments));
+    axios
+      .delete(`http://localhost:8080/api/community/${id}/comments/${commentId}`)
+      .then(() => {
+        const updatedComments = comments.filter((c) => c.id !== commentId);
+        setComments(updatedComments);
+      })
+      .catch((error) => {
+        console.error("댓글 삭제에 실패했습니다:", error);
+      });
   };
 
   const handlePostDelete = () => {
-    const posts = JSON.parse(localStorage.getItem("posts")) || [];
-    const updatedPosts = posts.filter((item) => item.id !== parseInt(id));
-    localStorage.setItem("posts", JSON.stringify(updatedPosts));
-
-    localStorage.removeItem(`comments_${id}`);
-
-    navigate("/community");
+    axios
+      .delete(`http://localhost:8080/api/community/${id}`)
+      .then(() => {
+        navigate("/community");
+      })
+      .catch((error) => {
+        console.error("게시글 삭제에 실패했습니다:", error);
+      });
   };
 
   return (
@@ -124,11 +155,11 @@ export default function CommunityDetail() {
               comments.map((c) => (
                 <li key={c.id} className="comment_item">
                   <div>
-                    <p className="comment_writer">{c.author}</p>
+                    <p className="comment_writer">{c.writer}</p>
                     <div className="comment_content">{c.comment}</div>
                   </div>
                   <div className="comment_actions">
-                    {loggedInUser === c.author && (
+                    {loggedInUser === c.writer && (
                       <>
                         <button onClick={() => handleEdit(c.id)}>수정</button>
                         <div className="nav_auth_bar" />

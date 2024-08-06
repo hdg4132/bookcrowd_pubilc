@@ -1,12 +1,14 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import "./MainBookList.css";
+import "./HomeBookList.css";
 import { Autoplay } from "swiper/modules";
+
+
 const importAll = (i) => i.keys().map(i);
 const book_images = importAll(require.context('../assets/book_images', false,/\.(png|jpe?g|svg)$/));
 
 
-export default function MainBookList() {
+export default function HomeBookList() {
   return (
     <Swiper
       slidesPerView={5}

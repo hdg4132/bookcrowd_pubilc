@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import SubBanner from "../../component/SubBanner";
 import "./CommunityList.css";
@@ -23,13 +24,19 @@ export default function CommunityList() {
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    const loadedPosts = JSON.parse(localStorage.getItem("posts")) || [];
-    setPosts(loadedPosts);
+    axios
+      .get("http://localhost:8080/api/community")
+      .then((response) => {
+        setPosts(response.data);
+        setTotalPages(Math.ceil(response.data.length / itemsPerPage));
+      })
+      .catch((error) => {
+        console.error("데이터를 가져오는 데 실패했습니다:", error);
+      });
   }, []);
-
-  const totalPages = Math.ceil(posts.length / itemsPerPage);
 
   const currentItems = posts.slice(
     (currentPage - 1) * itemsPerPage,
@@ -78,7 +85,7 @@ export default function CommunityList() {
                   <Link to={`/community/${item.id}`}>{item.title}</Link>
                 </span>
                 <div className="list_info">
-                  <span className="writer">{item.author || "작성자 없음"}</span>
+                  <span className="writer">{item.writer || "작성자 없음"}</span>
                   <span className="date">{formatDate(item.date)}</span>
                 </div>
               </li>

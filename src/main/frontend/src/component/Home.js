@@ -3,8 +3,8 @@ import "./Home.css";
 import bookLogo from "../assets/MainLogo.png";
 import img1 from "../assets/Main1.png";
 import img2 from "../assets/Main2.png";
-import MainBookList from "./MainBookList";
-import MainCommunityList from "./MainCommunityList";
+import HomeBookList from "./HomeBookList";
+import HomeCommunityList from "./HomeCommunityList";
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -81,7 +81,7 @@ function Home() {
                 </div>
               </div>
               <div className="book_list_slide">
-                <MainBookList />
+                <HomeBookList />
               </div>
             </div>
           </section>
@@ -96,7 +96,7 @@ function Home() {
                 </div>
               </div>
               <div className="community_content">
-                <MainCommunityList posts={posts} />{" "}
+                <HomeCommunityList posts={posts} />{" "}
               </div>
             </div>
           </section>

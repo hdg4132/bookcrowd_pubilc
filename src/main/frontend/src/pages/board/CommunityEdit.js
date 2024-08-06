@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import SubBanner from "../../component/SubBanner";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
@@ -17,20 +18,23 @@ const CommunityEdit = () => {
   const handleContentChange = (value) => {
     setContent(value);
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const newPost = {
-      id: Date.now(),
       title,
       content,
       date: new Date().toISOString(),
-      author: "작성자명",
+      writer: "작성자명",
     };
-    let posts = JSON.parse(localStorage.getItem("posts")) || [];
-    posts.unshift(newPost);
-    localStorage.setItem("posts", JSON.stringify(posts));
-    navigate("/community");
+
+    axios
+      .post("http://localhost:8080/api/community", newPost) // 서버 URL 확인
+      .then((response) => {
+        navigate("/community");
+      })
+      .catch((error) => {
+        console.error("게시글 작성에 실패했습니다:", error);
+      });
   };
 
   return (
