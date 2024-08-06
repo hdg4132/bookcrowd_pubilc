@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../assets/css/style.css";
@@ -14,10 +14,20 @@ export default function KeepingRegister() {
     note: "",
   });
   const [isValid, setIsValid] = useState(true);
+  const [userData, setUserData] = useState(null);
 
   const navigate = useNavigate();
 
-  const userId = JSON.parse(sessionStorage.getItem("userData")).userId;
+useEffect(() => {
+  const storedUserData = sessionStorage.getItem("userData");
+  if (storedUserData) {
+    setUserData(JSON.parse(storedUserData));
+  } else {
+    navigate("/login")
+  }
+}, [navigate])
+
+  // const userId = JSON.parse(sessionStorage.getItem("userData")).userId;
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -43,7 +53,7 @@ export default function KeepingRegister() {
     }
     const requestData = {
       ...formData,
-      userId: userId,
+      userId: userData.userId,
       rentable: formData.rentable === "yes",
     };
     axios

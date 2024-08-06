@@ -44,6 +44,7 @@ export default function AdminRegisterList() {
         fetchKeepingsByStatus(currentStatus, page);
       })
       .catch((error) => {
+        alert("아직 책정보가 등록되지 않았습니다");
         console.log("Error approving keeping:", error);
       });
   };
@@ -146,18 +147,23 @@ export default function AdminRegisterList() {
                           보관 승인
                         </button>
                       ) : item.keepStatus === 1 ? (
-                        <button className="book-keeping-admin-btn2" disabled>
+                        <button className="book-keeping-admin-btn2" style={{backgroundColor: '#FE7070'}} disabled>
                           책 보관중
                         </button>
-                      ) : item.keepStatus === 3 ? (
+                      ) : item.keepStatus === 2 ? (
+                        <button className="book-keeping-admin-btn2" style={{backgroundColor: '#FF24BD'}} disabled>
+                          대여중
+                        </button>
+                      ): item.keepStatus === 3 ? (
                         <button
                           className="book-keeping-admin-btn2"
+                          style={{backgroundColor: '#14ae5c'}}
                           onClick={() => handleApproveReturn(item.keepingId)}
                         >
                           반환 승인
                         </button>
                       ) : item.keepStatus === 4 ? (
-                        <button className="book-keeping-admin-btn2" disabled>
+                        <button className="book-keeping-admin-btn2" style={{backgroundColor: '#FFB800'}} disabled>
                           반환 완료
                         </button>
                       ) : null}
