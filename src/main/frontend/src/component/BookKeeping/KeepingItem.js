@@ -74,6 +74,17 @@ export default function KeepingItem() {
 
   if (!item) return <p>No data found</p>;
 
+  const renderNote = (note) => {
+    if(!note) return null;
+    const lines = note.split("\n");
+    return lines.map((line, index) => (
+      <span key={index}>
+        {line}
+        <br />
+      </span>
+    ));
+  };
+
   return (
     <>
     <SubBanner page_name={"storage"} title_en={"Book Storage"} title_kr={"책 보관하기"} search />
@@ -94,7 +105,7 @@ export default function KeepingItem() {
             </tr>
             <tr>
               <td class="col1">비고</td>
-              <td class="col2">{item.note}</td>
+              <td class="col2">{renderNote(item.note)}</td>
             </tr>
             <tr>
               <td class="col1">개인정보 활용동의</td>

@@ -121,7 +121,7 @@ body {
 
 .book-keeping-container {
   width: 1435px;
-  margin: 20px auto;
+  margin: 20px auto 80px;
   padding: 20px;
 }
 
@@ -278,6 +278,7 @@ body {
   width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
+  table-layout: fixed;
 }
 .book-keeping-item-container tbody {
   border-top: 3px solid #333;
@@ -295,6 +296,9 @@ body {
 .book-keeping-item-container td {
   padding: 20px;
   text-align: left;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow: break-word;
 }
 .book-keeping-item-container .button-container {
   display: flex;
