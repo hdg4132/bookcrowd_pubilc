@@ -2,8 +2,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "./MainBookList.css";
 import { Autoplay } from "swiper/modules";
-import img3 from "../assets/Main1.png";
-import img1 from "../assets/book1.jpg";
+const importAll = (i) => i.keys().map(i);
+const book_images = importAll(require.context('../assets/book_images', false,/\.(png|jpe?g|svg)$/));
+
 
 export default function MainBookList() {
   return (
@@ -15,45 +16,11 @@ export default function MainBookList() {
       autoplay={{ delay: 0, disableOnInteraction: false }}
       modules={[Autoplay]}
     >
+      {book_images.map((src, index) => (
       <SwiperSlide>
-        <img src={img1} className="img"></img>
+        <img key={index} src={src} alt={`Image ${index}`} />
       </SwiperSlide>
-      <SwiperSlide>
-        <img src={img1} className="img"></img>
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src={img1} className="img"></img>
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src={img1} className="img"></img>
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src={img1} className="img"></img>
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src={img1} className="img"></img>
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src={img1} className="img"></img>
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src={img1} className="img"></img>
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src={img1} className="img"></img>
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src={img1} className="img"></img>
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src={img1} className="img"></img>
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src={img1} className="img"></img>
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src={img3} className="img"></img>
-      </SwiperSlide>
+      ))}  
     </Swiper>
   );
 }
