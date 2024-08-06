@@ -3,13 +3,24 @@ package com.example.demo3.dto;
 import java.sql.Timestamp;
 
 public class ChatRoomDTO {
+    // 채팅방 ID
     private Long roomId;
+
+    // 사용자 ID
     private Long userId;
+
+    // 사용자 이메일
     private String email;
+
+    // 관리자 ID
     private String adminId;
+
+    // 채팅방 생성 시간
     private Timestamp creationTime;
 
-    // Getters and Setters
+    // 읽지 않은 메시지 여부를 나타내는 필드
+    private boolean unread;
+
     public Long getRoomId() {
         return roomId;
     }
@@ -48,5 +59,13 @@ public class ChatRoomDTO {
 
     public void setCreationTime(Timestamp creationTime) {
         this.creationTime = creationTime;
+    }
+
+    public boolean isUnread() {
+        return unread;
+    }
+
+    public void setUnread(boolean unread) {
+        this.unread = unread;
     }
 }

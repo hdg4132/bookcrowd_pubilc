@@ -7,17 +7,22 @@ import java.sql.Timestamp;
 @Table(name = "chat_room")
 public class ChatRoomEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 증가하는 기본 키
     private Long roomId;
 
+    // 사용자 ID
     private Long userId;
+
+    // 관리자 ID
     private String adminId;
+
+    // 사용자 이메일
     private String email;
 
+    // 채팅방 생성 시간
     @Column(name = "creation_time")
     private Timestamp creationTime;
 
-    // Getters and Setters
     public Long getRoomId() {
         return roomId;
     }
