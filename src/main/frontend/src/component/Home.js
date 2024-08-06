@@ -5,14 +5,23 @@ import img1 from "../assets/Main1.png";
 import img2 from "../assets/Main2.png";
 import HomeBookList from "./HomeBookList";
 import HomeCommunityList from "./HomeCommunityList";
+import axios from "axios";
 
 function Home() {
   const [posts, setPosts] = useState([]);
   const scrollDown = useRef(null);
 
   useEffect(() => {
-    const loadedPosts = JSON.parse(localStorage.getItem("posts")) || [];
-    setPosts(loadedPosts);
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/community");
+        setPosts(response.data);
+      } catch (error) {
+        console.error("커뮤니티 데이터를 가져오는 데 실패했습니다:", error);
+      }
+    };
+
+    fetchPosts();
   }, []);
 
   const clickDown = () => {
@@ -96,7 +105,7 @@ function Home() {
                 </div>
               </div>
               <div className="community_content">
-                <HomeCommunityList posts={posts} />{" "}
+                <HomeCommunityList posts={posts} />
               </div>
             </div>
           </section>

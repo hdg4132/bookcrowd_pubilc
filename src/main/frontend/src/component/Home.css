@@ -41,7 +41,7 @@
   margin-left: 20px;
   border-right: 1px solid #333333;
   border-bottom: 1px solid #333333;
-  transform: rotate(45deg) translate(20%, -150%);
+  transform: rotate(45deg) translate(30%, -170%);
 }
 .scroll_down {
   display: block;

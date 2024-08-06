@@ -15,7 +15,9 @@
 }
 
 .title_box {
-  width: 100%;
+  width: 100% !important;
+  border: 1px solid black !important;
+  padding-left: 10px !important;
 }
 .content_box {
   height: 300px;
