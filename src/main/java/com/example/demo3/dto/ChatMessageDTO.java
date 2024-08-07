@@ -92,4 +92,5 @@ public class ChatMessageDTO {
     public void setReadStatus(boolean readStatus) {
         this.readStatus = readStatus;
     }
+
 }

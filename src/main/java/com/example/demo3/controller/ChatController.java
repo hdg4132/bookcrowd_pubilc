@@ -1,3 +1,4 @@
+
 package com.example.demo3.controller;
 
 import com.example.demo3.dto.ChatMessageDTO;
@@ -24,6 +25,9 @@ public class ChatController {
     // STOMP를 통해 메시지를 전송
     @MessageMapping("/sendMessage")
     public void sendMessage(ChatMessageDTO chatMessage) {
+        // 메시지를 저장합니다.
+        chatService.saveMessage(chatMessage);
+
         // 메시지를 클라이언트에 전송
         messagingTemplate.convertAndSend("/sub/room/" + chatMessage.getRoomId(), chatMessage);
     }

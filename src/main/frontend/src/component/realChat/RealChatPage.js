@@ -18,7 +18,8 @@ const RealChatPage = () => {
 
   const queryParams = new URLSearchParams(location.search);
   const roomId = queryParams.get("roomId");
-  const email = queryParams.get("email"); 
+  const email = queryParams.get("email");
+  const userId = queryParams.get("userId"); // userId 가져오기
 
   // 이메일이 없는 경우 로그인 페이지로 리다이렉트
   useEffect(() => {
@@ -96,6 +97,7 @@ const RealChatPage = () => {
         sender: "admin",
         content: input,
         email: email,
+        userId: userId,
         roomId: roomId,
         timestamp: new Date().toISOString(),
       };
@@ -105,17 +107,18 @@ const RealChatPage = () => {
         .post("http://localhost:8080/chat/messages", message)
         .then((response) => {
           console.log("메시지가 저장되었습니다:", response.data);
+
+          // WebSocket으로 메시지 전송
+          stompClient.publish({
+            destination: "/pub/sendMessage",
+            body: JSON.stringify(message),
+          });
+
+          setInput(""); // 입력 필드 초기화
         })
         .catch((error) => {
           console.error("메시지 저장 중 오류 발생:", error);
         });
-
-      // WebSocket으로 메시지 전송
-      stompClient.publish({
-        destination: "/pub/sendMessage",
-        body: JSON.stringify(message),
-      });
-      setInput(""); // 입력 필드 초기화
     } else {
       console.error("메시지를 보낼 수 없습니다. 연결 상태를 확인하세요.");
     }

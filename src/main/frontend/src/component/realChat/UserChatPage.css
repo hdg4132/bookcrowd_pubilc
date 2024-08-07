@@ -140,6 +140,11 @@
   border-top-left-radius: 0;
 }
 
+.userchat-admin .userchat-message-content p{
+  text-align: left;
+
+}
+
 /* 메시지 날짜 스타일 */
 .userchat-date-user,
 .userchat-date-admin {
