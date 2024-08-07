@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RentRepository extends JpaRepository<RentEntity, Integer> {
-    List<RentEntity> findByBorrowedId(Integer borrowedId);
+    List<RentEntity> findByBorrowedId(Long borrowedId);
+    List<RentEntity> findByBorrowedIdAndApproval(Long borrowedId, String approval);
     List<RentEntity> findByApproval(String approval);
-    List<RentEntity> findByISBN(String ISBN);
+    List<RentEntity> findByIsbn(String isbn);
     List<RentEntity> findByRentId(Integer rentId);
-    Long countByborrowedId(int borrowedId);
+    int countByborrowedIdAndApproval(Long borrowedId, String approval);
 }

@@ -14,16 +14,18 @@ import lombok.NoArgsConstructor;
 public class RentDTO {
     private int rentId;
     private int keepingId;
-    private int borrowedId;
+    private Long borrowedId;
     private String bookname;
     private String borrowedName;
     private String applicationDate;
     private String borrowDate;
     private String returnDate;
-    private String ISBN;
+    private String isbn;
     private String cause;
     private String approval;
     private String description;
+    private int rentBookCount;
+    private int bookId;
 
     public RentDTO(final RentEntity entity) {
         this.rentId = entity.getRentId();
@@ -34,10 +36,12 @@ public class RentDTO {
         this.applicationDate = entity.getApplicationDate();
         this.borrowDate = entity.getBorrowDate();
         this.returnDate = entity.getReturnDate();
-        this.ISBN = entity.getISBN();
+        this.isbn = entity.getIsbn();
         this.cause = entity.getCause();
         this.approval = entity.getApproval();
         this.description = entity.getDescription();
+        this.rentBookCount = entity.getRentBookCount();
+        this.bookId = entity.getBookId();
     }
 
     public static RentEntity toEntity(final RentDTO dto) {
@@ -50,10 +54,12 @@ public class RentDTO {
                 .bookname(dto.getBookname())
                 .borrowDate(dto.getBorrowDate())
                 .returnDate(dto.getReturnDate())
-                .ISBN(dto.getISBN())
+                .isbn(dto.getIsbn())
                 .cause(dto.getCause())
                 .approval(dto.getApproval())
                 .description(dto.getDescription())
+                .rentBookCount(dto.getRentBookCount())
+                .bookId(dto.getBookId())
                 .build();
     }
 

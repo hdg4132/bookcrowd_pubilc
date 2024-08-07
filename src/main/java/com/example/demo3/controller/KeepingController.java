@@ -92,7 +92,7 @@ public class KeepingController {
     public ResponseEntity<?> bookReturn(@RequestBody KeepingDTO keepingDTO) {
         try{
             KeepingEntity keepingEntity = KeepingDTO.toEntity(keepingDTO);
-            KeepingDTO updatedKeeping = keepingService.Bookmatching(keepingEntity);
+            KeepingDTO updatedKeeping = keepingService.returnedBook(keepingEntity);
             return ResponseEntity.ok(updatedKeeping);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

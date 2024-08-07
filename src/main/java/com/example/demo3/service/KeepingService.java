@@ -174,9 +174,8 @@ public class KeepingService {
         log.info("Book rented: {}", book.getBookId());
     }
 
-    @Transactional
-    public void returnedBook(int keepingId) {
-        KeepingEntity keeping = keepingRepository.findById(keepingId)
+    public KeepingDTO returnedBook(KeepingEntity entity) {
+        KeepingEntity keeping = keepingRepository.findById(entity.getKeepingId())
                 .orElseThrow(() -> new IllegalArgumentException("There is no kept nor rented item"));
         if (keeping.getKeepStatus() != 2) {
             throw new RuntimeException("This book has never been rented");
@@ -194,6 +193,7 @@ public class KeepingService {
         bookRepository.save(book);
 
         log.info("Book returned: {}", book.getBookId());
+        return new KeepingDTO(keeping);
     }
 
     @Transactional
@@ -255,6 +255,12 @@ public class KeepingService {
             keeping.setKeepingId(entity.getKeepingId());
             keeping.setKeepStatus(entity.getKeepStatus());
             keepingRepository.save(keeping);
+
+            BookEntity book = bookRepository.findById(keeping.getBookId())
+                    .orElseThrow(() -> new IllegalArgumentException("There is no such a book"));
+            // 책 재고 감소
+            book.setStock(book.getStock() - 1);
+            bookRepository.save(book);
             log.info("rent updated:{}", keeping.getKeepingId());
             return new KeepingDTO(keeping);
         } else {
