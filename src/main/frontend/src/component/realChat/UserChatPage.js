@@ -6,30 +6,31 @@ import "./reset.css";
 import "./UserChatPage.css";
 
 const UserChatPage = () => {
-  const [chatOpen, setChatOpen] = useState(false);
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
-  const [stompClient, setStompClient] = useState(null);
-  const [connected, setConnected] = useState(false);
-  const messagesEndRef = useRef(null);
+  const [chatOpen, setChatOpen] = useState(false); // 채팅창 열림/닫힘 상태
+  const [messages, setMessages] = useState([]); // 메시지 리스트
+  const [input, setInput] = useState(""); // 입력 필드 상태
+  const [stompClient, setStompClient] = useState(null); // STOMP 클라이언트
+  const [connected, setConnected] = useState(false); // WebSocket 연결 상태
+  const messagesEndRef = useRef(null); // 메시지 리스트의 마지막 요소에 대한 참조
 
-  const userinfo = JSON.parse(sessionStorage.getItem("userData"));
-  const userId = userinfo ? userinfo.userId : null; // 사용자 ID를 세션에서 가져옵니다.
-  const email = userinfo ? userinfo.email : null;
-  const [roomId, setRoomId] = useState(null);
+  const userinfo = JSON.parse(sessionStorage.getItem("userData")); // 세션 스토리지에서 사용자 정보 가져오기
+  const userId = userinfo ? userinfo.userId : null; // 사용자 ID
+  const email = userinfo ? userinfo.email : null; // 사용자 이메일
+  const [roomId, setRoomId] = useState(null); // 채팅방 ID 상태
 
+  // WebSocket 연결 설정
   useEffect(() => {
     if (!userId) {
       console.error("사용자 정보가 없습니다.");
       return;
     }
 
-    const socket = new SockJS("http://localhost:8080/ws");
+    const socket = new SockJS("http://localhost:8080/ws"); // SockJS 클라이언트 생성
     const client = new Client({
       webSocketFactory: () => socket,
-      reconnectDelay: 5000,
-      heartbeatIncoming: 4000,
-      heartbeatOutgoing: 4000,
+      reconnectDelay: 5000, // 재연결 지연 시간
+      heartbeatIncoming: 4000, // 수신 하트비트 주기
+      heartbeatOutgoing: 4000, // 발신 하트비트 주기
       debug: (str) => {
         console.log(str);
       },
@@ -37,48 +38,12 @@ const UserChatPage = () => {
         console.log("WebSocket 연결 성공: " + frame);
         setConnected(true);
 
-        if (!roomId) {
-          axios
-            .post("http://localhost:8080/chat/createRoom", {
-              userId: userId,
-              adminId: "admin",
-              email: email,
-            })
-            .then((response) => {
-              setRoomId(response.data.roomId);
-              client.subscribe(`/sub/room/${response.data.roomId}`, (message) => {
-                const newMessage = JSON.parse(message.body);
-                setMessages((prevMessages) => [...prevMessages, newMessage]);
-              });
-
-              // 서버에서 기존 메시지 가져오기
-              axios
-                .get(`http://localhost:8080/chat/rooms/${response.data.roomId}/messages`)
-                .then((res) => {
-                  setMessages(res.data);
-                })
-                .catch((error) => {
-                  console.error("기존 메시지 불러오기 중 오류 발생:", error);
-                });
-            })
-            .catch((error) => {
-              console.error("채팅방 생성 오류:", error);
-            });
-        } else {
+        // 채팅방 ID가 설정된 경우 구독
+        if (roomId) {
           client.subscribe(`/sub/room/${roomId}`, (message) => {
             const newMessage = JSON.parse(message.body);
             setMessages((prevMessages) => [...prevMessages, newMessage]);
           });
-
-          // 서버에서 기존 메시지 가져오기
-          axios
-            .get(`http://localhost:8080/chat/rooms/${roomId}/messages`)
-            .then((res) => {
-              setMessages(res.data);
-            })
-            .catch((error) => {
-              console.error("기존 메시지 불러오기 중 오류 발생:", error);
-            });
         }
       },
       onStompError: (frame) => {
@@ -87,55 +52,87 @@ const UserChatPage = () => {
       },
     });
 
-    client.activate();
-    setStompClient(client);
+    client.activate(); // WebSocket 클라이언트 활성화
+    setStompClient(client); // STOMP 클라이언트 상태 업데이트
 
     return () => {
       if (stompClient) {
-        stompClient.deactivate();
+        stompClient.deactivate(); // 컴포넌트가 언마운트될 때 WebSocket 클라이언트 비활성화
       }
     };
-  }, [userId, roomId]);
+  }, [userId, roomId]); // roomId를 의존성에 추가
 
+  // 새 메시지가 도착하면 자동 스크롤
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // 채팅창 열기/닫기
   const toggleChat = () => {
     setChatOpen(!chatOpen);
   };
 
+  // 메시지 전송
   const handleSend = () => {
     if (input.trim() && connected) {
-      const message = {
-        sender: "user",
-        content: input,
-        userId: userId, // userId를 메시지에 포함
-        email: email,
-        roomId: roomId,
-        timestamp: new Date().toISOString(),
-      };
+      const sendMessage = (room) => {
+        const message = {
+          sender: "user",
+          content: input,
+          userId: userId,
+          email: email,
+          roomId: room.roomId,
+          timestamp: new Date().toISOString(),
+        };
 
-      // 메시지를 서버에 저장
-      axios
-        .post("http://localhost:8080/chat/messages", message)
-        .then((response) => {
-          console.log("메시지가 저장되었습니다:", response.data);
-
-          // WebSocket으로 메시지 전송
-          stompClient.publish({
-            destination: `/pub/sendMessage`,
-            body: JSON.stringify(message),
+        // 메시지를 서버에 저장
+        axios
+          .post("http://localhost:8080/chat/messages", message)
+          .then((response) => {
+            console.log("메시지가 저장되었습니다:", response.data);
+          })
+          .catch((error) => {
+            console.error("메시지 저장 중 오류 발생:", error);
           });
 
-          setInput("");
-        })
-        .catch((error) => {
-          console.error("메시지 저장 중 오류 발생:", error);
+        // WebSocket으로 메시지 전송
+        stompClient.publish({
+          destination: `/pub/sendMessage`,
+          body: JSON.stringify(message),
         });
+        setInput(""); // 입력 필드 초기화
+      };
+
+      if (!roomId) {
+        // 채팅방이 없으면 생성
+        axios
+          .post("http://localhost:8080/chat/createRoom", {
+            userId: userId,
+            adminId: "admin",
+            email: email,
+          })
+          .then((response) => {
+            const room = response.data;
+            setRoomId(room.roomId); // 채팅방 ID 상태 업데이트
+
+            // 채팅방에 메시지가 도착할 때마다 메시지 상태 업데이트
+            stompClient.subscribe(`/sub/room/${room.roomId}`, (message) => {
+              const newMessage = JSON.parse(message.body);
+              setMessages((prevMessages) => [...prevMessages, newMessage]);
+            });
+
+            sendMessage(room); // 메시지 전송
+          })
+          .catch((error) => {
+            console.error("채팅방 생성 오류:", error);
+          });
+      } else {
+        sendMessage({ roomId }); // 기존 채팅방에 메시지 전송
+      }
     }
   };
 
+  // Enter 키로 메시지 전송
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -193,7 +190,7 @@ const UserChatPage = () => {
                       {new Date(msg.timestamp).toLocaleString("ko-KR", {
                         timeZone: "Asia/Seoul",
                       })}
-                    </span>
+                      </span>
                   </div>
                 )}
               </div>
