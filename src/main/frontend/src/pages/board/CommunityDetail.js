@@ -111,6 +111,11 @@ export default function CommunityDetail() {
       .then(() => {
         const updatedComments = comments.filter((c) => c.id !== commentId);
         setComments(updatedComments);
+        // Reset edit state if deleting the currently edited comment
+        if (editCommentId === commentId) {
+          setEditCommentId(null);
+          setEditCommentText("");
+        }
       })
       .catch((error) => {
         console.error("댓글 삭제에 실패했습니다:", error);
@@ -178,41 +183,41 @@ export default function CommunityDetail() {
         </div>
       </div>
       <div className="container_fix">
-        {editCommentId ? (
-          <div className="comment_form_section">
-            <form className="comment_form" onSubmit={handleSaveEdit}>
-              <textarea
-                className="comment_textarea"
-                value={editCommentText}
-                onChange={handleEditChange}
-                placeholder="댓글을 수정하세요"
-              ></textarea>
-              <button className="submit_button" type="submit">
-                저장
-              </button>
-              <button
-                className="cancel_button"
-                onClick={() => setEditCommentId(null)}
-              >
-                취소
-              </button>
-            </form>
-          </div>
-        ) : (
-          <div className="comment_form_section">
-            <form className="comment_form" onSubmit={handleSubmit}>
-              <textarea
-                className="comment_textarea"
-                value={comment}
-                onChange={handleCommentChange}
-                placeholder="댓글을 입력하세요"
-              ></textarea>
-              <button className="submit_button" type="submit">
-                글쓰기
-              </button>
-            </form>
-          </div>
-        )}
+        <div className="comment_form_section">
+          <form
+            className="comment_form"
+            onSubmit={editCommentId ? handleSaveEdit : handleSubmit}
+          >
+            <textarea
+              className="comment_textarea"
+              value={editCommentId ? editCommentText : comment}
+              onChange={editCommentId ? handleEditChange : handleCommentChange}
+              placeholder={
+                editCommentId ? "댓글을 수정하세요" : "댓글을 입력하세요"
+              }
+            ></textarea>
+            <div className="button_container">
+              {editCommentId ? (
+                <>
+                  <button className="save_button" type="submit">
+                    저장
+                  </button>
+                  <button
+                    className="cancel_button"
+                    type="button"
+                    onClick={() => setEditCommentId(null)}
+                  >
+                    취소
+                  </button>
+                </>
+              ) : (
+                <button className="submit_button" type="submit">
+                  글쓰기
+                </button>
+              )}
+            </div>
+          </form>
+        </div>
       </div>
       <div className="container_fix">
         <div className="button_container">

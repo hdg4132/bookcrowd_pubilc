@@ -82,13 +82,27 @@
   font-size: 16px;
   color: #fff;
   background-color: #199ae2;
-  border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 .submit_button:hover {
   background-color: #0056b3;
+}
+.button_container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+.save_button, .cancel_button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #199ae2;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 .list_button,
 .write_button {
