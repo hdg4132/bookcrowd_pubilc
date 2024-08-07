@@ -1,27 +1,36 @@
 import React, { useEffect } from "react";
 import "./Header.css";
 import bookLogo from "../assets/MainLogo.png";
-import { Link } from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 
 function Header() {
-  useEffect(() => {
-    const topscroll = function () {
-      const navbar = document.getElementById("container_box");
-      if (
-        document.body.scrollTop > 200 ||
-        document.documentElement.scrollTop > 200
-      ) {
-        navbar.classList.add("topbar");
-      } else {
-        navbar.classList.remove("topbar");
-      }
-    };
-    window.addEventListener("scroll", topscroll);
-    return () => {
-      window.removeEventListener("scroll", topscroll);
-    };
-  });
 
+  const location = useLocation();
+  const isHeaderHidden = location.pathname.includes('/adm/')
+
+    useEffect(() => {
+      if(!isHeaderHidden){
+      const topscroll = function () {
+        const navbar = document.getElementById("container_box");
+        if (
+            document.body.scrollTop > 200 ||
+            document.documentElement.scrollTop > 200
+        ) {
+          navbar.classList.add("topbar");
+        } else {
+          navbar.classList.remove("topbar");
+        }
+      };
+      window.addEventListener("scroll", topscroll);
+      return () => {
+        window.removeEventListener("scroll", topscroll);
+      };
+      }
+    });
+
+  if(isHeaderHidden){
+    return null;
+  }
   return (
     <header>
       <div id="container_box">

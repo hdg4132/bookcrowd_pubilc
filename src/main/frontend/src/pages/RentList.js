@@ -10,6 +10,8 @@ const RentList =()=>{
     const baseUrl = "http://localhost:8080";
 
     const [ data, setData ] = useState();
+    const [ filteredData, setFilteredData ] = useState();
+    const [ searchKeyword, setSearchKeyword ] = useState('');
 
     useEffect(() => {
         putSpringData();
@@ -20,23 +22,47 @@ const RentList =()=>{
             .then((res)=>{
                 console.log(res.data);
                 setData(res.data);
+                setFilteredData(res.data);
             })
             .catch((err)=>{
                 console.log(err);
             })
     }
+    const handleSearch = async(keyword)=>{
+
+        if(keyword===''){
+            setFilteredData(data);
+            return
+        }
+        try {
+            await axios
+                .get(baseUrl + '/books/getSearchList',
+                    {
+                        params:
+                            {keyword: keyword}
+                    }
+                )
+                .then((res)=>{
+                    setFilteredData(res.data)
+                })
+        } catch(err){
+            console.error(err)
+        }
+    }
     return(
         <div className='CheckoutList'>
-            <SubBanner page_name={"checkout"} title_en={"Checkout Book"} title_kr={"책 대여하기"} search/>
+            <SubBanner page_name={"checkout"} title_en={"Checkout Book"} title_kr={"책 대여하기"} search onSearch={handleSearch}/>
 
             <div className='container_fix'>
                 <ul className="checkout_list">
 
-                    {data ? data.map((datas)=> (
-
-                        <RentItem key={datas.id}{...datas} />
-
-                    )) : ''}
+                    {filteredData ? (
+                        filteredData.map((item) => (
+                            <RentItem key={item.id} {...item} />
+                        ))
+                    ) : (
+                        '데이터가 없습니다'
+                    )}
                 </ul>
             </div>
         </div>
