@@ -35,6 +35,7 @@ import Footer from "./component/Footer";
 import CommunityList from "./pages/board/CommunityList";
 import CommunityDetail from "./pages/board/CommunityDetail";
 import CommunityEdit from "./pages/board/CommunityEdit";
+import CommunityEditChange from "./pages/board/CommunityEditChange";
 
 // 현재 경로를 가져오기 위한 코드
 const currentPath = window.location.pathname;
@@ -79,6 +80,7 @@ function App() {
         <Route path="/community" element={<CommunityList />} />
         <Route path="/community/:id" element={<CommunityDetail />} />
         <Route path="/communityEdit" element={<CommunityEdit />} />
+        <Route path="/communityEditChange/:id" element={<CommunityEditChange />} />
         {/* 240805 kwj 커뮤니티 */}
       </Routes>
       <Footer />

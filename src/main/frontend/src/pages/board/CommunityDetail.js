@@ -224,8 +224,8 @@ export default function CommunityDetail() {
           <Link to="/community" className="list_button">
             목록
           </Link>
-          <Link to={`/communityEdit`} className="write_button">
-            글쓰기
+          <Link to={`/communityEditChange/${id}`} className="write_button">
+            수정
           </Link>
           <button onClick={handlePostDelete} className="delete_button">
             삭제

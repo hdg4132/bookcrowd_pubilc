@@ -28,7 +28,7 @@ const CommunityEdit = () => {
     };
 
     axios
-      .post("http://localhost:8080/api/community", newPost) 
+      .post("http://localhost:8080/api/community", newPost) // 서버 URL 확인
       .then((response) => {
         navigate("/community");
       })
