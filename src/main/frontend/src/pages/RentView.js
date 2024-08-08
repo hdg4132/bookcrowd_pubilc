@@ -41,8 +41,8 @@ const RentView =()=>{
 
     }
 
+    const user = JSON.parse(sessionStorage.getItem("userData"))
     const rentRequest = () => {
-        const user = JSON.parse(sessionStorage.getItem("userData"))
         if(user == null) {
             alert("로그인이 필요한 서비스입니다")
             nav("/login")
@@ -121,10 +121,12 @@ const RentView =()=>{
                     </div>
 
                 )}
+                {user &&(
                 <div className="btn_sec">
                     <Link className="btn" to={`/adm/rent/edit/${id}`}>수정</Link>
                     <button className="btn" onClick={deletePost}>삭제</button>
-                </div>
+                </div>)
+                }
                 <div className="paging_sec clearfix">
                     <Link className="prev" to={`/rent/12`}><span
                         className="arrow"></span>Prev
