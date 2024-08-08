@@ -179,6 +179,7 @@ main h3 {
 }
 
 .checkbox-container {
+    width: 500px;
     display: flex;
     align-items: center;
     margin-bottom: 10px;
@@ -192,6 +193,10 @@ main h3 {
   
 .checkbox-container label {
     font-size: 14px;
-    width: 300px;
     padding-bottom: 8px;
   }
+
+.checkbox_text {
+    display: inline-block;
+    width: 500px;
+}

@@ -266,7 +266,7 @@ const Signup = () => {
                 checked={agreeToPolicy}
                 onChange={() => setAgreeToPolicy(!agreeToPolicy)}
               />
-              <label htmlFor="agreeToPolicy">개인정보 처리방침에 동의합니다</label>
+              <label className="checkbox_text" htmlFor="agreeToPolicy">개인정보 처리방침에 동의합니다</label>
             </div>
           </div>
           <div className="signup_form_TermsofUse">
@@ -281,7 +281,7 @@ const Signup = () => {
                 checked={agreeToTerms}
                 onChange={() => setAgreeToTerms(!agreeToTerms)}
               />
-              <label htmlFor="agreeToTerms">이용약관에 동의합니다</label>
+              <label className="checkbox_text" htmlFor="agreeToTerms">이용약관에 동의합니다</label>
             </div>
           </div>
           <div id="btn_signup">

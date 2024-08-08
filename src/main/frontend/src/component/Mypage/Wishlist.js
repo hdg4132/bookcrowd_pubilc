@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./Wishlist.css";
+import "./Mypage.css";
 
 function MyPage() {
     const [currentPage, setCurrentPage] = useState(1);
@@ -90,7 +90,7 @@ function MyPage() {
                 </div>
                 <div className="MyTicketing">
                     <h3>위시리스트</h3>
-                    <div className="post_line" />
+                    <div className="wishlist_line" />
                 </div>
             </div>
             {showPopup && (

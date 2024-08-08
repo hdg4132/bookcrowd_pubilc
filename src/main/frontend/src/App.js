@@ -26,8 +26,8 @@ import Login from "./component/Login/Login";
 import Signup from "./component/Signup/Signup";
 import Mypage from "./component/Mypage/Mypage";
 import Header from "./component/Header";
-import Editprofile from "./component/Editprofile/Editprofile";
-import WishList from "./component/Wishlist/Wishlist";
+import Editprofile from "./component/Signup/Editprofile";
+import WishList from "./component/Mypage/Wishlist";
 import MyBookStorage from "./component/Mybookstorage/Mybookstorage";
 
 import AdminRegisterBook from "./component/admin/AdminRegisterBook";

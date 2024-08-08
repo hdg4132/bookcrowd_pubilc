@@ -1,59 +1,25 @@
-import React, { useState } from 'react';
-import "./Pagination.css"
+import React from "react";
 
-const Pagination = ({ totalItems, itemsPerPage, onPageChange }) => {
-  // 현재 페이지 상태를 관리
-  const [currentPage, setCurrentPage] = useState(1);
-
-  // 전체 페이지 수를 계산
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-  // 페이지 변경 핸들러
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    onPageChange(pageNumber);
-  };
-
-  // 이전 페이지로 이동하는 핸들러
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-      onPageChange(currentPage - 1);
-    }
-  };
-
-  // 다음 페이지로 이동하는 핸들러
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-      onPageChange(currentPage + 1);
-    }
-  };
-
-  // 페이지 번호를 렌더링하는 함수
-  const renderPageNumbers = () => {
+function Pagination({ totalItems, itemsPerPage, onPageChange, currentPage }) {
     const pageNumbers = [];
 
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(
-        <li key={i} className={currentPage === i ? 'active' : ''}>
-          <button onClick={() => handlePageChange(i)}>{i}</button>
-        </li>
-      );
+    for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
+        pageNumbers.push(i);
     }
 
-    return pageNumbers;
-  };
-
-  return (
-    <div>
-      <ul className="pagination">
-        <li className="prev"><button onClick={handlePreviousPage}>&#8249;</button></li>
-        {renderPageNumbers()}
-        <li className="next"><button onClick={handleNextPage}>&#8250;</button></li>
-      </ul>
-    </div>
-  );
-};
+    return (
+        <nav>
+            <ul className="pagination">
+                {pageNumbers.map(number => (
+                    <li key={number} className={`page-item ${currentPage === number - 1 ? 'active' : ''}`}>
+                        <button onClick={() => onPageChange(number - 1)} className="page-link">
+                            {number}
+                        </button>
+                    </li>
+                ))}
+            </ul>
+        </nav>
+    );
+}
 
 export default Pagination;

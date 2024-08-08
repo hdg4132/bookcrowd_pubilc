@@ -13,8 +13,9 @@ function MyPage() {
     const [showPopup, setShowPopup] = useState(false);
     const navigate = useNavigate();
 //
+    const userInfo = JSON.parse(sessionStorage.getItem("userData"));
+
     useEffect(() => {
-        const userInfo = sessionStorage.getItem("userData");
         if (!userInfo) {
             navigate("/login");
         } else {
@@ -22,11 +23,14 @@ function MyPage() {
         }
     }, [navigate, currentPage]);
 
-    const fetchRentItems = async (userId) => {
+    console.log(userInfo.userId);
+
+    const fetchRentItems = async () => {
         try {
-            const response = await axios.get(`api/rents/rentlist/${userId}`);
-            setRentItems(response.data.items);
-            setTotalItems(response.data.totalItems); // 총 아이템 수를 업데이트
+            const response = await axios.get(`api/rents/rentlist/${userInfo.userId}?page=${currentPage}`);
+            console.log(response);
+            setRentItems(response.data);
+            setTotalItems(response.data); // 총 아이템 수를 업데이트
         } catch (error) {
             console.error("대여 내역을 불러오는 중 오류가 발생했습니다:", error);
         }
@@ -49,6 +53,7 @@ function MyPage() {
             const response = await axios.delete('api/api/auth/deleteAccount', {
                 params: { email }
             });
+            console.log("탈퇴 완료");
 
             if (response.data.success) {
                 alert("탈퇴 완료되었습니다.");
@@ -62,7 +67,7 @@ function MyPage() {
     };
 
     const handleConfirm = () => {
-        setShowPopup(false);
+        setShowPopup(true);
         navigate("/login");
     };
 
@@ -112,6 +117,7 @@ function MyPage() {
                         totalItems={totalItems}
                         itemsPerPage={itemsPerPage}
                         onPageChange={handlePageChange}
+                        currentPage={currentPage}
                     />
                 </div>
             </div>
