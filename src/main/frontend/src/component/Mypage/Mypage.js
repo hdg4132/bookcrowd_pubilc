@@ -12,7 +12,7 @@ function MyPage() {
     const [totalItems, setTotalItems] = useState(0);
     const [showPopup, setShowPopup] = useState(false);
     const navigate = useNavigate();
-
+//
     useEffect(() => {
         const userInfo = sessionStorage.getItem("userData");
         if (!userInfo) {
@@ -22,9 +22,9 @@ function MyPage() {
         }
     }, [navigate, currentPage]);
 
-    const fetchRentItems = async () => {
+    const fetchRentItems = async (userId) => {
         try {
-            const response = await axios.get(`/rents/all?page=${currentPage}&size=${itemsPerPage}`);
+            const response = await axios.get(`api/rents/rentlist/${userId}`);
             setRentItems(response.data.items);
             setTotalItems(response.data.totalItems); // 총 아이템 수를 업데이트
         } catch (error) {

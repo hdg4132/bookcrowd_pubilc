@@ -16,7 +16,7 @@ const Signup = () => {
     detailAddress: "",
     userType: "1",
   });
-
+//
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(true);
   const [emailDuplication, setEmailDuplication] = useState(false);
