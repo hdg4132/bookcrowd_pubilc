@@ -261,6 +261,7 @@ public class KeepingService {
                     .orElseThrow(() -> new IllegalArgumentException("There is no such a book"));
             // 책 재고 감소
             book.setStock(book.getStock() - 1);
+
             bookRepository.save(book);
             log.info("rent updated:{}", keeping.getKeepingId());
             return new KeepingDTO(keeping);
