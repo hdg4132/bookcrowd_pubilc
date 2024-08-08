@@ -1,6 +1,6 @@
 // import "./App.css";
 import React, { useEffect, useState } from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
 import './component/reset.css';
 import Main from "./component/Main";
 import Rent from "./component/Rent";
@@ -36,14 +36,13 @@ import AdminRegisterList from "./component/admin/AdminRegisterList";
 const currentPath = window.location.pathname;
 
 // /adm 경로에서는 헤더 노출되지 않도록 수정
-const appClasses = currentPath.includes('/adm/') || currentPath.includes('/admin/') ? 'App header_hidden' : 'App';
 function App() {
 
 
 
 
   return (
-    <div className={appClasses}>
+    <div>
       <Header/>
       <Routes>
         <Route path="/" element={<Main />} />

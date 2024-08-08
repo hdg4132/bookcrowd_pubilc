@@ -88,14 +88,18 @@ const RentView =()=>{
                                         <p className="info_tt">출판사</p>
                                         <p className="info_con">{data.publisher}</p>
                                     </li>
+                                    {data.pages ?
                                     <li>
                                         <p className="info_tt">면 수</p>
                                         <p className="info_con">{data.pages}</p>
                                     </li>
-                                    <li>
-                                        <p className="info_tt">장르</p>
-                                        <p className="info_con">{data.genre}</p>
-                                    </li>
+                                        : ''}
+                                    {data.genre ?
+                                        <li>
+                                            <p className="info_tt">장르</p>
+                                            <p className="info_con">{data.genre}</p>
+                                        </li>
+                                        : ''}
                                     <li>
                                         <p className="info_tt">대출가능 권 수</p>
                                         <p className="info_con"><span>{data.stock}</span> 권</p>
