@@ -76,7 +76,7 @@ const RentWrite =()=>{
                        isbn: response.data.isbn,
                        bookName: response.data.bookName,
                        author: response.data.author,
-                       file: response.data.file,
+                       bookImgUrl: response.data.bookImgUrl,
                        publishDate: response.data.publishDate,
                        publisher: response.data.publisher,
                        pages: response.data.pages,
