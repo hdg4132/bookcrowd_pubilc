@@ -186,6 +186,7 @@ public class KeepingService {
 
         keeping.setKeepStatus(1); // 상태를 보관 중으로 변경
         keeping.setLastBorrowed(LocalDateTime.now()); // 반환 시각 업데이트
+        keeping.setCount(keeping.getCount() + 1);
         keepingRepository.save(keeping);
 
         // 책 재고 증가

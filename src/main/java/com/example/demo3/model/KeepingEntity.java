@@ -27,4 +27,5 @@ public class KeepingEntity {
     private LocalDateTime lastBorrowed;
     private Long userId;
     private int bookId;
+    private int count;
 }
