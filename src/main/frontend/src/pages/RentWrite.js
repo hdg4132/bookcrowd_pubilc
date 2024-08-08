@@ -2,9 +2,12 @@ import './RentWrite.css'
 import AdmLayout from "../component/AdmLayout";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
+
 
 const RentWrite =()=>{
+
+    const location = useLocation();
     const nav = useNavigate();
     const {id} =  useParams();
     const [input, setInput] = useState({
@@ -12,6 +15,15 @@ const RentWrite =()=>{
     })
     const [file, setFile] = useState()
     const [isEdit, setIsEdit] = useState(false)
+    const [userData, setUserData] = useState(null);
+    useEffect(() => {
+        const storedUserData    = sessionStorage.getItem("userData");
+        if (storedUserData) {
+            setUserData(JSON.parse(storedUserData));
+        } else {
+            nav("/login")
+        }
+    }, [nav])
     const onChangeInput = (e) => {
         const { name, value} = e.target;
 
@@ -28,8 +40,8 @@ const RentWrite =()=>{
         e.preventDefault();
         const formData = new FormData();
         formData.append("bookId",input.bookId);
-        formData.append("ISBN",input.isbn);
-        formData.append("bookName",input.bookName);
+        formData.append("ISBN",location.state.isbn);
+        formData.append("bookName",location.state.bookName);
         if (file) {
             formData.append("file", file);
         }
@@ -95,13 +107,14 @@ const RentWrite =()=>{
             <AdmLayout/>
             <div className="adm_con write_checkout">
                 <form onSubmit={formSubmit}>
-                    <p>
+                    <p> 
                         <label htmlFor="title">제목</label>
-                        <input onChange={onChangeInput} type="text" name="bookName" id="bookName" value={input.bookName}></input>
+                        <input onChange={onChangeInput} type="text" name="bookName" id="bookName"
+                               value={isEdit?input.bookName :(location.state?.bookName || '')}></input>
                     </p>
                     <p>
                         <label htmlFor="isbn">ISBN</label>
-                        <input onChange={onChangeInput} type="text" name="isbn" id="isbn" value={input.isbn}></input>
+                        <input onChange={onChangeInput} type="text" name="isbn" id="isbn" value={isEdit?input.isbn :(location.state?.isbn || '')}></input>
                     </p>
                     <p>
                         <label htmlFor="author">저자</label>
@@ -131,7 +144,6 @@ const RentWrite =()=>{
                         <label htmlFor="file">책 이미지</label>
                         <input onChange={onFileChange} type="file" name="bookImgUrl" id="bookImgUrl" value={input.file}
                                accept="image/gif, image/jpeg, image/png"/>
-                        <span>기존 이미지: </span>
                     </p>
                     <div className="btn_area">
                         <button type="submit" className="btn btn_write">

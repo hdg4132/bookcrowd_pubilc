@@ -23,9 +23,13 @@
 .sub_title > div{display: flex; justify-content: space-between;}
 .sub_title .sub_title_txt{font-size: 24px; font-weight:500; color:#333; }
 .board_search{display: flex; border:1px solid #ddd; }
-.board_search input{border:none; padding: 0 10px; height: 30px; line-height: 30px; color:#333}
+.board_search input{border:none; padding: 0 10px; height: 30px; line-height: 30px; color:#333;
+    width: calc(100% - 33px);}
 .board_search input::placeholder{color:#ccc}
 .board_search button{background: none; border:none;padding: 0 10px; }
 .board_search .icon_search{width: 13px;height: 13px; position: relative;display: block;}
 .board_search .icon_search:before{content:''; display: block; width: 10px; height: 10px; border-radius:50%; border:1px solid #199AE2; position: absolute;left: 0; top: 0;}
-.board_search .icon_search:after{content:''; display: block; width: 5px; height: 1px; background: #199AE2; position: absolute;right: 0; bottom: 0; transform:rotate(45deg) translate(0%,-130%)}
+.board_search .icon_search:after{content:''; display: block; width: 5px; height: 1px; background: #199AE2; position: absolute;right: 0; bottom: 0; transform:rotate(45deg) translate(-50%,-150%)}
+
+
+.topSearch .board_search{float:right; width:400px}
