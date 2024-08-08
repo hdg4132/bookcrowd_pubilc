@@ -3,9 +3,9 @@ import img_route from "../assets/subbanner_checkout.png";
 import { useState } from "react";
 import axios from "axios";
 
-const SubBanner = ({ page_name, title_en, title_kr, search, onSearch }) => {
+const SubBanner = ({ page_name, title_en, title_kr, search, onSearch, searchKeyword }) => {
     const subBanner_img = `${img_route}${page_name}.png`;
-    const [changeSearch, setChangeSearch] = useState('');
+    const [changeSearch, setChangeSearch] = useState(searchKeyword || '');
 
     const changeSearchInput = (e) => {
         setChangeSearch(e.target.value);

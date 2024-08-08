@@ -40,6 +40,10 @@ public class KeepingService {
                 .map(KeepingDTO::new);
     }
 
+    public Page<KeepingDTO> searchKeepingsByUser (Long userId, String keyword, Pageable pageable) {
+        return keepingRepository.searchKeepingsByUser(userId, keyword, pageable).map(KeepingDTO::new);
+    }
+
     public Page<KeepingDTO> userGivenInfo(final Long userId, Pageable pageable) {
         log.info("Given information from user: {}", userId);
         return keepingRepository.findByUserId(userId, pageable)
@@ -55,6 +59,22 @@ public class KeepingService {
         KeepingEntity keepingEntity = keepingRepository.findById(keepingId)
                 .orElseThrow(() -> new IllegalArgumentException("No keeping found with id: " + keepingId));
         return new KeepingDTO(keepingEntity);
+    }
+
+    public Page<KeepingEntity> searchKeepingList(String keyword, Pageable pageable) {
+//        Long userId = null;
+//        Integer bookId = null;
+//        try {
+//            userId = Long.parseLong(keyword);
+//        } catch (NumberFormatException e) {
+//
+//        }
+//        try {
+//            bookId = Integer.parseInt(keyword);
+//        } catch (NumberFormatException e) {
+//
+//        }
+        return keepingRepository.findByISBNContainingOrBookNameContaining( keyword, keyword, pageable);
     }
 
     @Transactional
