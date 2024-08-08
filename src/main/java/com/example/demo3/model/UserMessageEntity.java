@@ -20,6 +20,7 @@ public class UserMessageEntity {
     private String email;
 
     // 메시지 내용
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
     // 메시지 전송 시각
