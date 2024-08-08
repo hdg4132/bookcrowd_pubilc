@@ -11,7 +11,6 @@ const RentList =()=>{
 
     const [ data, setData ] = useState();
     const [ filteredData, setFilteredData ] = useState();
-    const [ searchKeyword, setSearchKeyword ] = useState('');
 
     useEffect(() => {
         putSpringData();

@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../assets/css/style.css";
 import AdmLayout from "../AdmLayout";
+import {useNavigate} from "react-router-dom";
+import ListSearch from "../ListSearch";
 
 export default function AdminRegisterList() {
+  const nav = useNavigate();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -88,6 +91,7 @@ export default function AdminRegisterList() {
     <>
       <AdmLayout />
       <div className="book-keeping-admin-container adm_con">
+        <ListSearch/>
         <section className="member-management">
           <div className="member-flex">
             <h1>회원관리</h1>
@@ -134,7 +138,7 @@ export default function AdminRegisterList() {
                     <td className="col5 table-cell">{item.note}</td>
                     <td className="col6">{keepStatusMap[item.keepStatus]}</td>
                     <td className="col7">
-                      <button className="book-keeping-admin-btn1">
+                      <button className="book-keeping-admin-btn1" onClick={()=>nav('/adm/rent/write', {state: {...item}})}>
                         책정보입력
                       </button>
                     </td>
