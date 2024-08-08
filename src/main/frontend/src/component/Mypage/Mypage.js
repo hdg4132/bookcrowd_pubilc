@@ -51,13 +51,9 @@ function MyPage() {
             });
 
             if (response.data.success) {
-                setShowPopup(true);
-                sessionStorage.clear();
-                setTimeout(() => {
-                    navigate('/login');
-                }, 3000);
-            } else {
-                alert("사용자 탈퇴에 실패하였습니다.");
+                alert("탈퇴 완료되었습니다.");
+            }else{
+                window.location.href = '/login';   
             }
         } catch (error) {
             console.error("사용자 탈퇴 오류:", error);
