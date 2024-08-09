@@ -1,0 +1,51 @@
+.community_content {
+  margin-top: 50px;
+}
+.community_content .swiper-slide {
+  text-align: center;
+  background: #efefef;
+  width: 254px !important;
+  height: 260px;
+  margin-right: 40px !important;
+  padding: 30px 20px 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.community_content .swiper-slide h5 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: wrap;
+  display: block;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.community_content .swiper-slide .content_text {
+  font-size: 16px;
+  color: #666666;
+  margin-top: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
+}
+.swiper-button-prev,
+.swiper-button-next {
+  width: 50px !important;
+  height: 50px !important;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #666666;
+}
+.swiper-button-prev {
+  left: 10px !important;
+}
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  font-size: 15px !important;
+}
