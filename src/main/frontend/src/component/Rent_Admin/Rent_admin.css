@@ -67,14 +67,17 @@
     align-items: center;
     text-align: left;
     font-size: 14px;
-    margin-left: 20px;
+    margin: 0 20px 0 20px;
     border-bottom: 1px solid;
+}
+
+.Rent_Admin_List .rent_item {
+    border-top: 1px solid;
 }
 
 .Rent_Admin_List .rent_item_wrap {
     display: inline-block;
     flex-basis: 80%;
-    
     padding: 20px;
 }
 
@@ -216,6 +219,7 @@
 
 .Rent_Admin_List .rent_admin_wrap .rent_admin_header h3{
     margin: 0;
+    font-size: 32px;
 }
 
 .Rent_Admin_List .rentBookmatch {
@@ -237,6 +241,12 @@
 
 .Rent_Admin_List .rent_admin_body h3{
     margin: 20px 0;
+    font-size: 32px;
+}
+
+.Rent_Admin_List .rent_admin_body .keeping_h3{
+
+    font-size: 32px;
 }
 
 .Rent_Admin_List .rent_item_keeping {
@@ -246,7 +256,30 @@
 }
 
 .Rent_Admin_List .rent_item_keeping div{
-    margin: 0 40px;
+    margin-left: 15px;
+    text-align: left;
+    flex-basis: 20%;
+}
+
+.Rent_Admin_List .rent_item_keeping .keepingId{
+    flex-basis: 13%;
+}
+
+.Rent_Admin_List .rent_item_keeping .keepingUser{
+    flex-basis: 13%;
+}
+
+.Rent_Admin_List .rent_item_keeping .keepingBookname{
+    flex-basis: 24%;
+    text-overflow:ellipsis;
+}
+
+.Rent_Admin_List .rent_item_keeping p{
+    text-align: left;
+}
+
+.Rent_Admin_List .rent_item_keeping div:nth-child(6) p{
+    text-align: center;
 }
 
 .Rent_Admin_List .matching{

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { getCurrentDateTime } from "../../util/util";
 
-const RentBookItem = ({ keepingId, userId, bookId, bookName, rentable, note, keepDate, isbn, rent}) => {
+const RentBookItem = ({ keepingId, userId, bookId, bookName, rentable, note, keepDate, isbn, rent, count}) => {
   
     const nav = useNavigate();
     const date = getCurrentDateTime();
@@ -56,7 +56,7 @@ const RentBookItem = ({ keepingId, userId, bookId, bookName, rentable, note, kee
             <p> 보관시작일 : {getCurrentDateTime(keepDate)}</p>
           </div>
           <div className="rentLimit">
-            <p> 비고 : {note}</p>
+            <p> 대여회수 : {count}</p>
           </div>
         </div>     
         </div>

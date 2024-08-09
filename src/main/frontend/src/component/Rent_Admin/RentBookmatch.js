@@ -95,7 +95,7 @@ const RentBookmatch = () => {
             </div>
           </div>
 
-        <h3> 보관중인 책 목록</h3>
+        <h3 className="keeping_h3"> 보관중인 책 목록</h3>
           <ul className="rent_item">
             {keeping && rent && keeping.map((it) => <RentBookItem key={it.keepingId} {...it} rent={rent[0]}/>)}
           </ul>
