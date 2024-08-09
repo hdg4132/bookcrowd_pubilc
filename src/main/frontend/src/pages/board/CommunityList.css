@@ -10,6 +10,7 @@
   display: flex;
   align-items: center;
   border-bottom: 1px solid black;
+  text-align: start;
 }
 .list_title {
   width: 80%;

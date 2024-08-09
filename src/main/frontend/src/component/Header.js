@@ -26,7 +26,7 @@ const Header = () => {
     <header id="header">
       <div className="container_fix">
         <div className="logo">
-          <Link to="/home">
+          <Link to="/">
             <img alt="logo" src={bookLogo} />
           </Link>
         </div>
