@@ -52,8 +52,7 @@ function App() {
     <div className={appClasses}>
       <Header/>
       <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
         {/* 240722 sjh 책 대여하기 */}
         <Route path='/adm/rent/write' element={<RentWrite/>}/>
         <Route path='/adm/rent/' element={<RentListAdm/>}/>
