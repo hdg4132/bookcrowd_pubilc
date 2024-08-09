@@ -25,6 +25,7 @@ public class KeepingDTO {
     private String note;
     private LocalDateTime keepDate;
     private LocalDateTime lastBorrowed;
+    private int count;
 
     public KeepingDTO(final KeepingEntity entity) {
         this.keepingId = entity.getKeepingId();
@@ -37,6 +38,7 @@ public class KeepingDTO {
         this.note = entity.getNote();
         this.keepDate = entity.getKeepDate();
         this.lastBorrowed = entity.getLastBorrowed();
+        this.count = entity.getCount();
     }
 
     public static KeepingEntity toEntity(final KeepingDTO dto) {
@@ -51,6 +53,7 @@ public class KeepingDTO {
                 .keepDate(dto.getKeepDate())
                 .note(dto.getNote())
                 .lastBorrowed(dto.getLastBorrowed())
+                .count(dto.getCount())
                 .build();
     }
 

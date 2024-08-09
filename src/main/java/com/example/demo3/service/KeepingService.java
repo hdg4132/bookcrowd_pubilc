@@ -40,6 +40,10 @@ public class KeepingService {
                 .map(KeepingDTO::new);
     }
 
+    public Page<KeepingDTO> searchKeepingsByUser (Long userId, String keyword, Pageable pageable) {
+        return keepingRepository.searchKeepingsByUser(userId, keyword, pageable).map(KeepingDTO::new);
+    }
+
     public Page<KeepingDTO> userGivenInfo(final Long userId, Pageable pageable) {
         log.info("Given information from user: {}", userId);
         return keepingRepository.findByUserId(userId, pageable)
@@ -55,6 +59,22 @@ public class KeepingService {
         KeepingEntity keepingEntity = keepingRepository.findById(keepingId)
                 .orElseThrow(() -> new IllegalArgumentException("No keeping found with id: " + keepingId));
         return new KeepingDTO(keepingEntity);
+    }
+
+    public Page<KeepingEntity> searchKeepingList(String keyword, Pageable pageable) {
+//        Long userId = null;
+//        Integer bookId = null;
+//        try {
+//            userId = Long.parseLong(keyword);
+//        } catch (NumberFormatException e) {
+//
+//        }
+//        try {
+//            bookId = Integer.parseInt(keyword);
+//        } catch (NumberFormatException e) {
+//
+//        }
+        return keepingRepository.findByISBNContainingOrBookNameContaining( keyword, keyword, pageable);
     }
 
     @Transactional
@@ -186,6 +206,7 @@ public class KeepingService {
 
         keeping.setKeepStatus(1); // 상태를 보관 중으로 변경
         keeping.setLastBorrowed(LocalDateTime.now()); // 반환 시각 업데이트
+        keeping.setCount(keeping.getCount() + 1);
         keepingRepository.save(keeping);
 
         // 책 재고 증가

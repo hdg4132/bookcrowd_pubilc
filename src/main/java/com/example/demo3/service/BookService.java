@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Service
 public class BookService {
 
@@ -39,15 +40,33 @@ public class BookService {
 
     public BookDTO addBook(BookDTO bookDTO, MultipartFile file) {
         // 파일 저장 처리
+        if (file != null) {
+
+            String filePath = saveFile(file);
+            bookDTO.setBookImgUrl(filePath);
+        } else {
+            // 이미지 파일이 제공되지 않으면 기존 이미지 URL을 유지
+        }
 
         BookEntity book = convertToEntity(bookDTO, file);
         BookEntity savedBook = bookRepository.save(book);
         return convertToDTO(savedBook);
     }
 
-    public BookDTO updateBook(int bookId, BookDTO bookDTO) {
+    public BookDTO updateBook(int bookId, BookDTO bookDTO, MultipartFile file) {
         BookEntity existingBook = bookRepository.findById(bookId).orElse(null);
+        String existingImageUrl = existingBook.getBookImgUrl();
         if (existingBook != null) {
+            if (file != null) {
+                String filePath = saveFile(file);
+                bookDTO.setBookImgUrl(filePath);
+                if (existingImageUrl != null && !existingImageUrl.equals(filePath)) {
+                    deleteFile(existingImageUrl);
+                }
+            } else {
+                // 이미지 파일이 제공되지 않으면 기존 이미지 URL을 유지
+                bookDTO.setBookImgUrl(existingBook.getBookImgUrl());
+            }
             BeanUtils.copyProperties(bookDTO, existingBook, "bookId");
             bookRepository.save(existingBook);
             return convertToDTO(existingBook);
@@ -57,15 +76,33 @@ public class BookService {
 
     public boolean deleteBook(int bookId) {
         if (bookRepository.existsById(bookId)) {
-            bookRepository.deleteById(bookId);
+            BookEntity existingBook = bookRepository.findById(bookId).orElse(null);
+            if (existingBook != null) {
+                // 게시글 삭제 시 이미지 파일 삭제
+                String imageUrl = existingBook.getBookImgUrl();
+                if (imageUrl != null) {
+                    deleteFile(imageUrl);
+                }
+                bookRepository.deleteById(bookId);
+                return true;
+            }
             return true;
         }
         return false;
     }
 
+    public List<BookEntity> getSearchList(String keyword) {
+        // Retrieve all books
+        List<BookEntity> allBooks = bookRepository.findAll(); // Assuming this method exists
+
+        // Filter books based on keyword
+        return allBooks.stream()
+                .filter(book -> book.getBookName().contains(keyword) || book.getDescription().contains(keyword))
+                .collect(Collectors.toList());
+    }
     private BookEntity convertToEntity(BookDTO bookDTO, MultipartFile file) {
         // 파일 저장 처리
-        String filePath = saveFile(file);
+        String filePath = (file != null) ? file.getOriginalFilename() : "no-image01.gif";
         return BookEntity.builder()
                 .bookId(bookDTO.getBookId())
                 .ISBN(bookDTO.getISBN())
@@ -102,16 +139,24 @@ public class BookService {
 
     private String saveFile(MultipartFile file) {
         String fileName = file.getOriginalFilename();
-        String filePath = fileName;
 
         try {
-            Path path = Paths.get(filePath);
+            Path path = Paths.get("src/main/resources/static/files/" + fileName);
             Files.write(path, file.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return filePath;
+        return fileName;
     }
+    private void deleteFile(String fileName) {
+        Path path = Paths.get("src/main/resources/static/files/" + fileName);
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

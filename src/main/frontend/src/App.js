@@ -8,7 +8,8 @@ import axios from "axios";
 import RentList from "./pages/RentList";
 import RentListAdm from "./pages/RentListAdm";
 import RentWrite from "./pages/RentWrite";
-// import classNames from "classnames";
+import Header from "./component/Header";
+import classNames from "classnames";
 import RentView from "./pages/RentView";
 import Rent_admin from "./component/Rent_Admin/Rent_admin";
 import Rent_admin_return from "./component/Rent_Admin/Rent_admin_return";
@@ -29,9 +30,17 @@ import Header from "./component/Header";
 import Editprofile from "./component/Signup/Editprofile";
 import WishList from "./component/Mypage/Wishlist";
 import MyBookStorage from "./component/Mybookstorage/Mybookstorage";
+import Editprofile from "./component/Editprofile/Editprofile";
 
 import AdminRegisterBook from "./component/admin/AdminRegisterBook";
 import AdminRegisterList from "./component/admin/AdminRegisterList";
+import Home from "./component/Home";
+import Footer from "./component/Footer";
+import CommunityList from "./pages/board/CommunityList";
+import CommunityDetail from "./pages/board/CommunityDetail";
+import CommunityEdit from "./pages/board/CommunityEdit";
+import CommunityEditChange from "./pages/board/CommunityEditChange";
+
 // 현재 경로를 가져오기 위한 코드
 const currentPath = window.location.pathname;
 

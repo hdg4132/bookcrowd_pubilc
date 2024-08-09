@@ -41,8 +41,8 @@ const RentView =()=>{
 
     }
 
+    const user = JSON.parse(sessionStorage.getItem("userData"))
     const rentRequest = () => {
-        const user = JSON.parse(sessionStorage.getItem("userData"))
         if(user == null) {
             alert("로그인이 필요한 서비스입니다")
             nav("/login")
@@ -88,14 +88,18 @@ const RentView =()=>{
                                         <p className="info_tt">출판사</p>
                                         <p className="info_con">{data.publisher}</p>
                                     </li>
+                                    {data.pages ?
                                     <li>
                                         <p className="info_tt">면 수</p>
                                         <p className="info_con">{data.pages}</p>
                                     </li>
-                                    <li>
-                                        <p className="info_tt">장르</p>
-                                        <p className="info_con">{data.genre}</p>
-                                    </li>
+                                        : ''}
+                                    {data.genre ?
+                                        <li>
+                                            <p className="info_tt">장르</p>
+                                            <p className="info_con">{data.genre}</p>
+                                        </li>
+                                        : ''}
                                     <li>
                                         <p className="info_tt">대출가능 권 수</p>
                                         <p className="info_con"><span>{data.stock}</span> 권</p>
@@ -117,10 +121,12 @@ const RentView =()=>{
                     </div>
 
                 )}
+                {user &&(
                 <div className="btn_sec">
                     <Link className="btn" to={`/adm/rent/edit/${id}`}>수정</Link>
                     <button className="btn" onClick={deletePost}>삭제</button>
-                </div>
+                </div>)
+                }
                 <div className="paging_sec clearfix">
                     <Link className="prev" to={`/rent/12`}><span
                         className="arrow"></span>Prev

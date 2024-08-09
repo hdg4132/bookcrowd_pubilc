@@ -63,35 +63,45 @@
   display: flex;
   flex-direction: row;
   align-self: center;
-  width: 200px;
+  width: 220px;
   
 }
 
 .user-item-details ul {
   display: flex;
   align-items: center;
+  gap: 20px;
 }
 
 .user-item-details ul li {
   display: inline-block;
-  width: 200px;
+  width: 220px;
   word-break: break-all;
 }
 
 .user-item-details ul li:first-child {
-  margin-right: 40px;
+  margin-right: 62px;
 }
 
 
 .user-item-details ul li:nth-child(2) {
-  margin-right: 90px;
-}
+  margin-right: 43px;
+  text-align: left;
+} 
 
 .user-item-details .read-status {
   width: 50px;
-  margin-left: 25px;
+  margin-left: 20px;
 }
 
+
+.user-item-details .room-lates-message {
+  width:140px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  text-align: left;
+}
 /* 유저 아이템 액션 버튼 스타일 */
 .user-item-actions button {
   padding: 15px;
