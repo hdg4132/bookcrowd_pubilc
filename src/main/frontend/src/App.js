@@ -73,7 +73,7 @@ function App() {
         <Route path="/bookmatch" element={<RentBookmatch />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/mypage" element={<Mypage />} />
+        <Route path="/mypage/:page" element={<Mypage />} />
         <Route path="/wishlist" element={<WishList />} />
         <Route path="/editprofile" element={<Editprofile />} />
       </Routes>

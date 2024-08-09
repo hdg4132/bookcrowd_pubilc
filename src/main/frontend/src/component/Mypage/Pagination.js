@@ -1,27 +1,20 @@
-import React from "react";
+import React from 'react'
+import Pagination from 'react-js-pagination'
 
-function Pagination({ totalItems, itemsPerPage, onPageChange, currentPage }) {
-    const pageNumbers = [];
-
-    for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
-        pageNumbers.push(i);
-    }
-
-    if (pageNumbers.length <= 1) return null; // 페이지가 1개 이하라면 렌더링하지 않음
-
+const Paging = ({ page, count, handleChangePage, postPerPage }) => {
     return (
-        <nav>
-            <ul className="pagination">
-                {pageNumbers.map(number => (
-                    <li key={number} className={`page-item ${currentPage + 1 === number ? 'active' : ''}`}>
-                        <button onClick={() => onPageChange(number - 1)} className="page-link">
-                            {number}
-                        </button>
-                    </li>
-                ))}
-            </ul>
-        </nav>
-    );
+        <div className='mypage_pagination'>
+            <Pagination
+                activePage={Number(page)}
+                itemsCountPerPage={postPerPage}
+                totalItemsCount={count}
+                pageRangeDisplayed={10}
+                prevPageText={"<"}
+                nextPageText={">"}
+                onChange={handleChangePage}
+            />
+        </div>
+    )
 }
 
-export default Pagination;
+export default Paging
