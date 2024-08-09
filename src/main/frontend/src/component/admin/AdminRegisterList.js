@@ -15,7 +15,12 @@ export default function AdminRegisterList() {
   const [totalPages, setTotalPages] = useState(0);
   const [searchKeyword, setSearchKeyword] = useState("");
 
-  // const userId = JSON.parse(sessionStorage.getItem("userData")).userId;
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  // console.log(userData)
+  if (!userData || userData.userType != 2){
+    alert("관리자 계정이 필요한 페이지입니다, 관리자 계정으로 접속해 주세요")
+    nav("/login")
+  }
 
   useEffect(() => {
     fetchKeepings(currentStatus, page, searchKeyword);
@@ -46,18 +51,22 @@ export default function AdminRegisterList() {
       });
   };
 
-  const handleApproveKeeping = (ISBN) => {
-    axios
-      .put(`/api/keepings/updateStatus/${ISBN}`)
-      .then((response) => {
-        console.log("Keeping approved successfully");
+  const handleApproveKeeping = (ISBN, bookName) => {
+    axios.put(`/api/keepings/updateStatus/${ISBN}`, null, {
+        params: {
+            bookName: bookName
+        }
+    })
+    .then((response) => {
         fetchKeepings(currentStatus, page);
-      })
-      .catch((error) => {
-        alert("아직 책정보가 등록되지 않았습니다");
-        console.log("Error approving keeping:", error);
-      });
-  };
+        console.log("KeepStatus updated")
+    })
+    .catch((error) => {
+        alert("Error occurred while approving keeping");
+        console.error("Error approving keeping:", error);
+    });
+};
+
 
   const handleApproveReturn = (keepingId) => {
     axios
@@ -159,7 +168,7 @@ export default function AdminRegisterList() {
                       {item.keepStatus === 0 ? (
                         <button
                           className="book-keeping-admin-btn2"
-                          onClick={() => handleApproveKeeping(item.isbn)}
+                          onClick={() => handleApproveKeeping(item.isbn, item.bookName)}
                         >
                           보관 승인
                         </button>

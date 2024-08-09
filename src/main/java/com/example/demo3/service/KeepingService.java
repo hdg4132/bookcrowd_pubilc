@@ -66,18 +66,6 @@ public class KeepingService {
     }
 
     public Page<KeepingEntity> searchKeepingList(String keyword, Pageable pageable) {
-//        Long userId = null;
-//        Integer bookId = null;
-//        try {
-//            userId = Long.parseLong(keyword);
-//        } catch (NumberFormatException e) {
-//
-//        }
-//        try {
-//            bookId = Integer.parseInt(keyword);
-//        } catch (NumberFormatException e) {
-//
-//        }
         return keepingRepository.findByISBNContainingOrBookNameContaining( keyword, keyword, pageable);
     }
 
@@ -94,49 +82,44 @@ public class KeepingService {
         keepingEntity = keepingRepository.save(keepingEntity);
         log.info("keeping success: {}", keepingEntity);
 
-//        int bookId = createOrUpdateBook(keepingDTO.getBookName(), keepingDTO.getISBN(), keepingDTO.isRentable());
-//        keepingEntity.setBookId(bookId);
-//        keepingRepository.save(keepingEntity);
-
         return new KeepingDTO(keepingEntity);
     }
 
-    private int createOrUpdateBook(String bookName, String ISBN, boolean rentable) {
-        Optional<BookEntity> existingBook = bookRepository.findByISBN(ISBN);
-        if (existingBook.isPresent()) {
-            // 기존 책 정보가 존재하는 경우, bookId 반환
-            return existingBook.get().getBookId();
-        } else {
-            // 새 책 정보 생성
-            BookEntity bookEntity = new BookEntity();
-            bookEntity.setBookName(bookName);
-            bookEntity.setISBN(ISBN);
-            bookEntity.setStock(0);
-            bookEntity.setTotalQuantity(0);
-            bookRepository.save(bookEntity);
-            log.info("New book created with ISBN: {}", ISBN);
-            return bookEntity.getBookId();
-        }
-    }
 
     @Transactional
-    public void updateKeepStatusAndQuantities(String ISBN) {
+    public String updateKeepStatusAndQuantities(String ISBN, String bookName) {
 
         Optional<BookEntity> optionalBook = bookRepository.findByISBN(ISBN);
         if (!optionalBook.isPresent()) {
-            throw new IllegalArgumentException("Book with ISBN" + ISBN +"not found");
+            throw new IllegalArgumentException("Book with ISBN " + ISBN + " not found");
         }
+
+        BookEntity book = optionalBook.get();
 
         List<KeepingEntity> keepings = keepingRepository.findByISBN(ISBN);
         int stockIncrease = 0;
         int totalQuantityIncrease = 0;
 
-        BookEntity book = optionalBook.get();
+        StringBuilder messageBuilder = new StringBuilder();
+        boolean isAnyBookNameMismatch = false;
 
         for (KeepingEntity keeping : keepings) {
             if (keeping.getKeepStatus() == 0) {
+                if (keeping.getBookId() == 0) {
+                    keeping.setBookId(book.getBookId());
+                }
+                // BookName이 틀리면 수정하고 메시지에 추가
+                if (!book.getBookName().equals(bookName)) {
+                    keeping.setBookName(book.getBookName());
+                    isAnyBookNameMismatch = true;
+                    messageBuilder.append("KeepingEntity with ID ")
+                            .append(keeping.getKeepingId())
+                            .append(" has a mismatched bookName. Updated to correct bookName '")
+                            .append(book.getBookName())
+                            .append("'.\n");
+                }
+
                 keeping.setKeepStatus(1);
-                keeping.setBookId(book.getBookId());
                 keepingRepository.save(keeping);
                 if (keeping.isRentable()) {
                     stockIncrease++;
@@ -145,14 +128,19 @@ public class KeepingService {
             }
         }
 
+        book.setStock(book.getStock() + stockIncrease);
+        book.setTotalQuantity(book.getTotalQuantity() + totalQuantityIncrease);
+        bookRepository.save(book);
 
-            book.setStock(book.getStock() + stockIncrease);
-            book.setTotalQuantity(book.getTotalQuantity() + totalQuantityIncrease);
-            bookRepository.save(book);
-
-        keepingRepository.saveAll(keepings);
         log.info("KeepStatus and book quantities updated for ISBN: {}", ISBN);
+
+        if (messageBuilder.length() == 0) {
+            return "KeepStatus and quantities updated successfully.";
+        } else {
+            return messageBuilder.toString();
+        }
     }
+
 
 
     @Transactional
