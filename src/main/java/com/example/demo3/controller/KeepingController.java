@@ -27,6 +27,11 @@ public class KeepingController {
         return new ResponseEntity<>(keepings, HttpStatus.OK);
     }
 
+    @GetMapping("/all/{userId}")
+    public List<KeepingEntity> getAllKeepingsByUserId(@PathVariable Long userId) {
+        return keepingService.getAllKeepingsByUserId(userId);
+    }
+
     @GetMapping("/{userId}")
     public ResponseEntity<Page<KeepingDTO>> userGivenInfo(
             @PathVariable Long userId,
