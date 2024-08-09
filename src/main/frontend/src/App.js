@@ -9,7 +9,7 @@ import RentList from "./pages/RentList";
 import RentListAdm from "./pages/RentListAdm";
 import RentWrite from "./pages/RentWrite";
 import Header from "./component/Header";
-import classNames from "classnames";
+// import classNames from "classnames";
 import RentView from "./pages/RentView";
 import Rent_admin from "./component/Rent_Admin/Rent_admin";
 import Rent_admin_return from "./component/Rent_Admin/Rent_admin_return";
@@ -18,7 +18,6 @@ import RentBookmatch from "./component/Rent_Admin/RentBookmatch";
 import UserChatPage from "./component/realChat/UserChatPage";
 import RealChatPage from "./component/realChat/RealChatPage";
 import ChatPage from "./component/realChat/ChatPage";
-// import Header from "./component/Header";
 
 import KeepingList from "./component/BookKeeping/KeepingList";
 import KeepingItem from "./component/BookKeeping/KeepingItem";
@@ -26,20 +25,17 @@ import KeepingRegister from "./component/BookKeeping/KeepingRegister";
 import Login from "./component/Login/Login";
 import Signup from "./component/Signup/Signup";
 import Mypage from "./component/Mypage/Mypage";
-import Header from "./component/Header";
 import Editprofile from "./component/Signup/Editprofile";
 import WishList from "./component/Mypage/Wishlist";
-import MyBookStorage from "./component/Mybookstorage/Mybookstorage";
-import Editprofile from "./component/Editprofile/Editprofile";
 
 import AdminRegisterBook from "./component/admin/AdminRegisterBook";
 import AdminRegisterList from "./component/admin/AdminRegisterList";
-import Home from "./component/Home";
-import Footer from "./component/Footer";
-import CommunityList from "./pages/board/CommunityList";
-import CommunityDetail from "./pages/board/CommunityDetail";
-import CommunityEdit from "./pages/board/CommunityEdit";
-import CommunityEditChange from "./pages/board/CommunityEditChange";
+// import Home from "./component/Home";
+// import Footer from "./component/Footer";
+// import CommunityList from "./pages/board/CommunityList";
+// import CommunityDetail from "./pages/board/CommunityDetail";
+// import CommunityEdit from "./pages/board/CommunityEdit";
+// import CommunityEditChange from "./pages/board/CommunityEditChange";
 
 // 현재 경로를 가져오기 위한 코드
 const currentPath = window.location.pathname;
@@ -79,7 +75,6 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/wishlist" element={<WishList />} />
-        <Route path="/mybookstorage" element={<MyBookStorage />} />
         <Route path="/editprofile" element={<Editprofile />} />
       </Routes>
     </div>

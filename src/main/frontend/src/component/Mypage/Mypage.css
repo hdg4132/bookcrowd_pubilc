@@ -36,30 +36,16 @@ html, body {
 .mypage {
     margin: 0 auto;
     text-align: center;
-    width: 1310px;
+    width: 1440px;
     padding: 0 15px;
 }
 
-.mypage_header {
-    width: 1280px;
-    height: auto;
+.postLine{
+    text-align: center;
+    border-top: 1px solid #000000;
+    padding: 1px 30px 0 0;  
     margin: 0 auto;
-}
-
-.mypage_text{
-    text-align: left;
-    padding: 53px 0 53px 20px;
-    font-family: 'Pretendard-SemiBold';
-    font-size: 30px;
-    line-height: 36px;
-    color: #333333;
-}
-
-.Line3{
-    background: url("../../assets/Line1.png");
-    padding-top: 1px;  
-    margin: 0 auto;
-    width: 1280px;
+    width: 1440px;
 }
 
 .mypage_side {
@@ -121,6 +107,7 @@ html, body {
 
 .MyTicketing h3 {
     font-family: 'Pretendard-Regular';
+    padding-left: 30px;
     font-style: normal;
     font-size: 30px;
     padding-bottom: 20px;
@@ -132,8 +119,7 @@ html, body {
 
 .post_line{ 
     border-top: 1px solid #000000;
-    padding-left: 150px;
-    width: 1000px;
+    width: 970px;
     height: 1px;
 }
 

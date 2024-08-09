@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Mypage.css";
+import SubBanner from "../SubBanner";
+import Pagination from "./Pagination";
 
 function MyPage() {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10); // 페이지당 아이템 수
-    const [rentItems, setRentItems] = useState([]);
+    const [wishlistItems, setWishlistItems] = useState([]);
     const [totalItems, setTotalItems] = useState(0);
     const [showPopup, setShowPopup] = useState(false);
     const navigate = useNavigate();
@@ -17,20 +19,20 @@ function MyPage() {
         if (!userInfo) {
             navigate("/login");
         } else {
-            fetchRentItems();
+            fetchWishlistItems();
         }
     }, [navigate, currentPage]);
 
     console.log(userInfo.userId);
 
-    const fetchRentItems = async () => {
+    const fetchWishlistItems = async () => {
         try {
-            const response = await axios.get(`api/rents/rentlist/${userInfo.userId}?page=${currentPage}`);
+            const response = await axios.get(`api/api/wishlist/${userInfo.userId}?page=${currentPage}`);
             console.log(response);
-            setRentItems(response.data); // 현재 페이지의 항목들 설정
-            setTotalItems(parseInt(response.headers['x-total-count'], 10)); // 총 항목 수 설정 (헤더에서 가져오는 경우)
+            setWishlistItems(response.data); // 현재 페이지의 항목들 설정
+            setTotalItems(parseInt(response.headers['x-total-count'], 10)); // 총 항목 수 설정
         } catch (error) {
-            console.error("대여 내역을 불러오는 중 오류가 발생했습니다:", error);
+            console.error("위시리스트 내역을 불러오는 중 오류가 발생했습니다:", error);
         }
     };
 
@@ -76,17 +78,9 @@ function MyPage() {
 
     return (
         <div>
-            <div id="sub_banner">
-                <div className="container_fix">
-                    <h2>MyPage</h2>
-                    <p>마이페이지</p>
-                </div>
-            </div>
+           <SubBanner page_name={"storage"} title_en={"My page"} title_kr={"마이페이지"} search />
             <div className="mypage">
-                <div className="mypage_header">
-                    <p className="mypage_text">마이페이지</p>
-                    <div className="Line3"></div>
-                </div>
+                    <div className="postLine" />
                 <div className="mypage_side">
                     <div className="sidebox">
                         <ul>
@@ -111,6 +105,22 @@ function MyPage() {
                 <div className="MyTicketing">
                     <h3>위시리스트</h3>
                     <div className="wishlist_line" />
+                    <ul className="wishlist_items">
+                        {wishlistItems && wishlistItems.map((item) => (
+                            <li key={item.id} className="wishlist_item">
+                                <p>{item.name}</p>
+                                {/* <button onClick={() => handleRemoveFromWishlist(item.id)}>제거하기</button> */}
+                            </li>
+                        ))}
+                    </ul>
+                    {totalPages > 1 && (
+                        <Pagination
+                            totalItems={totalItems}
+                            itemsPerPage={itemsPerPage}
+                            onPageChange={handlePageChange}
+                            currentPage={currentPage}
+                        />
+                    )}
                 </div>
             </div>
             {showPopup && (

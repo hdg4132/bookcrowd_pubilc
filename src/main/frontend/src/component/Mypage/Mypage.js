@@ -59,8 +59,9 @@ function MyPage() {
             console.log("탈퇴 완료");
 
             if (response.data.success) {
-                alert("탈퇴 완료되었습니다.");
+                alert("탈퇴 완료");
             } else {
+                alert("탈퇴 완료되었습니다.");
                 window.location.href = '/login';
             }
         } catch (error) {
@@ -81,7 +82,7 @@ function MyPage() {
         <div>
             <SubBanner page_name={"storage"} title_en={"My page"} title_kr={"마이페이지"} search />
             <div className="mypage">
-                    <div className="Line3" />
+                    <div className="postLine" />
                 <div className="mypage_side">
                     <div className="sidebox">
                         <ul>
