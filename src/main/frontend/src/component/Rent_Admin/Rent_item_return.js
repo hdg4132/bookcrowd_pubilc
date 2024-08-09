@@ -11,6 +11,7 @@ const Rent_item_return = ({
   isbn,
   keepingId,
   rentId,
+  bookId,
 }) => {
   const date = getCurrentDateTime();
 
@@ -25,14 +26,15 @@ const Rent_item_return = ({
     if (approval == true) {
       instance.put(`/rents/bookreturn`, {
         rentId: rentId,
-        approval: "3",
+        approval: "4",
         returnDate: date,
+        bookId:bookId,
       });
       instance
         .put(`/keepings/bookreturn`, {
           keepingId: keepingId,
           keepStatus: 1,
-          bookId:"",
+          
         })
         .then((response) => {
           alert("반납처리 완료");
@@ -50,7 +52,7 @@ const Rent_item_return = ({
 
       axios.put(`/bookreturn`, {
         rentId: rentId,
-        approval: "4",
+        approval: "5",
         returnDate: date,
         description: significant,
       });

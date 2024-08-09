@@ -20,7 +20,15 @@ function LoginPage() {
         const userData = response.data;
         console.log(userData.data.user);
         sessionStorage.setItem('userData', JSON.stringify(userData.data.user));
-        navigate('/');
+
+        const userType = JSON.parse(sessionStorage.getItem("userData")).userType
+
+        if(userType == "2"){
+          navigate('/');
+        } else{
+          navigate("/mypage")
+        }
+        
     })
     .catch((error) => {
         console.error("Login error:", error);

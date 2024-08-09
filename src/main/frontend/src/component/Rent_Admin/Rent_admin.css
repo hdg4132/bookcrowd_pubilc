@@ -61,83 +61,98 @@
     margin-top: 53px;
 }
 
-.rent_item li {
+.Rent_Admin_List .rent_item li {
     display: flex;
     width: 98%;
     align-items: center;
     text-align: left;
     font-size: 14px;
-    margin-left: 20px;
+    margin: 0 20px 0 20px;
     border-bottom: 1px solid;
 }
 
-.rent_item_wrap {
+.Rent_Admin_List .rent_item {
+    border-top: 1px solid;
+}
+
+.Rent_Admin_List .rent_item_wrap {
     display: inline-block;
     flex-basis: 80%;
     padding: 20px;
 }
 
-.rent_item_up{
+.Rent_Admin_List .rent_item_up{
     display: flex;
-}
-.rent_item_up .rentId{
-    flex-basis: 10%;
+    margin: 0;
 }
 
-.rent_item_up .rentBookname{
-    flex-basis: 35%;  
+.Rent_Admin_List .rent_item_up p {
+    text-align: left;
+}
+
+.Rent_Admin_List .rent_item_up .rentId{
+    flex-basis: 15%;
+}
+
+.Rent_Admin_List .rent_item_up .rentBookname{
+    flex-basis: 30%;  
+    margin: 0;
     text-overflow:ellipsis;
 }
 
-.rent_item_up .rentDate{
+.Rent_Admin_List .rent_item_up .rentDate{
     flex-basis: 25%;
 }
 
-.rent_item_up .rentUsername{
+.Rent_Admin_List .rent_item_up .rentUsername{
     flex-basis: 25%;
 }
 
-.rent_item_up .rentISBN{
+.Rent_Admin_List .rent_item_up .rentISBN{
     flex-basis: 25%;
 }
 
-.rent_item_up .rentButton{
+.Rent_Admin_List .rent_item_up .rentButton{
     display: flex;
     align-items: center;
 }
 
-.rent_item_down{
+.Rent_Admin_List .rent_item_down{
     display: flex;
     margin-top: 10px;
 }
 
-.rent_item_down .rentUsername{
-    flex-basis: 10%;   
+.Rent_Admin_List .rent_item_down p {
+    text-align: left;
 }
 
-.rent_item_down .rentUserID{
-    flex-basis: 35%;
+.Rent_Admin_List .rent_item_down .rentUsername{
+    flex-basis: 15%;   
 }
 
-.rent_item_down .rentCurrent{
+.Rent_Admin_List .rent_item_down .rentUserID{
+    flex-basis: 30%;
+}
+
+.Rent_Admin_List .rent_item_down .rentCurrent{
     flex-basis: 25%;
 }
 
-.rent_item_down .rentLimit{
+.Rent_Admin_List .rent_item_down .rentLimit{
     flex-basis: 25%;
 }
 
-.Rent_Admin_List{
+.Rent_Admin_List .Rent_Admin_List{
     display: flex;
     max-width: 100%;
     height: 100vh;
 }
 
-.Rent_Admin_List h3{
+.Rent_Admin_List .Rent_Admin_List h3{
     font-size: 32px;
 }
 
-.Admin_side_link div{
+.Rent_Admin_List .Admin_side_link div{
     font-size: 16px;
     padding: 20px;
     width: 100%;
@@ -145,12 +160,13 @@
     border: none;
     text-align: left;
 }
-.rentButton{
+
+.Rent_Admin_List .rentButton{
     display: flex;
     padding: 26px;
 }
 
-.rentButton .approval button{
+.Rent_Admin_List .rentButton .approval button{
     margin-right: 40px;
     background-color: #199AE2;
     color: white;
@@ -160,7 +176,7 @@
     text-align: center;
 }
 
-.rentButton .cancel button{
+.Rent_Admin_List .rentButton .cancel button{
     margin-right: 40px;
     background-color: white;
     color: red;
@@ -171,11 +187,11 @@
     border: 1px solid;
 }
 
-.rentButton .rentCause{
+.Rent_Admin_List .rentButton .rentCause{
     padding: 7px;
 }
 
-.Admin_side{
+.Rent_Admin_List .Admin_side{
     flex-basis: 300px;
     background-color: #444444;
     color: white;
@@ -187,7 +203,7 @@
     height: 100%;
 }
 
-.Admin_LOGO{
+.Rent_Admin_List .Admin_LOGO{
     height: 90px;
     border-bottom: 1px solid white;
     align-content: center;
@@ -203,9 +219,10 @@
 
 .Rent_Admin_List .rent_admin_wrap .rent_admin_header h3{
     margin: 0;
+    font-size: 32px;
 }
 
-.rentBookmatch {
+.Rent_Admin_List .rentBookmatch {
     display: flex;
     justify-content: space-between;
     margin: 0 20px;
@@ -213,34 +230,63 @@
     border-bottom: 1px solid ;
 }
 
-.rentBookmatch div{
+.Rent_Admin_List .rentBookmatch div{
     margin: 20px 60px;
 }
 
-.rent_admin_body{
+.Rent_Admin_List .rent_admin_body{
     overflow-y: scroll;
     height: 90vh;
 }
 
-.rent_admin_body h3{
+.Rent_Admin_List .rent_admin_body h3{
     margin: 20px 0;
+    font-size: 32px;
 }
 
-.rent_item_keeping {
+.Rent_Admin_List .rent_admin_body .keeping_h3{
+
+    font-size: 32px;
+}
+
+.Rent_Admin_List .rent_item_keeping {
     display: flex;
     justify-content: space-between;
     margin-right: 30px;
 }
 
-.rent_item_keeping div{
-    margin: 0 40px;
+.Rent_Admin_List .rent_item_keeping div{
+    margin-left: 15px;
+    text-align: left;
+    flex-basis: 20%;
 }
 
-.matching{
+.Rent_Admin_List .rent_item_keeping .keepingId{
+    flex-basis: 13%;
+}
+
+.Rent_Admin_List .rent_item_keeping .keepingUser{
+    flex-basis: 13%;
+}
+
+.Rent_Admin_List .rent_item_keeping .keepingBookname{
+    flex-basis: 24%;
+    text-overflow:ellipsis;
+}
+
+.Rent_Admin_List .rent_item_keeping p{
+    text-align: left;
+}
+
+.Rent_Admin_List .rent_item_keeping div:nth-child(6) p{
+    text-align: center;
+}
+
+.Rent_Admin_List .matching{
     margin-left: 45px;
 }
 
-.matching button{
+.Rent_Admin_List .matching button{
     margin-right: 40px;
     background-color: #199AE2;
     color: white;

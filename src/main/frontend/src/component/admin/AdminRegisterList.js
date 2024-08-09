@@ -13,19 +13,26 @@ export default function AdminRegisterList() {
   const [currentStatus, setCurrentStatus] = useState("all");
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   // const userId = JSON.parse(sessionStorage.getItem("userData")).userId;
 
   useEffect(() => {
-    fetchKeepingsByStatus(currentStatus, page);
-  }, [currentStatus, page]);
+    fetchKeepings(currentStatus, page, searchKeyword);
+  }, [currentStatus, page, searchKeyword]);
 
-  const fetchKeepingsByStatus = (status, page) => {
+  const fetchKeepings = (status, page, keyword = "") => {
     setLoading(true);
-    const url =
-      status === "all"
-        ? `/api/keepings/admin?page=${page}&size=10`
-        : `/api/keepings/status/${status}?page=${page}&size=10`;
+
+    let url = `/api/keepings/admin?page=${page}&size=10`;
+
+    if (status !== "all") {
+      url = `/api/keepings/status/${status}?page=${page}&size=10`;
+    }
+
+    if (keyword) {
+      url = `/api/keepings/search?keyword=${keyword}&page=${page}&size=10`
+    }
     axios
       .get(url)
       .then((response) => {
@@ -44,7 +51,7 @@ export default function AdminRegisterList() {
       .put(`/api/keepings/updateStatus/${ISBN}`)
       .then((response) => {
         console.log("Keeping approved successfully");
-        fetchKeepingsByStatus(currentStatus, page);
+        fetchKeepings(currentStatus, page);
       })
       .catch((error) => {
         alert("아직 책정보가 등록되지 않았습니다");
@@ -58,7 +65,7 @@ export default function AdminRegisterList() {
       .then((response) => {
         console.log("Return approved successfully");
         // 현재 페이지의 데이터를 다시 불러와 업데이트
-        fetchKeepingsByStatus(currentStatus, page);
+        fetchKeepings(currentStatus, page);
       })
       .catch((error) => {
         console.error("Error approving return:", error);
@@ -73,8 +80,14 @@ export default function AdminRegisterList() {
   const handlePageChange = (newPage) => {
     if (newPage >= 0 && newPage < totalPages) {
       setPage(newPage);
+      fetchKeepings(currentStatus, newPage, searchKeyword);
     }
   };
+
+  const handleSearch = (keyword) => {
+    setSearchKeyword(keyword);
+    setPage(0);
+  }
 
   const keepStatusMap = {
     0: "승인 대기",
@@ -91,7 +104,7 @@ export default function AdminRegisterList() {
     <>
       <AdmLayout />
       <div className="book-keeping-admin-container adm_con">
-        <ListSearch/>
+        <ListSearch onSearch={handleSearch} searchKeyword={searchKeyword}/>
         <section className="member-management">
           <div className="member-flex">
             <h1>회원관리</h1>

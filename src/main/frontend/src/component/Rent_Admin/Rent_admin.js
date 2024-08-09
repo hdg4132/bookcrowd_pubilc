@@ -6,6 +6,14 @@ import Rent_item from "./Rent_item";
 
 const Rent_admin = () => {
   const [posts, setPosts] = useState([]);
+  const nav = useNavigate();
+
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  console.log(userData)
+  if (!userData || userData.userType != 2){
+    alert("관리자 계정이 필요한 페이지입니다, 관리자 계정으로 접속해 주세요")
+    nav("/login")
+  }
 
   useEffect(() => {
     const instance = axios.create({

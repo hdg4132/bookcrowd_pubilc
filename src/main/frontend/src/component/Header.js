@@ -3,8 +3,6 @@ import "./Header.css";
 import bookLogo from "../assets/MainLogo.png";
 import {Link, useLocation} from "react-router-dom";
 
-
-
 const Header = () => {
   useEffect(() => {
     const topscroll = function () {
@@ -34,7 +32,7 @@ const Header = () => {
     <header id="header">
       <div className="container_fix">
         <div className="logo">
-          <Link to="/home">
+          <Link to="/">
             <img alt="logo" src={bookLogo} />
           </Link>
         </div>

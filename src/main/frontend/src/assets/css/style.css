@@ -171,6 +171,12 @@ body {
   width: 10%;
 }
 
+.book-keeping-container .btn-register-data {
+  color: blue;
+  border-bottom: 1px solid blue;
+  padding-bottom: 3px;
+}
+
 /* book-keeping-register */
 
 .book-keeping-register-container {
