@@ -7,29 +7,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class AuthService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public ResponseDTO<?> signUp(SignUpDTO dto) {
+        String name = dto.getName();
         String email = dto.getEmail();
         String password = dto.getPassword();
         String confirmPassword = dto.getConfirmPassword();
 
         // email 중복 확인
-        if(UserRepository.existsByEmail(email)) {
+        if (userRepository.existsByEmail(email)) {
             return ResponseDTO.setFailed("중복된 Email 입니다.");
         }
 
         // password 확인
-        if(!password.equals(confirmPassword)) {
+        if (!password.equals(confirmPassword)) {
             return ResponseDTO.setFailed("비밀번호가 일치하지 않습니다.");
         }
 
@@ -67,13 +68,14 @@ public class AuthService {
 
     public ResponseDTO<?> updateProfile(UpdateProfileDTO dto) {
         try {
-            UserEntity user = userRepository.findByEmail(dto.getEmail()).orElse(null);
+            UserEntity user = userRepository.findById(dto.getId()).orElse(null);
             if (user == null) {
                 return ResponseDTO.setFailed("사용자를 찾을 수 없습니다.");
             }
 
-            user.setName(dto.getUserName());
+            user.setName(dto.getName());
             user.setEmail(dto.getEmail());
+            user.setPassword(dto.getPassword());
             user.setPhoneNumber(dto.getPhoneNumber());
             user.setAddress(dto.getAddress());
             user.setDetailAddress(dto.getDetailAddress());
@@ -89,14 +91,28 @@ public class AuthService {
         }
     }
 
-    public ResponseDTO<?> deleteAccount(DeleteAccountRequestDTO dto) {
+    public ResponseDTO<?> deleteAccount(DeleteUserByEmailDTO dto) {
         try {
-            UserEntity user = userRepository.findByEmail(dto.getEmail()).orElse(null);
+            UserEntity user = userRepository.findByUserId(dto.getUserId()).orElse(null);
+            if (user == null || !bCryptPasswordEncoder.matches(dto.getPassword(), user.getPassword())) {
+                return ResponseDTO.setFailed("비밀번호가 일치하지 않거나 사용자가 존재하지 않습니다.");
+            }
 
-            userRepository.delete(Objects.requireNonNull(user));
+            userRepository.delete(user);
             return ResponseDTO.setSuccess("회원 탈퇴가 완료되었습니다.");
         } catch (Exception e) {
             return ResponseDTO.setFailed("회원 탈퇴 중 오류가 발생했습니다.");
         }
+    }
+
+    public boolean deleteUserByEmail(String email) {
+        Optional<UserEntity> optionalUser = userRepository.findByEmail(email);
+
+        if (optionalUser.isPresent()) {
+            userRepository.delete(optionalUser.get());
+            return true;
+        }
+
+        return false;
     }
 }

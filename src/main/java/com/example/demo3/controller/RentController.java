@@ -94,6 +94,11 @@ public class RentController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/rentlist/{userId}")
+    public List<RentDTO> findByUserId(@PathVariable Long userId) {
+        return rentService.findByBorrowedId(userId);
+    }
 }
 
 

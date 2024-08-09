@@ -7,18 +7,29 @@ import java.util.Date;
 @Table(name = "user_message")
 public class UserMessageEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 증가하는 기본 키
     private Long messageId;
 
+    // 채팅방 ID
     private Long roomId;
-    private String userId;
+
+    // 사용자 ID
+    private Long userId;
+
+    // 사용자 이메일
     private String email;
+
+    // 메시지 내용
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
+    // 메시지 전송 시각
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
 
-    // Getters and Setters
+    // 읽음 상태
+    private boolean readStatus;
+
     public Long getMessageId() {
         return messageId;
     }
@@ -35,11 +46,11 @@ public class UserMessageEntity {
         this.roomId = roomId;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -65,5 +76,13 @@ public class UserMessageEntity {
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public boolean isReadStatus() {
+        return readStatus;
+    }
+
+    public void setReadStatus(boolean readStatus) {
+        this.readStatus = readStatus;
     }
 }

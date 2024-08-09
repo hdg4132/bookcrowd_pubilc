@@ -4,12 +4,13 @@ import java.sql.Timestamp;
 
 public class ChatRoomDTO {
     private Long roomId;
-    private String userId;
+    private Long userId;
     private String email;
     private String adminId;
     private Timestamp creationTime;
+    private boolean unread;
+    private String latestMessage; // 추가: 최신 메시지 필드
 
-    // Getters and Setters
     public Long getRoomId() {
         return roomId;
     }
@@ -18,11 +19,11 @@ public class ChatRoomDTO {
         this.roomId = roomId;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -48,5 +49,21 @@ public class ChatRoomDTO {
 
     public void setCreationTime(Timestamp creationTime) {
         this.creationTime = creationTime;
+    }
+
+    public boolean isUnread() {
+        return unread;
+    }
+
+    public void setUnread(boolean unread) {
+        this.unread = unread;
+    }
+
+    public String getLatestMessage() {
+        return latestMessage;
+    }
+
+    public void setLatestMessage(String latestMessage) {
+        this.latestMessage = latestMessage;
     }
 }

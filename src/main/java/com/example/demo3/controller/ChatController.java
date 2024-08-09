@@ -9,6 +9,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/chat")
@@ -22,7 +23,6 @@ public class ChatController {
 
     @MessageMapping("/sendMessage")
     public void sendMessage(ChatMessageDTO chatMessage) {
-        // 메시지를 클라이언트에 전송
         messagingTemplate.convertAndSend("/sub/room/" + chatMessage.getRoomId(), chatMessage);
     }
 
@@ -38,13 +38,16 @@ public class ChatController {
 
     @GetMapping("/rooms")
     public List<ChatRoomDTO> getAllChatRooms() {
-        return chatService.getAllChatRooms();
+        return chatService.getAllChatRooms().stream()
+                .peek(room -> room.setUnread(chatService.hasUnreadMessages(room.getRoomId())))
+                .collect(Collectors.toList());
     }
 
-    // 특정 채팅방의 메시지 가져오기
     @GetMapping("/rooms/{roomId}/messages")
     public List<ChatMessageDTO> getMessagesByRoomId(@PathVariable Long roomId) {
-        return chatService.getMessagesByRoomId(roomId);
+        List<ChatMessageDTO> messages = chatService.getMessagesByRoomId(roomId);
+        chatService.markMessagesAsRead(roomId);
+        return messages;
     }
 
     @PostMapping("/createRoom")
@@ -52,7 +55,6 @@ public class ChatController {
         return chatService.createRoom(chatRoomDTO);
     }
 
-    // 메시지 저장 엔드포인트
     @PostMapping("/messages")
     public void saveMessage(@RequestBody ChatMessageDTO chatMessageDTO) {
         chatService.saveMessage(chatMessageDTO);

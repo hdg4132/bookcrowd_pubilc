@@ -1,0 +1,65 @@
+.rent_item li {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    text-align: left;
+    font-size: 14px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.rent_item_wrap {
+    display: inline-block;
+    flex-basis: 80%;
+}
+
+.rent_item_up{
+    display: flex;
+}
+.rent_item_up .rentId{
+    flex-basis: 8%;
+}
+
+.rent_item_up .rentBookname{
+    flex-basis: 25%;  
+    margin-left: 60px;
+    text-overflow:ellipsis;
+}
+
+.rent_item_up .rentDate{
+    flex-basis: 23%;
+}
+
+.rent_item_up .rentUsername{
+    flex-basis: 12%;
+}
+
+.rent_item_up .rentISBN{
+    flex-basis: 20%;
+}
+
+.rent_item_up .rentButton{
+    display: flex;
+    align-items: center;
+}
+
+.rent_item_down{
+    display: flex;
+    margin-top: 10px;
+}
+
+.rent_item_down .rentUsername{
+    flex-basis: 14%;   
+}
+
+.rent_item_down .rentUserID{
+    flex-basis: 25%;
+}
+
+.rent_item_down .rentCurrent{
+    flex-basis: 25%;
+}
+
+.rent_item_down .rentLimit{
+    flex-basis: 25%;
+}

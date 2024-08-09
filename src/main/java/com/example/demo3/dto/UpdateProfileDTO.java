@@ -1,12 +1,15 @@
 package com.example.demo3.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Setter
-@Getter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UpdateProfileDTO {
-    private String userName;
+    private Long id;
+    private String name;
     private String email;
     private String password;
     private String phoneNumber;

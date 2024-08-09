@@ -1,33 +1,61 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Pagination from './Paging.js';
 import { useNavigate } from "react-router-dom";
 import "./Mypage.css";
+import RentItem from "./Rent_user.js";
+import Pagination from "./Pagination.js";
 
 function MyPage() {
     const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10); // 페이지당 아이템 수
+    const [rentItems, setRentItems] = useState([]);
+    const [totalItems, setTotalItems] = useState(0);
     const [showPopup, setShowPopup] = useState(false);
-    const [orders, setOrders] = useState([]);
-    const itemsPerPage = 10;
     const navigate = useNavigate();
 
     useEffect(() => {
         const userInfo = sessionStorage.getItem("userData");
         if (!userInfo) {
             navigate("/login");
+        } else {
+            fetchRentItems();
         }
-    }, [navigate]);
+    }, [navigate, currentPage]);
 
-    const onPageChange = (pageNumber) => {
+    const fetchRentItems = async () => {
+        try {
+            const response = await axios.get(`/rents/all?page=${currentPage}&size=${itemsPerPage}`);
+            setRentItems(response.data.items);
+            setTotalItems(response.data.totalItems); // 총 아이템 수를 업데이트
+        } catch (error) {
+            console.error("대여 내역을 불러오는 중 오류가 발생했습니다:", error);
+        }
+    };
+
+    const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
     const handleDeleteAccount = async () => {
-        try {
-            const response = await axios.delete(`/orders/deleteAccount`);
+        const userData = JSON.parse(sessionStorage.getItem("userData"));
+        if (!userData) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
 
-            if (response.data === "Account deleted successfully") {
+        const { email } = userData;
+
+        try {
+            const response = await axios.delete('api/api/auth/deleteAccount', {
+                params: { email }
+            });
+
+            if (response.data.success) {
                 setShowPopup(true);
+                sessionStorage.clear();
+                setTimeout(() => {
+                    navigate('/login');
+                }, 3000);
             } else {
                 alert("사용자 탈퇴에 실패하였습니다.");
             }
@@ -42,16 +70,14 @@ function MyPage() {
         navigate("/login");
     };
 
-    // const displayOrders = orders.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-
     return (
         <div>
             <div id="sub_banner">
-             <div className="container_fix">
-              <h2>MyPage</h2>
-              <p>마이페이지</p>
-           </div>
-      </div>
+                <div className="container_fix">
+                    <h2>MyPage</h2>
+                    <p>마이페이지</p>
+                </div>
+            </div>
             <div className="mypage">
                 <div className="mypage_header">
                     <p className="mypage_text">마이페이지</p>
@@ -61,13 +87,13 @@ function MyPage() {
                     <div className="sidebox">
                         <ul>
                             <li className="sidebox_text">
-                            <button className="sidebox_quitbutton">나의 대여내역</button>
+                                <button className="sidebox_quitbutton" onClick={() => navigate("/mypage")}>나의 대여내역</button>
                             </li>
                             <li className="sidebox_text">
                                 <button className="sidebox_quitbutton" onClick={() => navigate("/books")}>나의 보관내역</button>
                             </li>
                             <li className="sidebox_text">
-                                <button className="sidebox_quitbutton">위시리스트</button>
+                                <button className="sidebox_quitbutton" onClick={() => navigate("/wishlist")}>위시리스트</button>
                             </li>
                             <li className="sidebox_text">
                                 <button className="sidebox_quitbutton" onClick={() => navigate("/editprofile")}>회원정보 수정</button>
@@ -81,23 +107,16 @@ function MyPage() {
                 <div className="MyTicketing">
                     <h3>나의 대여내역</h3>
                     <div className="post_line" />
-                    {/* {displayOrders.map((order) => (
-                        <div key={order.id}>
-                            <div className="movie_info">
-                                <div className="movieImage"/>
-                                <div className="info_text">
-                                    <p className="movie_text1"></p>
-                                    <p className="movie_text2"></p>
-                                    <p className="movie_text3"></p>
-                                </div>
-                            </div>
-                            <div className="post_line" />
-                        </div>
-                    ))} */}
-                    {/* <Pagination
+                    <ul className="rent_item">
+                        {rentItems && rentItems.map((item) => (
+                          <RentItem key={item.rentId} {...item} />
+                        ))}
+                    </ul>
+                    <Pagination
+                        totalItems={totalItems}
                         itemsPerPage={itemsPerPage}
-                        onPageChange={onPageChange}
-                    /> */}
+                        onPageChange={handlePageChange}
+                    />
                 </div>
             </div>
             {showPopup && (

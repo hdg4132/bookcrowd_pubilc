@@ -40,13 +40,17 @@ public class KeepingService {
                 .map(KeepingDTO::new);
     }
 
-    public Page<KeepingDTO> userGivenInfo(final String userId, Pageable pageable) {
+    public Page<KeepingDTO> searchKeepingsByUser (Long userId, String keyword, Pageable pageable) {
+        return keepingRepository.searchKeepingsByUser(userId, keyword, pageable).map(KeepingDTO::new);
+    }
+
+    public Page<KeepingDTO> userGivenInfo(final Long userId, Pageable pageable) {
         log.info("Given information from user: {}", userId);
         return keepingRepository.findByUserId(userId, pageable)
                 .map(KeepingDTO::new);
     }
 
-    public List<KeepingEntity> getAllKeepingsByUserId(String userId) {
+    public List<KeepingEntity> getAllKeepingsByUserId(Long userId) {
         return keepingRepository.findByUserId(userId);
     }
 
@@ -55,6 +59,22 @@ public class KeepingService {
         KeepingEntity keepingEntity = keepingRepository.findById(keepingId)
                 .orElseThrow(() -> new IllegalArgumentException("No keeping found with id: " + keepingId));
         return new KeepingDTO(keepingEntity);
+    }
+
+    public Page<KeepingEntity> searchKeepingList(String keyword, Pageable pageable) {
+//        Long userId = null;
+//        Integer bookId = null;
+//        try {
+//            userId = Long.parseLong(keyword);
+//        } catch (NumberFormatException e) {
+//
+//        }
+//        try {
+//            bookId = Integer.parseInt(keyword);
+//        } catch (NumberFormatException e) {
+//
+//        }
+        return keepingRepository.findByISBNContainingOrBookNameContaining( keyword, keyword, pageable);
     }
 
     @Transactional
@@ -70,9 +90,9 @@ public class KeepingService {
         keepingEntity = keepingRepository.save(keepingEntity);
         log.info("keeping success: {}", keepingEntity);
 
-        int bookId = createOrUpdateBook(keepingDTO.getBookName(), keepingDTO.getISBN(), keepingDTO.isRentable());
-        keepingEntity.setBookId(bookId);
-        keepingRepository.save(keepingEntity);
+//        int bookId = createOrUpdateBook(keepingDTO.getBookName(), keepingDTO.getISBN(), keepingDTO.isRentable());
+//        keepingEntity.setBookId(bookId);
+//        keepingRepository.save(keepingEntity);
 
         return new KeepingDTO(keepingEntity);
     }
@@ -97,13 +117,22 @@ public class KeepingService {
 
     @Transactional
     public void updateKeepStatusAndQuantities(String ISBN) {
+
+        Optional<BookEntity> optionalBook = bookRepository.findByISBN(ISBN);
+        if (!optionalBook.isPresent()) {
+            throw new IllegalArgumentException("Book with ISBN" + ISBN +"not found");
+        }
+
         List<KeepingEntity> keepings = keepingRepository.findByISBN(ISBN);
         int stockIncrease = 0;
         int totalQuantityIncrease = 0;
 
+        BookEntity book = optionalBook.get();
+
         for (KeepingEntity keeping : keepings) {
             if (keeping.getKeepStatus() == 0) {
                 keeping.setKeepStatus(1);
+                keeping.setBookId(book.getBookId());
                 keepingRepository.save(keeping);
                 if (keeping.isRentable()) {
                     stockIncrease++;
@@ -112,20 +141,18 @@ public class KeepingService {
             }
         }
 
-        Optional<BookEntity> optionalBook = bookRepository.findByISBN(ISBN);
-        if (optionalBook.isPresent()) {
-            BookEntity book = optionalBook.get();
+
             book.setStock(book.getStock() + stockIncrease);
             book.setTotalQuantity(book.getTotalQuantity() + totalQuantityIncrease);
             bookRepository.save(book);
-        }
 
+        keepingRepository.saveAll(keepings);
         log.info("KeepStatus and book quantities updated for ISBN: {}", ISBN);
     }
 
 
     @Transactional
-    public void borrowBook(int bookId, String userId) {
+    public void borrowBook(int bookId) {
         // lastBorrowed가 null인 KeepingEntity를 먼저 조회
         List<KeepingEntity> nullBorrowedKeepings = keepingRepository.findByBookIdAndLastBorrowedIsNullOrderByKeepDateAsc(bookId);
 
@@ -167,9 +194,8 @@ public class KeepingService {
         log.info("Book rented: {}", book.getBookId());
     }
 
-    @Transactional
-    public void returnedBook(int keepingId) {
-        KeepingEntity keeping = keepingRepository.findById(keepingId)
+    public KeepingDTO returnedBook(KeepingEntity entity) {
+        KeepingEntity keeping = keepingRepository.findById(entity.getKeepingId())
                 .orElseThrow(() -> new IllegalArgumentException("There is no kept nor rented item"));
         if (keeping.getKeepStatus() != 2) {
             throw new RuntimeException("This book has never been rented");
@@ -180,6 +206,7 @@ public class KeepingService {
 
         keeping.setKeepStatus(1); // 상태를 보관 중으로 변경
         keeping.setLastBorrowed(LocalDateTime.now()); // 반환 시각 업데이트
+        keeping.setCount(keeping.getCount() + 1);
         keepingRepository.save(keeping);
 
         // 책 재고 증가
@@ -187,6 +214,7 @@ public class KeepingService {
         bookRepository.save(book);
 
         log.info("Book returned: {}", book.getBookId());
+        return new KeepingDTO(keeping);
     }
 
     @Transactional
@@ -248,6 +276,12 @@ public class KeepingService {
             keeping.setKeepingId(entity.getKeepingId());
             keeping.setKeepStatus(entity.getKeepStatus());
             keepingRepository.save(keeping);
+
+            BookEntity book = bookRepository.findById(keeping.getBookId())
+                    .orElseThrow(() -> new IllegalArgumentException("There is no such a book"));
+            // 책 재고 감소
+            book.setStock(book.getStock() - 1);
+            bookRepository.save(book);
             log.info("rent updated:{}", keeping.getKeepingId());
             return new KeepingDTO(keeping);
         } else {

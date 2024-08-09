@@ -17,14 +17,16 @@ public class RentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int rentId;
     private int keepingId;
-    private int borrowedId;
+    private int bookId;
+    private Long borrowedId;
     private String bookname;
     private String borrowedName;
     private String applicationDate;
     private String borrowDate;
     private String returnDate;
-    private String ISBN;
+    private String isbn;
     private String cause;
     private String approval;
     private String description;
+    private int rentBookCount;
 }

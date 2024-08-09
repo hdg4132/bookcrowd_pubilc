@@ -5,12 +5,16 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import './RentView.css';
 import icon_off from '../assets/icon_heart_off.png';
 import icon_on from '../assets/icon_heart_on.png';
+import { getCurrentDateTime } from "../util/util";
 
 const RentView =()=>{
     const baseUrl = "http://localhost:8080";
     const {id} = useParams();
     const [ data, setData ] = useState();
     const nav = useNavigate();
+    const currentTime = getCurrentDateTime();
+    
+
     useEffect(() => {
         putSpringData();
     },[])
@@ -35,6 +39,28 @@ const RentView =()=>{
             )
         window.location.href='/rent';
 
+    }
+
+    const user = JSON.parse(sessionStorage.getItem("userData"))
+    const rentRequest = () => {
+        if(user == null) {
+            alert("로그인이 필요한 서비스입니다")
+            nav("/login")
+        }
+        else{
+        axios.post("http://localhost:8080/rents/register", {
+            approval:"1",
+            borrowedId:user.userId,
+            bookname:data.bookName,
+            borrowedName:user.name,
+            isbn:data.isbn,
+            applicationDate:currentTime  
+        })
+        .then((response) => {
+            console.log(response.data)
+            alert("신청이 완료되었습니다")
+        })
+    }
     }
 
     return(
@@ -62,14 +88,18 @@ const RentView =()=>{
                                         <p className="info_tt">출판사</p>
                                         <p className="info_con">{data.publisher}</p>
                                     </li>
+                                    {data.pages ?
                                     <li>
                                         <p className="info_tt">면 수</p>
                                         <p className="info_con">{data.pages}</p>
                                     </li>
-                                    <li>
-                                        <p className="info_tt">장르</p>
-                                        <p className="info_con">{data.genre}</p>
-                                    </li>
+                                        : ''}
+                                    {data.genre ?
+                                        <li>
+                                            <p className="info_tt">장르</p>
+                                            <p className="info_con">{data.genre}</p>
+                                        </li>
+                                        : ''}
                                     <li>
                                         <p className="info_tt">대출가능 권 수</p>
                                         <p className="info_con"><span>{data.stock}</span> 권</p>
@@ -78,7 +108,7 @@ const RentView =()=>{
                             </div>
                             <div className="book_btn">
                                 <button className="btn"><img src={icon_off}/> 위시리스트</button>
-                                <button className="btn btn_color">대여하기</button>
+                                <button className="btn btn_color" onClick={rentRequest}>대여하기</button>
                             </div>
                         </div>
                     </div>
@@ -91,10 +121,12 @@ const RentView =()=>{
                     </div>
 
                 )}
+                {user &&(
                 <div className="btn_sec">
                     <Link className="btn" to={`/adm/rent/edit/${id}`}>수정</Link>
                     <button className="btn" onClick={deletePost}>삭제</button>
-                </div>
+                </div>)
+                }
                 <div className="paging_sec clearfix">
                     <Link className="prev" to={`/rent/12`}><span
                         className="arrow"></span>Prev
