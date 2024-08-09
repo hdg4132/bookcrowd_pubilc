@@ -27,8 +27,7 @@ import KeepingRegister from "./component/BookKeeping/KeepingRegister";
 import Login from "./component/Login/Login";
 import Signup from "./component/Signup/Signup";
 import Mypage from "./component/Mypage/Mypage";
-import Editprofile from "./component/Editprofile/Editprofile";
-
+import Editprofile from "./component/Signup/Editprofile"
 import AdminRegisterBook from "./component/admin/AdminRegisterBook";
 import AdminRegisterList from "./component/admin/AdminRegisterList";
 import Home from "./component/Home";

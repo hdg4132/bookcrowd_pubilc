@@ -4,20 +4,6 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import SubBanner from "../../component/SubBanner";
 import "./CommunityDetail.css";
 
-const formatDate = (date) => {
-  if (!date) return "날짜 없음";
-  const postDate = new Date(date);
-  const now = new Date();
-  const diff = Math.abs(now - postDate);
-  const diffMinutes = Math.floor(diff / 60000);
-
-  if (diffMinutes < 1) return "방금 전";
-  if (diffMinutes < 60) return `${diffMinutes}분 전`;
-  const diffHours = Math.floor(diffMinutes / 60);
-  if (diffHours < 24) return `${diffHours}시간 전`;
-
-  return `${postDate.toLocaleDateString()} ${postDate.toLocaleTimeString()}`;
-};
 
 export default function CommunityDetail() {
   const { id } = useParams();
@@ -80,7 +66,6 @@ export default function CommunityDetail() {
     setEditCommentId(commentId);
     setEditCommentText(commentToEdit.comment);
   };
-
   const handleSaveEdit = (event) => {
     event.preventDefault();
     if (editCommentText.trim()) {
@@ -89,6 +74,7 @@ export default function CommunityDetail() {
           `http://localhost:8080/api/community/${id}/comments/${editCommentId}`,
           {
             comment: editCommentText,
+            postId: id, // postId를 포함합니다.
           }
         )
         .then((response) => {
@@ -100,11 +86,12 @@ export default function CommunityDetail() {
           setEditCommentText("");
         })
         .catch((error) => {
-          console.error("댓글 수정에 실패했습니다:", error);
+          console.error("댓글 수정에 실패했습니다:", error.response ? error.response.data : error.message);
         });
     }
   };
-
+  
+  
   const handleDelete = (commentId) => {
     axios
       .delete(`http://localhost:8080/api/community/${id}/comments/${commentId}`)
