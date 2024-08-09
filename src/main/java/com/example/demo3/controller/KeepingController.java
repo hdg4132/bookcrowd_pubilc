@@ -41,9 +41,12 @@ public class KeepingController {
         return new ResponseEntity<>(keepings, HttpStatus.OK);
     }
 
-    @GetMapping("/all/{userId}")
-    public List<KeepingEntity> getAllKeepingsByUserId(@PathVariable Long userId) {
-        return keepingService.getAllKeepingsByUserId(userId);
+    @GetMapping("/search")
+    public ResponseEntity<Page<KeepingEntity>> searchKeepings(
+            @RequestParam(required = false) Long userId,
+            @RequestParam String keyword, Pageable pageable) {
+        Page<KeepingEntity> keepings = keepingService.searchKeepings(userId, keyword, pageable);
+        return ResponseEntity.ok(keepings);
     }
 
     @GetMapping("/detail/{keepingId}")

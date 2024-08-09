@@ -29,23 +29,19 @@ export default function KeepingList() {
   }, [navigate]);
 
   useEffect(() => {
+    if (userData) {
     const query = new URLSearchParams(location.search);
     const keyword = query.get("search") || '';
     const noResults = query.get("noResults") === 'true';
     const error = query.get("error") === 'true';
     setSearchKeyword(keyword);
-    if (userData) {
       if (error) {
         setError({ message: "검색 중 오류가 발생했습니다." });
-      } else {
+      } else if (!noResults) {
         fetchData(page, keyword);
       }
     }
-    if (noResults) {
-      setFilteredData([]);
-      setTotalPages(0);
-    }
-  }, [page, userData, location.search]);
+  }, [userData]);
 
   const fetchData = (page, keyword = "") => {
     setLoading(true);
@@ -88,6 +84,7 @@ export default function KeepingList() {
   const handlePageChange = (newPage) => {
     if (newPage >= 0 && newPage < totalPages) {
       setPage(newPage);
+      fetchData(newPage, searchKeyword);
     }
   };
 
@@ -125,7 +122,7 @@ export default function KeepingList() {
           <tr>
             <td colSpan="4">
               데이터가 없습니다.
-              <button onClick={handleRegisterClick}>등록하기</button>
+              <button className="btn-register-data" onClick={handleRegisterClick}>등록하기</button>
             </td>
           </tr>
         );

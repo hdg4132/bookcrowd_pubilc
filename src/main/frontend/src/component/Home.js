@@ -6,8 +6,7 @@ import img2 from "../assets/Main2.png";
 import HomeBookList from "./HomeBookList";
 import HomeCommunityList from "./HomeCommunityList";
 import axios from "axios";
-import Main from "./Main";
-
+import Main from "./Main.js"
 
 function Home() {
   const [posts, setPosts] = useState([]);
