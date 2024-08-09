@@ -1,4 +1,3 @@
-git 
 // import "./App.css";
 import React, { useEffect, useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
@@ -89,4 +88,3 @@ function App() {
 }
 
 export default App;
-

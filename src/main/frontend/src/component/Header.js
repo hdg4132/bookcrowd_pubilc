@@ -3,8 +3,6 @@ import "./Header.css";
 import bookLogo from "../assets/MainLogo.png";
 import {Link, useLocation} from "react-router-dom";
 
-
-
 const Header = () => {
   useEffect(() => {
     const topscroll = function () {
