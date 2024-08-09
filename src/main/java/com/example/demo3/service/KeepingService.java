@@ -50,6 +50,10 @@ public class KeepingService {
                 .map(KeepingDTO::new);
     }
 
+    public List<KeepingEntity> getAllKeepingsByUserId(Long userId) {
+        return keepingRepository.findByUserId(userId);
+    }
+
     public Page<KeepingEntity> searchKeepings(Long userId, String keyword, Pageable pageable) {
         return keepingRepository.searchAllByKeyword(userId, keyword, pageable);
     }
