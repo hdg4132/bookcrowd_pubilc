@@ -25,4 +25,11 @@ public interface KeepingRepository extends JpaRepository <KeepingEntity, Integer
             "k.ISBN LIKE %:keyword% OR " +
             "k.note LIKE %:keyword%)")
     Page<KeepingEntity> searchKeepingsByUser(@Param("userId") Long userId, @Param("keyword") String keyword, Pageable pageable);
+    @Query("SELECT k FROM KeepingEntity k WHERE " +
+            "(:userId IS NULL OR k.userId = :userId) AND (" +
+            "LOWER(k.bookName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(k.ISBN) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(k.note) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "CAST(k.userId AS string) LIKE CONCAT('%', :keyword, '%'))")
+    Page<KeepingEntity>searchAllByKeyword(@Param("userId") Long userId, @Param("keyword") String keyword, Pageable pageable );
 }

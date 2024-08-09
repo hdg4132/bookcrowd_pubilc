@@ -6,6 +6,7 @@ import img2 from "../assets/Main2.png";
 import HomeBookList from "./HomeBookList";
 import HomeCommunityList from "./HomeCommunityList";
 import axios from "axios";
+import Main from "./Main.js"
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -32,6 +33,7 @@ function Home() {
 
   return (
     <div>
+      <Main/>
       <div className="main_banner">
         <div className="logo">
           <p className="main_banner_text">책 대여 보관 시스템</p>
