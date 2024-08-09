@@ -138,6 +138,12 @@
   margin-right: auto;
   background-color: #ebebeb;
   border-top-left-radius: 0;
+  text-align: left;
+}
+
+.userchat-user .userchat-message-content p,
+.userchat-admin .userchat-message-content p{
+  text-align: left;
 }
 
 /* 메시지 날짜 스타일 */

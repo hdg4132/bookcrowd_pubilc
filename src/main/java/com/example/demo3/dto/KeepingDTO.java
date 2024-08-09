@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Data
 public class KeepingDTO {
     private int keepingId;
-    private String userId;  // 아직 userId 조합을 그냥 유저의 고유아이디 쓸지 이메일 쓸지 몰라서
+    private Long userId;  // 아직 userId 조합을 그냥 유저의 고유아이디 쓸지 이메일 쓸지 몰라서
     private int bookId;
     private String ISBN;
     private String bookName;
@@ -25,6 +25,7 @@ public class KeepingDTO {
     private String note;
     private LocalDateTime keepDate;
     private LocalDateTime lastBorrowed;
+    private int count;
 
     public KeepingDTO(final KeepingEntity entity) {
         this.keepingId = entity.getKeepingId();
@@ -37,6 +38,7 @@ public class KeepingDTO {
         this.note = entity.getNote();
         this.keepDate = entity.getKeepDate();
         this.lastBorrowed = entity.getLastBorrowed();
+        this.count = entity.getCount();
     }
 
     public static KeepingEntity toEntity(final KeepingDTO dto) {
@@ -51,6 +53,7 @@ public class KeepingDTO {
                 .keepDate(dto.getKeepDate())
                 .note(dto.getNote())
                 .lastBorrowed(dto.getLastBorrowed())
+                .count(dto.getCount())
                 .build();
     }
 

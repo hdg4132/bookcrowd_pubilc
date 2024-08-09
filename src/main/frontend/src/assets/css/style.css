@@ -120,8 +120,8 @@ body {
 /* book-keeping */
 
 .book-keeping-container {
-  width: 80%;
-  margin: 20px auto;
+  width: 1435px;
+  margin: 20px auto 80px;
   padding: 20px;
 }
 
@@ -139,6 +139,11 @@ body {
   text-align: center;
   border-bottom: 1px solid #ccc;
 }
+
+.book-keeping-container tr {
+  cursor: pointer;
+}
+
 .book-keeping-container td {
   padding: 16px 10px;
   font-size: 16px;
@@ -149,7 +154,7 @@ body {
 }
 
 .book-keeping-container .col-title {
-  width: 70%;
+  width: 68%;
   text-align: left;
   padding-left: 25px;
 }
@@ -273,6 +278,7 @@ body {
   width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
+  table-layout: fixed;
 }
 .book-keeping-item-container tbody {
   border-top: 3px solid #333;
@@ -288,8 +294,11 @@ body {
   font-weight: 400;
 }
 .book-keeping-item-container td {
-  padding: 10px;
+  padding: 20px;
   text-align: left;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow: break-word;
 }
 .book-keeping-item-container .button-container {
   display: flex;
@@ -309,6 +318,7 @@ body {
   cursor: pointer;
   margin-top: 80px;
   margin-bottom: 100px;
+  text-align: center;
 }
 
 .book-keeping-item-container .pagination-item {
@@ -317,6 +327,7 @@ body {
   padding: 10px 0;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
+  margin-bottom: 120px;
 }
 
 .book-keeping-item-container .pagination-item span {

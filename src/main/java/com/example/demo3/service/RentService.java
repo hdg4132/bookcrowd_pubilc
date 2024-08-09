@@ -9,6 +9,7 @@ import com.example.demo3.persistence.RentRepository;
 import com.example.demo3.persistence.UserRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.boot.archive.scan.internal.ScanResultImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,8 +43,6 @@ public class RentService {
     public RentDTO saveRent(RentDTO rentDTO) {
         log.info("new rent: {}", rentDTO);
         RentEntity rentEntity = RentDTO.toEntity(rentDTO);
-//        rentEntity.setBorrowedId(userRepository.findById(rentDTO.getBorrowedId()).orElseThrow(() -> new IllegalArgumentException("로그인이 안되어있습니다")).getUserId());
-//        rentEntity.setKeepingId(keepingRepository.findById(rentDTO.getKeepingId()).orElseThrow(() -> new IllegalArgumentException("대여자 정보가 잘못되었습니다")).getBookId());
         rentEntity = rentRepository.save(rentEntity);
         log.info("rent sucess: {}", rentEntity);
         return new RentDTO(rentEntity);
@@ -55,7 +54,7 @@ public class RentService {
             RentEntity rent = original.get();
             rent.setRentId(entity.getRentId());
             rent.setBorrowedId(entity.getBorrowedId());
-            rent.setISBN(entity.getISBN());
+            rent.setIsbn(entity.getIsbn());
             rent.setKeepingId(entity.getKeepingId());
             rent.setDescription(entity.getDescription());
             rent.setBorrowDate(entity.getBorrowDate());
@@ -87,7 +86,7 @@ public class RentService {
     }
 
     public List<RentDTO> findByapproval(String approval) {
-        log.info("List of all the approval");
+        log.info("List of all the findByapproval");
         return rentRepository.findByApproval(approval)
                 .stream()
                 .map(RentDTO::new)
@@ -95,16 +94,24 @@ public class RentService {
     }
 
     public List<RentDTO> findByisbn(String ISBN) {
-        log.info("List of all the isbn");
-        return rentRepository.findByISBN(ISBN)
+        log.info("List of all the findByisbn");
+        return rentRepository.findByIsbn(ISBN)
                 .stream()
                 .map(RentDTO::new)
                 .collect(Collectors.toList());
     }
 
     public List<RentDTO> findById(Integer rentId) {
-        log.info("List of all the id");
+        log.info("List of all the findById");
         return rentRepository.findByRentId(rentId)
+                .stream()
+                .map(RentDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<RentDTO> findByBorrowedId(Long userId) {
+        log.info("List of all the findByBorrowedId");
+        return rentRepository.findByBorrowedId(userId)
                 .stream()
                 .map(RentDTO::new)
                 .collect(Collectors.toList());
@@ -149,6 +156,10 @@ public class RentService {
             rent.setApproval(entity.getApproval());
             rent.setReturnDate(entity.getReturnDate());
             rentRepository.save(rent);
+            List<RentEntity> count = rentRepository.findByBorrowedId(rent.getBorrowedId());
+            count.forEach(rentEntity ->
+                    rentEntity.setRentBookCount(rentRepository.countByborrowedIdAndApproval(rent.getBorrowedId(), "2")));
+            rentRepository.saveAll(count);
             log.info("rent updated:{}", rent.getRentId());
             return new RentDTO(rent);
         } else {
@@ -164,7 +175,13 @@ public class RentService {
             rent.setRentId(entity.getRentId());
             rent.setApproval(entity.getApproval());
             rent.setBorrowDate(entity.getBorrowDate());
+            rent.setKeepingId(entity.getKeepingId());
+            rent.setBookId(entity.getBookId());
             rentRepository.save(rent);
+            List<RentEntity> count = rentRepository.findByBorrowedId(rent.getBorrowedId());
+            count.forEach(rentEntity ->
+                    rentEntity.setRentBookCount(rentRepository.countByborrowedIdAndApproval(rent.getBorrowedId(), "2")));
+            rentRepository.saveAll(count);
             log.info("rent updated:{}", rent.getRentId());
             return new RentDTO(rent);
         } else {

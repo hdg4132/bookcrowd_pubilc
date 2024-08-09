@@ -2,22 +2,16 @@ package com.example.demo3.controller;
 
 
 import com.example.demo3.dto.BookDTO;
+import com.example.demo3.model.BookEntity;
 import com.example.demo3.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -52,7 +46,7 @@ public class BookController {
   // 새 책 추가
   @PostMapping("/write")
   public ResponseEntity<BookDTO> addBook(
-          @RequestParam("file") MultipartFile file,
+          @RequestPart(value = "file", required = false) MultipartFile file,
           @RequestParam("ISBN") String ISBN,
           @RequestParam("bookName") String bookName,
           @RequestParam("publisher") String publisher,
@@ -62,19 +56,11 @@ public class BookController {
           @RequestParam("pages") int pages,
           @RequestParam("description") String description
   ) {
-    String fileName = file.getOriginalFilename();
-    Path filePath = Paths.get("src/main/resources/static/files/" + fileName);
-
-    try {
-      Files.write(filePath, file.getBytes());
-    } catch (IOException e) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
+    String fileName = (file != null) ? file.getOriginalFilename() : "no-image01.gif"; // 기본 이미지 URL
     BookDTO bookDTO = BookDTO.builder()
             .ISBN(ISBN)
             .bookName(bookName)
-            .bookImgUrl(file.getOriginalFilename())
+            .bookImgUrl(fileName)
             .publisher(publisher)
             .author(author)
             .publishDate(publishDate)
@@ -90,8 +76,27 @@ public class BookController {
   @PutMapping("/edit/{id}")
   public ResponseEntity<BookDTO> updateBook
   (@PathVariable("id") int bookId,
-   @RequestBody BookDTO bookDTO) {
-    BookDTO updatedBook = bookService.updateBook(bookId, bookDTO);
+   @RequestPart(value = "file", required = false)   MultipartFile file,
+   @RequestParam("ISBN") String ISBN,
+   @RequestParam("bookName") String bookName,
+   @RequestParam("publisher") String publisher,
+   @RequestParam("author") String author,
+   @RequestParam("publishDate") String publishDate,
+   @RequestParam("genre") String genre,
+   @RequestParam("pages") int pages,
+   @RequestParam("description") String description) {
+    BookDTO bookDTO = BookDTO.builder()
+            .ISBN(ISBN)
+            .bookName(bookName)
+            .publisher(publisher)
+            .author(author)
+            .publishDate(publishDate)
+            .genre(genre)
+            .pages(pages)
+            .description(description)
+            .build();
+
+    BookDTO updatedBook = bookService.updateBook(bookId, bookDTO, file);
     if (updatedBook != null) {
       return new ResponseEntity<>(updatedBook, HttpStatus.OK);
     } else {
@@ -108,5 +113,14 @@ public class BookController {
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+  }
+
+  //책 검색
+  @GetMapping("/getSearchList")
+  @ResponseBody
+  private List<BookEntity> getSearchList(@RequestParam(value = "keyword") String keyword, Model model) {
+    BookDTO bookDTO = new BookDTO();
+    bookDTO.setKeyword(keyword);
+    return bookService.getSearchList(keyword);
   }
 }

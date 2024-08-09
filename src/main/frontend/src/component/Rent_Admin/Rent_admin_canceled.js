@@ -9,11 +9,11 @@ const Rent_admin_canceled = () => {
 
   useEffect(() => {
     const instance = axios.create({
-      baseURL: "api/api",
+      baseURL: "api",
       timeout: 10000,
     });
     instance
-      .get("/rent/3")
+      .get("/rents/approval/3")
       // rent뒤의 1은 승인상태 1은 미승인, 2는 승인, 3은 반려처리
       .then((data) => {
         setPosts(data.data);
@@ -25,7 +25,7 @@ const Rent_admin_canceled = () => {
     <div className="Rent_Admin_List">
       <div className="Admin_side">
         <div className="Admin_LOGO"> 사이트 로고 </div>
-        <div>
+        <div className="Admin_side_link">
           <div>
             <a href="">회원관리</a>
           </div>
@@ -38,6 +38,11 @@ const Rent_admin_canceled = () => {
           <div>
           <Link to="/rent_admin_return">
               반납등록으로 <Outlet />
+            </Link>
+          </div>
+          <div>
+          <Link to="/">
+              메인으로 <Outlet />
             </Link>
           </div>
         </div>

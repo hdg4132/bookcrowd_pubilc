@@ -28,7 +28,7 @@ const Rent_admin = () => {
     <div className="Rent_Admin_List">
       <div className="Admin_side">
         <div className="Admin_LOGO"> 사이트 로고 </div>
-        <div>
+        <div className="Admin_side_link">
           <div>
             <a href="">회원관리</a>
           </div>
@@ -40,6 +40,11 @@ const Rent_admin = () => {
           <div>
           <Link to="/rent_admin_return">
               반납등록으로 <Outlet />
+            </Link>
+          </div>
+          <div>
+          <Link to="/">
+              메인으로 <Outlet />
             </Link>
           </div>
         </div>

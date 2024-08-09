@@ -7,21 +7,26 @@ const RentBookItem = ({ keepingId, userId, bookId, bookName, rentable, note, kee
     const nav = useNavigate();
     const date = getCurrentDateTime();
 
-    console.log(rent)
-    console.log(keepingId)
     const approval = (e) => {
+      const instance = axios.create({
+        baseURL: "api",
+        timeout: 10000,
+      });
+      
         e.preventDefault();
         const approval = window.confirm("승인하시겠습니까?");
         if (approval == true) {
-            axios.put("api/keepings/matching", {
+          instance.put("/keepings/matching", {
                 keepingId: keepingId,
                 keepStatus: 2
             })
 
-            axios.put("api/rents/matching", {
+            instance.put("/rents/matching", {
                 rentId: rent.rentId,
+                keepingId: keepingId,
                 approval: '2',
-                borrowDate: date
+                borrowDate: date,
+                bookId: bookId
             })
             .then(
                 alert("매칭이 완료되었습니다"),
@@ -48,7 +53,7 @@ const RentBookItem = ({ keepingId, userId, bookId, bookName, rentable, note, kee
             <p> 도서명: {bookName}</p>
           </div>
           <div className="keepingDate">
-            <p> 보관시작일 : {keepDate}</p>
+            <p> 보관시작일 : {getCurrentDateTime(keepDate)}</p>
           </div>
           <div className="rentLimit">
             <p> 비고 : {note}</p>

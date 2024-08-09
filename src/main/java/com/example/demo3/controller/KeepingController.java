@@ -29,14 +29,20 @@ public class KeepingController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<Page<KeepingDTO>> userGivenInfo(
-            @PathVariable String userId,
+            @PathVariable Long userId,
+            @RequestParam(required = false) String keyword,
             @PageableDefault(sort = "keepDate", direction = Sort.Direction.DESC)  Pageable pageable) {
-        Page<KeepingDTO> keepings = keepingService.userGivenInfo(userId, pageable);
+        Page<KeepingDTO> keepings;
+        if (keyword == null || keyword.isEmpty()) {
+            keepings = keepingService.userGivenInfo(userId, pageable);
+        } else {
+            keepings = keepingService.searchKeepingsByUser(userId, keyword, pageable);
+        }
         return new ResponseEntity<>(keepings, HttpStatus.OK);
     }
 
     @GetMapping("/all/{userId}")
-    public List<KeepingEntity> getAllKeepingsByUserId(@PathVariable String userId) {
+    public List<KeepingEntity> getAllKeepingsByUserId(@PathVariable Long userId) {
         return keepingService.getAllKeepingsByUserId(userId);
     }
 
@@ -46,10 +52,21 @@ public class KeepingController {
         return new ResponseEntity<>(keeping, HttpStatus.OK);
     }
 
+    @GetMapping("/searchKeepingList")
+    public Page<KeepingEntity> searchKeeping(@RequestParam("keyword") String keyword, Pageable pageable) {
+        return keepingService.searchKeepingList(keyword, pageable);
+    }
+
     @PostMapping
     public ResponseEntity<KeepingDTO> saveKeeping(@RequestBody KeepingDTO keepingDTO) {
         KeepingDTO savedKeeping = keepingService.saveKeeping(keepingDTO);
         return new ResponseEntity<>(savedKeeping, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/updateStatus/{ISBN}")
+    public ResponseEntity<?> updateKeepStatus(@PathVariable String ISBN) {
+        keepingService.updateKeepStatusAndQuantities(ISBN);
+        return ResponseEntity.ok("KeepStatus updated");
     }
 
     @PutMapping("/requestReturn/{keepingId}")
@@ -86,7 +103,7 @@ public class KeepingController {
     public ResponseEntity<?> bookReturn(@RequestBody KeepingDTO keepingDTO) {
         try{
             KeepingEntity keepingEntity = KeepingDTO.toEntity(keepingDTO);
-            KeepingDTO updatedKeeping = keepingService.Bookmatching(keepingEntity);
+            KeepingDTO updatedKeeping = keepingService.returnedBook(keepingEntity);
             return ResponseEntity.ok(updatedKeeping);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

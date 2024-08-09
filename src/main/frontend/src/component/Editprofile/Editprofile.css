@@ -1,9 +1,27 @@
 @font-face {
+    font-family: 'Pretendard-Light';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+} 
+@font-face {
     font-family: 'Pretendard-Regular';
     src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
     font-weight: 400;
     font-style: normal;
-}
+} 
+@font-face {
+    font-family: 'Pretendard-Medium';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+} 
+@font-face {
+    font-family: 'Pretendard-SemiBold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+} 
 @font-face {
     font-family: 'Pretendard-Bold';
     src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
@@ -11,14 +29,16 @@
     font-style: normal;
 }
 
-html, body{font-family: 'Pretendard-Regular';}
-html * , body *{box-sizing: border-box;}
+html, body {
+    text-align: center;
+    min-height: 100%;
+}
 
-.container_fix {
+.container_fix{
     width: 1310px;
     padding: 0 15px;
+    max-width:100%;
     margin: 0 auto;
-    position: relative;
 }
 
 #sub_banner {
@@ -26,8 +46,7 @@ html * , body *{box-sizing: border-box;}
     background: url(../../assets/MainBanner.png) no-repeat center 50%/cover;
 }
 
-
-.container_fix h2{
+#sub_banner h2{
     padding-top: 97px;
     font-style: normal;
     font-family: 'Pretendard-Regular';
@@ -49,126 +68,193 @@ html * , body *{box-sizing: border-box;}
     filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.15));
 }
 
-main h3 {
-    text-align: center;
-    padding: 50px 950px 86px 0;
-    font-size: 30px;
-    font-weight: 700;
-}
-
-.signup_form {
-    border-top: 1px solid #333;
-    width: 1100px;
+.mypage {
     margin: 0 auto;
-    padding: 35px 20px;
-    box-sizing: border-box;
-}
-
-.signup_form > .signup_form_con {
-    margin-bottom: 20px;
-    display: flex;
-}
-
-.signup_form label {
-    padding-top: 6px;
-    font-size: 16px;
-    line-height: 23px;
-    display: flex;
-    width: 130px;
-}
-
-.signup_form input {
-    width: 596px;
-    height: 39px;
-    font-size: 12px;
-    padding: 0 10px;
-}
-
-.btn_check {
-    width: 89.13px;
-    height: 40px;
-    font-size: 13px;   
-    color: #199AE2;
-    background-color: #fff;
-    border:1px solid #199AE2;
-    border-radius: 5px;
-    margin-left: 15px;
-}
-
-.password_wrap {
-    height: 35px;
-}
-
-.signup_form p {
-    font-size: 9px;
-    color: #ff0000;
-    margin: 5px 0;
-}
-
-.signup_form_policybox p {
-    font-size: 20px;
-    color: #000000;
-}
-
-.signup_form_TermsofUse p {
-    font-size: 20px;
-    color: #000000;
-}
-
-.mail_input_wrap {
-    width: calc(100% - 80px);
-    height: 35px;
-    padding-left: 6px;
-}
-
-.mail_input {
-    display: flex;
-}
-
-
-#btn_signup {
     text-align: center;
-    padding: 75px 0 100px 0;
+    width: 1310px;
+    padding: 0 15px;
 }
 
-#btn_signup button {
-    width: 135px;
-    height: 40px;
-    border-radius: 5px;
-    font-size: 15px;
+.mypage_header {
+    width: 1280px;
+    height: auto;
+    margin: 0 auto;
 }
 
-.btn_back{
-    display: inline-block;
-    width: 135px;
-    height: 40px;
-    border-radius: 5px;
-    font-size: 15px;
-    text-decoration: none;
+.mypage_text{
+    text-align: left;
+    padding: 53px 0 53px 20px;
+    font-family: 'Pretendard-SemiBold';
+    font-size: 30px;
+    line-height: 36px;
+    color: #333333;
+}
+
+.Line3{
+    background: url("../../assets/Line1.png");
+    padding-top: 1px;  
+    margin: 0 auto;
+    width: 1280px;
+}
+
+.mypage_side {
+    width: 220px;
+    padding: 0 15px;
+}
+
+.sidebox {
+    margin-top: 50px;
+    box-sizing: border-box;
+    text-align: left;
+    float: left;
+    width: 220px;
+    height: 459px;
+    border: 1px solid #EFEFEF;
+}
+
+.sidebox ul{
+    list-style: none;
+    padding : 20px 20px 0px 15px;
+}
+
+.sidebox_List li:hover {
     color: #199AE2;
+  }
+
+.sidebox_text {
+    font-family: 'Pretendard-SemiBold';
+    font-style: normal;
+    height: 117px;
+    line-height: 19px;
+    font-size: 16px;
+    padding-top: 50px;
+    margin: -50px 0;
+}
+
+.sidebox_quitbutton {
     background-color: #fff;
-    border:1px solid #199AE2;
-    margin-right: 15px;
-    padding: 12px;
+    padding: 0 10px 20px 0;
+    border: none;
+    outline: none;
+    font-family: 'Pretendard-SemiBold';
+    font-style: normal;
+    line-height: 19px;
+    font-size: 20px;
 }
 
-.btn_signup {
-    color: #fff;
-    background-color: #199AE2;
-    border:1px solid #199AE2;
+.sidebox_quitbutton:hover {
+    color: #199AE2;
+}
+
+.MyTicketing {
+    text-align: left;
+    margin-left: 300px;
+    margin-top: 65px; 
+    height: 900px;
+    width: 1000px;
+}
+
+.MyTicketing h3 {
+    font-family: 'Pretendard-Regular';
+    font-style: normal;
+    font-size: 30px;
+    padding-bottom: 20px;
+    line-height: 24px;
+    padding-bottom: 20px;
+    color: #333333;
 }
 
 
-.policy-box ,.TermsofUse {
-    width: 1100px;
-    height: 180px;
+.post_line{ 
+    background: url("../../assets/post_line.png");
+    width: 1000px;
+    height: 1px;
+}
+
+.movie_info {
+    display: flex;
+    margin-left: 15px;
+    margin-bottom: 20px;
+}
+  
+.movieImage {
+    width: 110px;
+    height: 157px;
+    background-size: contain; /* 배경 이미지를 요소에 맞게 확대/축소 */
+    background-position: center; /* 배경 이미지 위치 중앙 정렬 */
+    margin-top: 15px;
+    margin-right: 20px;
+}
+  
+.info_text {
+    margin-top: 15px;
+    flex: 1;
+}
+
+.movie_text1{
+    font-size: 18px;
+    color: #333333;
+    line-height: 21px;
+}
+
+.movie_text2{
+    font-size: 14px;
+    color: #666666;
+    line-height: 40px;
+}
+
+.movie_text3{
+    font-size: 14px;
+    color: #000000;
+    line-height: 17px;
+}
+
+.page_number{
+    text-align: center;
+    padding-top: 80px;
+    width: 1000px;
+    height: 22px;
+}
+
+.page_number_text{
+    font-family: 'Pretendard-Light';
+    font-style: normal;
+    font-size: 22px;
+    line-height: 19px;
+    letter-spacing: 10px;
+    height: 19px;
+    color: #999999;
+}
+
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
     border: 1px solid #ccc;
-    background-color: #fff;
-    overflow-y: scroll;
-    resize: none;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 1000;
 }
 
-.emailerror {
-    padding-right: 60px;
+.popup.show {
+    opacity: 1;
+}
+
+.popup p {
+    margin-bottom: 10px;
+}
+
+.popup button {
+    justify-content: center;
+    background-color: #199AE2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.popup button:hover {
+    background-color: #199AE2;
 }

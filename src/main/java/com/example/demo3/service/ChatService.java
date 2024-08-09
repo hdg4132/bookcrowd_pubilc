@@ -10,6 +10,7 @@ import com.example.demo3.persistence.ChatRoomRepository;
 import com.example.demo3.persistence.UserMessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZoneId;
 import java.util.List;
@@ -28,15 +29,14 @@ public class ChatService {
     @Autowired
     private ChatRoomRepository chatRoomRepository;
 
-    // 메시지 저장 메서드
+    @Transactional
     public ChatMessageDTO saveMessage(ChatMessageDTO chatMessageDTO) {
         if (chatMessageDTO.getRoomId() == null) {
             throw new IllegalArgumentException("Room ID must not be null");
         }
 
-        // 중복 메시지 확인
         if (isDuplicateMessage(chatMessageDTO)) {
-            return chatMessageDTO; // 중복 메시지인 경우 저장하지 않고 반환
+            return chatMessageDTO;
         }
 
         if ("admin".equals(chatMessageDTO.getSender())) {
@@ -53,30 +53,31 @@ public class ChatService {
             List<AdminMessageEntity> existingMessages = adminMessageRepository.findByRoomId(chatMessageDTO.getRoomId());
             for (AdminMessageEntity message : existingMessages) {
                 if (message.getContent().equals(chatMessageDTO.getContent()) &&
-                    message.getTimestamp().equals(chatMessageDTO.getTimestamp())) {
-                    return true; // 동일한 내용과 시간이 있으면 중복으로 간주
+                        message.getTimestamp().equals(chatMessageDTO.getTimestamp())) {
+                    return true;
                 }
             }
         } else {
             List<UserMessageEntity> existingMessages = userMessageRepository.findByRoomId(chatMessageDTO.getRoomId());
             for (UserMessageEntity message : existingMessages) {
                 if (message.getContent().equals(chatMessageDTO.getContent()) &&
-                    message.getTimestamp().equals(chatMessageDTO.getTimestamp())) {
-                    return true; // 동일한 내용과 시간이 있으면 중복으로 간주
+                        message.getTimestamp().equals(chatMessageDTO.getTimestamp())) {
+                    return true;
                 }
             }
         }
-        return false; // 중복이 아닌 경우
+        return false;
     }
 
     private void saveAdminMessage(ChatMessageDTO chatMessageDTO) {
         AdminMessageEntity adminMessageEntity = new AdminMessageEntity();
         adminMessageEntity.setRoomId(chatMessageDTO.getRoomId());
         adminMessageEntity.setAdminId(chatMessageDTO.getSender());
-        adminMessageEntity.setUserId(chatMessageDTO.getUserId()); // 사용자 ID 설정
-        adminMessageEntity.setEmail(chatMessageDTO.getEmail()); // 이메일 설정
+        adminMessageEntity.setUserId(chatMessageDTO.getUserId());
+        adminMessageEntity.setEmail(chatMessageDTO.getEmail());
         adminMessageEntity.setContent(chatMessageDTO.getContent());
-        adminMessageEntity.setTimestamp(convertToKST(chatMessageDTO.getTimestamp())); // 시간대 변환
+        adminMessageEntity.setTimestamp(convertToKST(chatMessageDTO.getTimestamp()));
+        adminMessageEntity.setReadStatus(false);
         adminMessageRepository.save(adminMessageEntity);
     }
 
@@ -84,9 +85,10 @@ public class ChatService {
         UserMessageEntity userMessageEntity = new UserMessageEntity();
         userMessageEntity.setRoomId(chatMessageDTO.getRoomId());
         userMessageEntity.setUserId(chatMessageDTO.getUserId());
-        userMessageEntity.setEmail(chatMessageDTO.getEmail()); // 이메일 설정
+        userMessageEntity.setEmail(chatMessageDTO.getEmail());
         userMessageEntity.setContent(chatMessageDTO.getContent());
-        userMessageEntity.setTimestamp(convertToKST(chatMessageDTO.getTimestamp())); // 시간대 변환
+        userMessageEntity.setTimestamp(convertToKST(chatMessageDTO.getTimestamp()));
+        userMessageEntity.setReadStatus(false);
         userMessageRepository.save(userMessageEntity);
     }
 
@@ -105,19 +107,21 @@ public class ChatService {
     public ChatRoomDTO createRoom(ChatRoomDTO chatRoomDTO) {
         Optional<ChatRoomEntity> existingRoom = chatRoomRepository.findByUserId(chatRoomDTO.getUserId());
 
-        ChatRoomEntity chatRoomEntity = existingRoom.orElseGet(() -> {
-            ChatRoomEntity newRoom = new ChatRoomEntity();
-            newRoom.setUserId(chatRoomDTO.getUserId());
-            newRoom.setAdminId(chatRoomDTO.getAdminId());
-            newRoom.setEmail(chatRoomDTO.getEmail()); // 이메일 설정
-            newRoom.setCreationTime(new java.sql.Timestamp(System.currentTimeMillis()));
-            return chatRoomRepository.save(newRoom);
-        });
+        if (existingRoom.isPresent()) {
+            return convertRoomEntityToDTO(existingRoom.get());
+        }
 
-        return convertRoomEntityToDTO(chatRoomEntity);
+        ChatRoomEntity newRoom = new ChatRoomEntity();
+        newRoom.setUserId(chatRoomDTO.getUserId());
+        newRoom.setAdminId(chatRoomDTO.getAdminId());
+        newRoom.setEmail(chatRoomDTO.getEmail());
+        newRoom.setCreationTime(new java.sql.Timestamp(System.currentTimeMillis()));
+
+        ChatRoomEntity savedRoom = chatRoomRepository.save(newRoom);
+
+        return convertRoomEntityToDTO(savedRoom);
     }
 
-    // 특정 채팅방의 메시지 가져오기
     public List<ChatMessageDTO> getMessagesByRoomId(Long roomId) {
         List<ChatMessageDTO> userMessages = userMessageRepository.findByRoomId(roomId)
                 .stream()
@@ -129,12 +133,28 @@ public class ChatService {
                 .map(this::convertAdminEntityToDTO)
                 .collect(Collectors.toList());
 
-        // 두 메시지 목록을 합치고 정렬
         List<ChatMessageDTO> allMessages = userMessages;
         allMessages.addAll(adminMessages);
         allMessages.sort((m1, m2) -> m1.getTimestamp().compareTo(m2.getTimestamp()));
 
+        markMessagesAsRead(roomId);
+
         return allMessages;
+    }
+
+    public boolean hasUnreadMessages(Long roomId) {
+        return userMessageRepository.existsByRoomIdAndReadStatusIsFalse(roomId);
+    }
+
+    @Transactional
+    public void markMessagesAsRead(Long roomId) {
+        List<UserMessageEntity> userMessages = userMessageRepository.findByRoomId(roomId);
+        userMessages.forEach(message -> {
+            if (!message.isReadStatus()) {
+                message.setReadStatus(true);
+                userMessageRepository.save(message);
+            }
+        });
     }
 
     private ChatMessageDTO convertUserEntityToDTO(UserMessageEntity entity) {
@@ -146,6 +166,7 @@ public class ChatService {
         dto.setSender("user");
         dto.setContent(entity.getContent());
         dto.setTimestamp(entity.getTimestamp());
+        dto.setReadStatus(entity.isReadStatus());
         return dto;
     }
 
@@ -158,6 +179,7 @@ public class ChatService {
         dto.setSender("admin");
         dto.setContent(entity.getContent());
         dto.setTimestamp(entity.getTimestamp());
+        dto.setReadStatus(entity.isReadStatus());
         return dto;
     }
 
@@ -168,10 +190,34 @@ public class ChatService {
         dto.setAdminId(entity.getAdminId());
         dto.setEmail(entity.getEmail());
         dto.setCreationTime(entity.getCreationTime());
+
+        boolean unread = hasUnreadMessages(entity.getRoomId());
+        dto.setUnread(unread);
+
+        Optional<ChatMessageDTO> latestMessage = getLatestMessageByRoomId(entity.getRoomId());
+        latestMessage.ifPresent(message -> dto.setLatestMessage(message.getContent()));
+
         return dto;
     }
 
-    // KST로 시간 변환
+    // 추가: 특정 채팅방의 최신 메시지를 가져오는 메서드
+    private Optional<ChatMessageDTO> getLatestMessageByRoomId(Long roomId) {
+        List<ChatMessageDTO> userMessages = userMessageRepository.findByRoomId(roomId)
+                .stream()
+                .map(this::convertUserEntityToDTO)
+                .collect(Collectors.toList());
+
+        List<ChatMessageDTO> adminMessages = adminMessageRepository.findByRoomId(roomId)
+                .stream()
+                .map(this::convertAdminEntityToDTO)
+                .collect(Collectors.toList());
+
+        List<ChatMessageDTO> allMessages = userMessages;
+        allMessages.addAll(adminMessages);
+        return allMessages.stream()
+                .max((m1, m2) -> m1.getTimestamp().compareTo(m2.getTimestamp()));
+    }
+
     private java.util.Date convertToKST(java.util.Date date) {
         return java.util.Date.from(date.toInstant().atZone(ZoneId.of("Asia/Seoul")).toInstant());
     }
