@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./Mypage.css";
 import RentItem from "./Rent_user.js";
 import Pagination from "./Pagination.js";
+import SubBanner from "../SubBanner.js";
 
 function MyPage() {
     const [currentPage, setCurrentPage] = useState(1);
@@ -12,7 +13,7 @@ function MyPage() {
     const [totalItems, setTotalItems] = useState(0);
     const [showPopup, setShowPopup] = useState(false);
     const navigate = useNavigate();
-//
+
     const userInfo = JSON.parse(sessionStorage.getItem("userData"));
 
     useEffect(() => {
@@ -29,8 +30,8 @@ function MyPage() {
         try {
             const response = await axios.get(`api/rents/rentlist/${userInfo.userId}?page=${currentPage}`);
             console.log(response);
-            setRentItems(response.data);
-            setTotalItems(response.data); // 총 아이템 수를 업데이트
+            setRentItems(response.data); // 현재 페이지의 항목들 설정
+            setTotalItems(parseInt(response.headers['x-total-count'], 10)); // 총 항목 수 설정 (헤더에서 가져오는 경우)
         } catch (error) {
             console.error("대여 내역을 불러오는 중 오류가 발생했습니다:", error);
         }
@@ -39,6 +40,8 @@ function MyPage() {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
+    console.log(totalItems, itemsPerPage, currentPage);
 
     const handleDeleteAccount = async () => {
         const userData = JSON.parse(sessionStorage.getItem("userData"));
@@ -57,8 +60,8 @@ function MyPage() {
 
             if (response.data.success) {
                 alert("탈퇴 완료되었습니다.");
-            }else{
-                window.location.href = '/login';   
+            } else {
+                window.location.href = '/login';
             }
         } catch (error) {
             console.error("사용자 탈퇴 오류:", error);
@@ -71,19 +74,14 @@ function MyPage() {
         navigate("/login");
     };
 
+    // totalPages 계산
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
     return (
         <div>
-            <div id="sub_banner">
-                <div className="container_fix">
-                    <h2>MyPage</h2>
-                    <p>마이페이지</p>
-                </div>
-            </div>
+            <SubBanner page_name={"storage"} title_en={"My page"} title_kr={"마이페이지"} search />
             <div className="mypage">
-                <div className="mypage_header">
-                    <p className="mypage_text">마이페이지</p>
-                    <div className="Line3"></div>
-                </div>
+                    <div className="Line3" />
                 <div className="mypage_side">
                     <div className="sidebox">
                         <ul>
@@ -110,15 +108,17 @@ function MyPage() {
                     <div className="post_line" />
                     <ul className="rent_item">
                         {rentItems && rentItems.map((item) => (
-                          <RentItem key={item.rentId} {...item} />
+                            <RentItem key={item.rentId} {...item} />
                         ))}
                     </ul>
-                    <Pagination
-                        totalItems={totalItems}
-                        itemsPerPage={itemsPerPage}
-                        onPageChange={handlePageChange}
-                        currentPage={currentPage}
-                    />
+                    {totalPages > 1 && (
+                        <Pagination
+                            totalItems={totalItems}
+                            itemsPerPage={itemsPerPage}
+                            onPageChange={handlePageChange}
+                            currentPage={currentPage}
+                        />
+                    )}
                 </div>
             </div>
             {showPopup && (

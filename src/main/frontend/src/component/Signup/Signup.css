@@ -12,34 +12,7 @@
 }
 
 html, body{font-family: 'Pretendard-Regular';}
-html * , body *{
-    text-align: center;
-    box-sizing: border-box;
-}
 
-.container_fix {
-    width: 1310px;
-    padding: 0 15px;
-    margin: 0 auto;
-    position: relative;
-}
-
-#sub_banner {
-    padding: 140px 0;
-    background: url(../../assets/MainBanner.png) no-repeat center 50%/cover;
-}
-
-
-#sub_banner h2{
-    padding-top: 97px;
-    font-style: normal;
-    font-family: 'Pretendard-Regular';
-    font-size: 18px;
-    line-height: 5px;
-    letter-spacing: 0.2em;
-    color: #FFFFFF;
-    filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.15));
-}
 
 .container_fix p{
     padding: 10px 0 0 0;

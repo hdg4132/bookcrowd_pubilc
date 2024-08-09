@@ -5,20 +5,40 @@ import "./Mypage.css";
 
 function MyPage() {
     const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10); // 페이지당 아이템 수
+    const [rentItems, setRentItems] = useState([]);
+    const [totalItems, setTotalItems] = useState(0);
     const [showPopup, setShowPopup] = useState(false);
-    const itemsPerPage = 10;
     const navigate = useNavigate();
 
+    const userInfo = JSON.parse(sessionStorage.getItem("userData"));
+
     useEffect(() => {
-        const userInfo = sessionStorage.getItem("userData");
         if (!userInfo) {
             navigate("/login");
+        } else {
+            fetchRentItems();
         }
-    }, [navigate]);
+    }, [navigate, currentPage]);
 
-    const onPageChange = (pageNumber) => {
+    console.log(userInfo.userId);
+
+    const fetchRentItems = async () => {
+        try {
+            const response = await axios.get(`api/rents/rentlist/${userInfo.userId}?page=${currentPage}`);
+            console.log(response);
+            setRentItems(response.data); // 현재 페이지의 항목들 설정
+            setTotalItems(parseInt(response.headers['x-total-count'], 10)); // 총 항목 수 설정 (헤더에서 가져오는 경우)
+        } catch (error) {
+            console.error("대여 내역을 불러오는 중 오류가 발생했습니다:", error);
+        }
+    };
+
+    const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
+    console.log(totalItems, itemsPerPage, currentPage);
 
     const handleDeleteAccount = async () => {
         const userData = JSON.parse(sessionStorage.getItem("userData"));
@@ -27,21 +47,18 @@ function MyPage() {
             return;
         }
 
-        const { email } = userData; // userData에서 이메일을 가져옵니다.
+        const { email } = userData;
 
         try {
             const response = await axios.delete('api/api/auth/deleteAccount', {
-                params: { email } // 쿼리 파라미터로 이메일을 전달
+                params: { email }
             });
+            console.log("탈퇴 완료");
 
             if (response.data.success) {
-                setShowPopup(true);
-                sessionStorage.clear(); // 세션 정보 초기화
-                setTimeout(() => {
-                    navigate('/login'); // 3초 후 로그인 페이지로 리다이렉션
-                }, 3000); // 3초 후 이동
+                alert("탈퇴 완료되었습니다.");
             } else {
-                alert("사용자 탈퇴에 실패하였습니다.");
+                window.location.href = '/login';
             }
         } catch (error) {
             console.error("사용자 탈퇴 오류:", error);
@@ -50,9 +67,12 @@ function MyPage() {
     };
 
     const handleConfirm = () => {
-        setShowPopup(false);
+        setShowPopup(true);
         navigate("/login");
     };
+
+    // totalPages 계산
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     return (
         <div>

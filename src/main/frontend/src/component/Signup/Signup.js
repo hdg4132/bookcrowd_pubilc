@@ -4,6 +4,7 @@ import axios from "axios";
 import "./Signup.css";
 import Text1 from "./SignupText1";
 import Text2 from "./SignupText2";
+import SubBanner from "../SubBanner";
 
 const Signup = () => {
   const [formValues, setFormValues] = useState({
@@ -141,14 +142,8 @@ const Signup = () => {
 
   return (
     <div>
-      <div id="sub_banner">
-        <div className="container_fix">
-          <h2>Join</h2>
-          <p>회원가입</p>
-        </div>
-      </div>
+      <SubBanner page_name={"storage"} title_en={"Signup"} title_kr={"회원가입"} />
       <main>
-        <h3>회원가입</h3>
         <form className="signup_form" onSubmit={handleSubmit}>
           <div className="signup_form_con">
             <label htmlFor="name">성함</label>
