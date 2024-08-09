@@ -6,7 +6,7 @@ function Pagination({ totalItems, itemsPerPage, onPageChange, currentPage }) {
     for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
-
+//
     if (pageNumbers.length <= 1) return null; // 페이지가 1개 이하라면 렌더링하지 않음
 
     return (
