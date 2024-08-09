@@ -3,6 +3,7 @@ import "./Rent_user.css";
 
 const Rent_item = ({ rentId, bookName, isbn, userName, borrowedId, borrowedName, applicationDate }) => {
   return (
+    <div className="rent_item">
     <li className="rent_item_li">
       <div className="rent_item_wrap">
         <div className="rent_item_up">
@@ -32,6 +33,7 @@ const Rent_item = ({ rentId, bookName, isbn, userName, borrowedId, borrowedName,
         </div>
       </div>
     </li>
+    </div>
   );
 };
 

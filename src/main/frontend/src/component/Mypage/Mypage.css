@@ -30,70 +30,22 @@
 }
 
 html, body {
-    min-height: 100%;
-}
-
-.container_fix{
-    width: 1310px;
-    padding: 0 15px;
-    max-width:100%;
-    margin: 0 auto;
-}
-
-#sub_banner {
-    padding: 140px 0;
-    background: url(../../assets/MainBanner.png) no-repeat center 50%/cover;
-}
-
-.container_fix h2{
-    padding-top: 97px;
-    font-style: normal;
-    font-family: 'Pretendard-Regular';
-    font-size: 18px;
-    line-height: 5px;
-    letter-spacing: 0.2em;
-    color: #FFFFFF;
-    filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.15));
-}
-
-.container_fix p{
-    padding: 10px 0 0 0;
-    font-style: normal;
-    font-family: 'Pretendard-Bold';
-    font-size: 46px;
-    line-height: 64px;
-    letter-spacing: 0.2em;
-    color: #FFFFFF;
-    filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.15));
+    min-height: 100vh;
 }
 
 .mypage {
     margin: 0 auto;
     text-align: center;
-    width: 1310px;
+    width: 1440px;
     padding: 0 15px;
 }
 
-.mypage_header {
-    width: 1280px;
-    height: auto;
+.postLine{
+    text-align: center;
+    border-top: 1px solid #000000;
+    padding: 1px 30px 0 0;  
     margin: 0 auto;
-}
-
-.mypage_text{
-    text-align: left;
-    padding: 53px 0 53px 20px;
-    font-family: 'Pretendard-SemiBold';
-    font-size: 30px;
-    line-height: 36px;
-    color: #333333;
-}
-
-.Line3{
-    background: url("../../assets/Line1.png");
-    padding-top: 1px;  
-    margin: 0 auto;
-    width: 1280px;
+    width: 1440px;
 }
 
 .mypage_side {
@@ -155,6 +107,7 @@ html, body {
 
 .MyTicketing h3 {
     font-family: 'Pretendard-Regular';
+    padding-left: 30px;
     font-style: normal;
     font-size: 30px;
     padding-bottom: 20px;
@@ -165,8 +118,8 @@ html, body {
 
 
 .post_line{ 
-    background: url("../../assets/post_line.png");
-    width: 1000px;
+    border-top: 1px solid #000000;
+    width: 970px;
     height: 1px;
 }
 

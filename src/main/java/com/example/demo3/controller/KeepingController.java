@@ -30,8 +30,14 @@ public class KeepingController {
     @GetMapping("/{userId}")
     public ResponseEntity<Page<KeepingDTO>> userGivenInfo(
             @PathVariable Long userId,
+            @RequestParam(required = false) String keyword,
             @PageableDefault(sort = "keepDate", direction = Sort.Direction.DESC)  Pageable pageable) {
-        Page<KeepingDTO> keepings = keepingService.userGivenInfo(userId, pageable);
+        Page<KeepingDTO> keepings;
+        if (keyword == null || keyword.isEmpty()) {
+            keepings = keepingService.userGivenInfo(userId, pageable);
+        } else {
+            keepings = keepingService.searchKeepingsByUser(userId, keyword, pageable);
+        }
         return new ResponseEntity<>(keepings, HttpStatus.OK);
     }
 
@@ -44,6 +50,11 @@ public class KeepingController {
     public ResponseEntity<KeepingDTO> getKeepingById(@PathVariable int keepingId) {
         KeepingDTO keeping = keepingService.getKeepingById(keepingId);
         return new ResponseEntity<>(keeping, HttpStatus.OK);
+    }
+
+    @GetMapping("/searchKeepingList")
+    public Page<KeepingEntity> searchKeeping(@RequestParam("keyword") String keyword, Pageable pageable) {
+        return keepingService.searchKeepingList(keyword, pageable);
     }
 
     @PostMapping

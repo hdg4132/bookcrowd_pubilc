@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import SubBanner from "../SubBanner";
 import "./Login.css";
 
 function LoginPage() {
@@ -31,15 +31,8 @@ function LoginPage() {
 
   return (
     <div>
-      <div className="subBanner_login">
-        <div className="container_fix">
-          <h2 className="Banner_text1">Book Storage</h2>
-          <p className="Banner_text2">로그인</p>
-        </div>
-      </div>
+      <SubBanner page_name={"storage"} title_en={"Login"} title_kr={"로그인"} />
       <div>
-        <p className="login_text">로그인</p>
-        <div className="Line1"></div>
         <div className="loginbox">
           <input
             type="email"

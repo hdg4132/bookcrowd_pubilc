@@ -75,17 +75,18 @@
 
 .user-item-details ul li {
   display: inline-block;
-  width: 200px;
+  width: 220px;
   word-break: break-all;
 }
 
 .user-item-details ul li:first-child {
-  margin-right: 30px;
+  margin-right: 62px;
 }
 
 
 .user-item-details ul li:nth-child(2) {
-  margin-right: 92px;
+  margin-right: 43px;
+  text-align: left;
 } 
 
 .user-item-details .read-status {
