@@ -1,0 +1,140 @@
+.main_banner {
+  background: url(../assets/Main.png) no-repeat center center/cover;
+  width: 100%;
+  height: 960px;
+}
+.main_banner .logo,
+.bottom_banner_content {
+  text-align: center;
+}
+.main_banner .main_banner_text {
+  padding: 370px 0 50px 0;
+  font-size: 28px;
+  color: #999999;
+}
+.main_banner img {
+  width: 327px;
+  height: 160px;
+}
+.scroll {
+  position: absolute;
+  top: 854px;
+  transform: translateX(-50%);
+  border: none;
+  background-color: transparent;
+  font-size: 12px;
+  left: 50%;
+}
+.scroll .arrow:before {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 20px;
+  border-right: 1px solid #333333;
+  margin-left: 20px;
+}
+.scroll .arrow:after {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 5px;
+  margin-left: 20px;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  transform: rotate(45deg) translate(30%, -170%);
+}
+.scroll_down {
+  display: block;
+  margin-bottom: 14px;
+}
+.animation {
+  position: relative;
+  animation: scroll 1s linear infinite alternate;
+}
+@keyframes scroll {
+  from {
+    top: 0px;
+  }
+  to {
+    top: 15px;
+  }
+}
+.section_1 .content {
+  display: flex;
+}
+.section_1 h3 {
+  font-size: 44px;
+  margin-top: 135px;
+  font-weight: 500;
+}
+.section_1 p {
+  margin: 50px 0;
+  font-size: 24px;
+}
+.section_1 img {
+  width: 600px;
+  height: 600px;
+}
+.section_1 .content .imgage {
+  padding-right: 200px;
+}
+.section_1 .content .text_1 {
+  margin-right: 200px;
+}
+.section_2,
+.section_3 {
+  margin-top: 120px;
+}
+.main_list_text {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+.main_list_text span {
+  font-size: 18px;
+}
+.main_list_text h4 {
+  font-size: 38px;
+  font-weight: 600;
+}
+.community_content {
+  display: flex;
+  margin-top: 50px;
+}
+.community_content_text {
+  background-color: #bfbfbf;
+  width: 254px;
+  height: 260px;
+  margin-right: 40px;
+}
+.community_content_text h5 {
+  font-size: 18px;
+  font-weight: 600;
+  padding: 30px 20px;
+}
+.community_content_text p {
+  font-size: 16px;
+  padding: 0 20px 60px;
+}
+.bottom_banner {
+  background: url(../assets/BottomBanner.png) no-repeat center center/cover;
+  width: 100%;
+  height: 500px;
+  margin-top: 140px;
+}
+.bottom_banner_text {
+  padding: 175px 0 60px 0;
+  font-size: 42px;
+  font-weight: 600;
+  color: #ffffff;
+}
+.bottom_banner_content .bottom_banner_btn {
+  width: 230px;
+  height: 60px;
+  background-color: #199ae2;
+  border-radius: 40px;
+  border: 1px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #ffffff;
+}
