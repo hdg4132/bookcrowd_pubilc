@@ -110,7 +110,7 @@ const RentWrite =()=>{
                     <p> 
                         <label htmlFor="title">제목</label>
                         <input onChange={onChangeInput} type="text" name="bookName" id="bookName"
-                               value={isEdit?input.bookName :(location.state?.bookName || '')}></input>
+                               value={isEdit?input.bookName :(location.state?.bookName || '')}></input> 
                     </p>
                     <p>
                         <label htmlFor="isbn">ISBN</label>
