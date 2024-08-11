@@ -26,7 +26,7 @@ function LoginPage() {
         if(userType == "2"){
           navigate('/');
         } else{
-          navigate("/mypage")
+          navigate("/")
         }
         
     })
