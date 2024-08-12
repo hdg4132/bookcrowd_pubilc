@@ -4,6 +4,7 @@ import bookLogo from "../assets/MainLogo.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+
 const Header = () => {
   const navigate = useNavigate();
   const userInfo = JSON.parse(sessionStorage.getItem("userData"));
@@ -51,7 +52,7 @@ const Header = () => {
   return (
     <header id="header">
       <div className="container_fix">
-        <div className="logo">
+        <div>
           <Link to="/">
             <img alt="logo" src={bookLogo} />
           </Link>

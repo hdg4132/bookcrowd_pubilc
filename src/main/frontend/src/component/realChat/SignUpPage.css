@@ -1,8 +1,0 @@
-form label, input {
-  border: 1px solid black;
-}
-
-.email, .password, .passwordcheck, .name, .pnumber {
-  
-  padding-top: 20px;
-}

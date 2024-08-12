@@ -95,7 +95,8 @@
   gap: 10px;
   margin-top: 10px;
 }
-.save_button, .cancel_button {
+.save_button,
+.cancel_button {
   padding: 10px 20px;
   font-size: 16px;
   color: #fff;

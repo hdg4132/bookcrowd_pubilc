@@ -10,6 +10,7 @@ import "./Rent_admin.css";
 import axios from "axios";
 import RentBookItem from "./RentBookItem";
 import { getCurrentDateTime } from "../../util/util";
+import bookLogo from "../../assets/MainLogo.png";
 
 const RentBookmatch = () => {
   const location = useLocation();
@@ -45,7 +46,7 @@ const RentBookmatch = () => {
   return (
     <div className="Rent_Admin_List">
       <div className="Admin_side">
-        <div className="Admin_LOGO"> 사이트 로고 </div>
+      <div className="Admin_LOGO"> <img src={bookLogo}/> </div>
         <div className="Admin_side_link">
           <div>
             <a href="">회원관리</a>

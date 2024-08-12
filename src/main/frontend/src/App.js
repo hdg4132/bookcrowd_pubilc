@@ -29,6 +29,8 @@ import Mypage from "./component/Mypage/Mypage";
 import WishList from "./component/Mypage/Wishlist";
 import Editprofile from "./component/Signup/Editprofile";
 
+
+
 import AdminRegisterBook from "./component/admin/AdminRegisterBook";
 import AdminRegisterList from "./component/admin/AdminRegisterList";
 import Home from "./component/Home";
@@ -69,8 +71,8 @@ function App() {
         <Route path="/rent_admin_return" element={<Rent_admin_return />} />
         <Route path="/rent_admin_canceled" element={<Rent_admin_canceled />} />
         <Route path="/userchat" element={<UserChatPage />} />
-        <Route path="/realchat" element={<RealChatPage />} />
-        <Route path="/chatpage" element={<ChatPage />} />
+        <Route path="/admin/realchat" element={<RealChatPage />} />
+        <Route path="/admin/chatpage" element={<ChatPage />} />
         <Route path="/bookmatch" element={<RentBookmatch />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
@@ -81,7 +83,7 @@ function App() {
         <Route path="/community" element={<CommunityList />} />
         <Route path="/community/:id" element={<CommunityDetail />} />
         <Route path="/communityEdit" element={<CommunityEdit />} />
-        <Route path="/communityEditChange/:id" element={<CommunityEditChange />} />
+        <Route path="/EditChange/:id" element={<CommunityEditChange />} />
         {/* 240805 kwj 커뮤니티 */}
       </Routes>
       <Footer />
