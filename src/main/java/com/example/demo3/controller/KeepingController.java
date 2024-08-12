@@ -72,8 +72,8 @@ public class KeepingController {
     }
 
     @PutMapping("/updateStatus/{ISBN}")
-    public ResponseEntity<?> updateKeepStatus(@PathVariable String ISBN) {
-        keepingService.updateKeepStatusAndQuantities(ISBN);
+    public ResponseEntity<?> updateKeepStatus(@PathVariable String ISBN, @RequestParam String bookName) {
+        keepingService.updateKeepStatusAndQuantities(ISBN, bookName);
         return ResponseEntity.ok("KeepStatus updated");
     }
 

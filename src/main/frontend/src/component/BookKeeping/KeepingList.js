@@ -4,6 +4,7 @@ import axios from "axios";
 import "../../assets/css/style.css";
 import { getCurrentDateTime, toDateTime } from "../../util/util";
 import SubBanner from "../SubBanner";
+import UserChatPage from "../realChat/UserChatPage";
 
 export default function KeepingList() {
   const [data, setData] = useState([]);
@@ -141,6 +142,7 @@ export default function KeepingList() {
 
   return (
     <>
+    <UserChatPage />
       <SubBanner
         page_name={"storage"}
         title_en={"Book Storage"}

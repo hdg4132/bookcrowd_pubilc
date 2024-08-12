@@ -4,6 +4,7 @@ import axios from "axios";
 import "../../assets/css/style.css";
 import SubBanner from "../SubBanner";
 import { toDateTime } from "../../util/util";
+import UserChatPage from "../realChat/UserChatPage";
 
 export default function KeepingItem() {
   const navigate = useNavigate();
@@ -119,6 +120,7 @@ export default function KeepingItem() {
 
   return (
     <>
+      <UserChatPage />
       <SubBanner
         page_name={"storage"}
         title_en={"Book Storage"}

@@ -7,6 +7,7 @@ import HomeBookList from "./HomeBookList";
 import HomeCommunityList from "./HomeCommunityList";
 import axios from "axios";
 import Main from "./Main.js"
+import UserChatPage from "./realChat/UserChatPage.js";
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -33,6 +34,7 @@ function Home() {
 
   return (
     <div>
+      <UserChatPage />
       <Main/>
       <div className="main_banner">
         <div className="logo">
