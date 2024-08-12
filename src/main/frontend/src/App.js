@@ -26,6 +26,7 @@ import KeepingRegister from "./component/BookKeeping/KeepingRegister";
 import Login from "./component/Login/Login";
 import Signup from "./component/Signup/Signup";
 import Mypage from "./component/Mypage/Mypage";
+import WishList from "./component/Mypage/Wishlist";
 import Editprofile from "./component/Signup/Editprofile";
 
 import AdminRegisterBook from "./component/admin/AdminRegisterBook";
@@ -73,7 +74,7 @@ function App() {
         <Route path="/bookmatch" element={<RentBookmatch />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/mypage" element={<Mypage />} />
+        <Route path="/mypage/:page" element={<Mypage />} />
         <Route path="/wishlist" element={<WishList />} />
         <Route path="/editprofile" element={<Editprofile />} />
         {/* 240805 kwj 커뮤니티 */}

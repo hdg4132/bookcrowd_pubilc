@@ -17,4 +17,4 @@ const Paging = ({ page, count, handleChangePage, postPerPage }) => {
     )
 }
 
-export default Pagination;
+export default Paging;

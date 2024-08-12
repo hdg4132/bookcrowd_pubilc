@@ -119,7 +119,7 @@ html, body {
 }
 
 .booklist_con{
-    margin-top: 20px;
+    margin-top: 40px;
     width: 100%;
 }
 
@@ -182,4 +182,8 @@ html, body {
     bottom: 0;
     transform:rotate(45deg)
     translate(-50%,-150%)
+}
+
+.mypage_paging {
+    margin: 100px 70px 50px 0;
 }

@@ -13,25 +13,6 @@
 
 html, body{font-family: 'Pretendard-Regular';}
 
-
-.container_fix p{
-    padding: 10px 0 0 0;
-    font-style: normal;
-    font-family: 'Pretendard-Bold';
-    font-size: 46px;
-    line-height: 64px;
-    letter-spacing: 0.2em;
-    color: #FFFFFF;
-    filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.15));
-}
-
-main h3 {
-    text-align: center;
-    padding: 50px 950px 86px 0;
-    font-size: 30px;
-    font-weight: 700;
-}
-
 .signup_form {
     width: 1100px;
     margin: 0 auto;
@@ -110,7 +91,6 @@ main h3 {
 #btn_signup button {
     width: 135px;
     height: 40px;
-    padding-bottom: 5px;
     border-radius: 5px;
     font-size: 15px;
     cursor: pointer;
@@ -131,6 +111,7 @@ main h3 {
 }
 
 .btn_signup {
+    margin-bottom: 5px;
     color: #fff;
     background-color: #199AE2;
     border:1px solid #199AE2;
