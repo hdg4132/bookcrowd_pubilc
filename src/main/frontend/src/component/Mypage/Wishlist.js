@@ -21,7 +21,7 @@ const WishList = () => {
 
     // 위시리스트 불러오기
     useEffect(() => {
-        fetch(`http://localhost:8080/api/api/wishlist/${userInfo.userId}`, {
+        fetch(`http://localhost:8080/wishlist/${userInfo.userId}`, {
             method: "GET",
         })
             .then(response => response.json())
