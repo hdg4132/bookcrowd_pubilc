@@ -31,7 +31,7 @@ const Header = () => {
   return (
     <header id="header">
       <div className="container_fix">
-        <div className="logo">
+        <div>
           <Link to="/">
             <img alt="logo" src={bookLogo} />
           </Link>

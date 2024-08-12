@@ -19,6 +19,6 @@ public class CommunityDTO {
   private String writer;
 
 
-  @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-  private LocalDateTime date;
+
+  private String date;
 }
