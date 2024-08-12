@@ -39,6 +39,7 @@ const Header = () => {
       await axios.post("http://localhost:8080/api/auth/logout");
       // 세션에서 사용자 정보 제거
       sessionStorage.removeItem("userData");
+      alert("로그아웃 완료되엇습니다.");
       // 로그인 페이지로 이동
       navigate("/login");
     } catch (error) {
@@ -82,7 +83,7 @@ const Header = () => {
                   로그아웃
                 </span>
                 <div className="nav_auth_bar" />
-                <Link to="/mypage" className="nav_auth_line">
+                <Link to="/mypage/1" className="nav_auth_line">
                   마이페이지
                 </Link>
               </>

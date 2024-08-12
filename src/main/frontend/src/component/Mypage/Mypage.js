@@ -9,7 +9,6 @@ import UserChatPage from "../realChat/UserChatPage.js";
 
 const MyPage = () => {
     const userInfo = JSON.parse(sessionStorage.getItem("userData"));
-
     const [posts, setPosts] = useState([]);
     const [count, setCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
