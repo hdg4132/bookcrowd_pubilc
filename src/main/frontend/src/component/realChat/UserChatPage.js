@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom"; // useLocation 추가
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import axios from "axios";
@@ -13,6 +14,9 @@ const UserChatPage = () => {
   const [connected, setConnected] = useState(false); // WebSocket 연결 상태
   const messagesEndRef = useRef(null); // 메시지 리스트의 마지막 요소에 대한 참조
 
+  const navigate = useNavigate();
+  const location = useLocation(); // 현재 위치 정보를 가져오기 위해 추가
+
   const userinfo = JSON.parse(sessionStorage.getItem("userData")); // 세션 스토리지에서 사용자 정보 가져오기
   const userId = userinfo ? userinfo.userId : null; // 사용자 ID
   const email = userinfo ? userinfo.email : null; // 사용자 이메일
@@ -20,47 +24,50 @@ const UserChatPage = () => {
 
   // WebSocket 연결 설정
   useEffect(() => {
-    if (!userId) {
-      console.error("사용자 정보가 없습니다.");
-      return;
-    }
+    if (userId && roomId) {
+      const socket = new SockJS("http://localhost:8080/ws"); // SockJS 클라이언트 생성
+      const client = new Client({
+        webSocketFactory: () => socket,
+        reconnectDelay: 5000, // 재연결 지연 시간
+        heartbeatIncoming: 4000, // 수신 하트비트 주기
+        heartbeatOutgoing: 4000, // 발신 하트비트 주기
+        debug: (str) => {
+          console.log(str);
+        },
+        onConnect: (frame) => {
+          console.log("WebSocket 연결 성공: " + frame);
+          setConnected(true);
 
-    const socket = new SockJS("http://localhost:8080/ws"); // SockJS 클라이언트 생성
-    const client = new Client({
-      webSocketFactory: () => socket,
-      reconnectDelay: 5000, // 재연결 지연 시간
-      heartbeatIncoming: 4000, // 수신 하트비트 주기
-      heartbeatOutgoing: 4000, // 발신 하트비트 주기
-      debug: (str) => {
-        console.log(str);
-      },
-      onConnect: (frame) => {
-        console.log("WebSocket 연결 성공: " + frame);
-        setConnected(true);
+          // roomId가 설정된 경우 구독
+          if (roomId) {
+            subscribeToRoom(client, roomId);
+          }
+        },
+        onStompError: (frame) => {
+          console.error("STOMP 브로커 오류: " + frame.headers["message"]);
+          console.error("추가 정보: " + frame.body);
+        },
+      });
 
-        // roomId가 설정된 경우 구독
-        if (roomId) {
-          subscribeToRoom(client, roomId);
+      client.activate(); // WebSocket 클라이언트 활성화
+      setStompClient(client); // STOMP 클라이언트 상태 업데이트
+
+      return () => {
+        if (client) {
+          client.deactivate(); // 컴포넌트가 언마운트될 때 WebSocket 클라이언트 비활성화
         }
-      },
-      onStompError: (frame) => {
-        console.error("STOMP 브로커 오류: " + frame.headers["message"]);
-        console.error("추가 정보: " + frame.body);
-      },
-    });
-
-    client.activate(); // WebSocket 클라이언트 활성화
-    setStompClient(client); // STOMP 클라이언트 상태 업데이트
-
-    return () => {
-      if (client) {
-        client.deactivate(); // 컴포넌트가 언마운트될 때 WebSocket 클라이언트 비활성화
-      }
-    };
-  }, [userId]);
+      };
+    }
+  }, [userId, roomId]);
 
   // 채팅창 열기/닫기
   const toggleChat = () => {
+    if (!userId) {
+      // 로그인하지 않은 경우 로그인 페이지로 이동
+      navigate("/login", { state: { from: location } });
+      return;
+    }
+
     if (!chatOpen) {
       // 채팅창을 여는 경우 기존 메시지를 가져오고 구독 설정
       if (roomId) {

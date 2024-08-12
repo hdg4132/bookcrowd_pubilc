@@ -2,6 +2,9 @@ package com.example.demo3.controller;
 
 import com.example.demo3.dto.*;
 import com.example.demo3.service.AuthService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +32,14 @@ public class AuthController {
         return authService.updateProfile(dto);
     }
 
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate(); // 세션 무효화
+        }
+        return "로그아웃 완료";
+    }
 
     @DeleteMapping("/deleteAccount")
     public ResponseEntity<String> deleteAccount(@RequestParam String email) {

@@ -4,20 +4,6 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import SubBanner from "../../component/SubBanner";
 import "./CommunityDetail.css";
 
-const formatDate = (date) => {
-  if (!date) return "날짜 없음";
-  const postDate = new Date(date);
-  const now = new Date();
-  const diff = Math.abs(now - postDate);
-  const diffMinutes = Math.floor(diff / 60000);
-
-  if (diffMinutes < 1) return "방금 전";
-  if (diffMinutes < 60) return `${diffMinutes}분 전`;
-  const diffHours = Math.floor(diffMinutes / 60);
-  if (diffHours < 24) return `${diffHours}시간 전`;
-
-  return `${postDate.toLocaleDateString()} ${postDate.toLocaleTimeString()}`;
-};
 
 export default function CommunityDetail() {
   const { id } = useParams();
@@ -26,7 +12,7 @@ export default function CommunityDetail() {
   const [comments, setComments] = useState([]);
   const [editCommentId, setEditCommentId] = useState(null);
   const [editCommentText, setEditCommentText] = useState("");
-  const loggedInUser = "사용자명";
+  const loggedInUser = "사용자명"; // 실제 로그인 사용자로 변경해야 함
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,7 +22,10 @@ export default function CommunityDetail() {
         setPost(response.data);
       })
       .catch((error) => {
-        console.error("게시글을 가져오는 데 실패했습니다:", error);
+        console.error(
+          "게시글을 가져오는 데 실패했습니다:",
+          error.response ? error.response.data : error.message
+        );
       });
 
     axios
@@ -45,7 +34,10 @@ export default function CommunityDetail() {
         setComments(response.data);
       })
       .catch((error) => {
-        console.error("댓글을 가져오는 데 실패했습니다:", error);
+        console.error(
+          "댓글을 가져오는 데 실패했습니다:",
+          error.response ? error.response.data : error.message
+        );
       });
   }, [id]);
 
@@ -70,25 +62,24 @@ export default function CommunityDetail() {
           setComment("");
         })
         .catch((error) => {
-          console.error("댓글을 추가하는 데 실패했습니다:", error);
+          console.error(
+            "댓글 추가에 실패했습니다:",
+            error.response ? error.response.data : error.message
+          );
         });
     }
   };
 
-  const handleEdit = (commentId) => {
-    const commentToEdit = comments.find((c) => c.id === commentId);
-    setEditCommentId(commentId);
-    setEditCommentText(commentToEdit.comment);
-  };
-
-  const handleSaveEdit = (event) => {
+  const handleEditSubmit = (event) => {
     event.preventDefault();
     if (editCommentText.trim()) {
       axios
         .put(
           `http://localhost:8080/api/community/${id}/comments/${editCommentId}`,
           {
+            writer: loggedInUser,
             comment: editCommentText,
+            postId: id,
           }
         )
         .then((response) => {
@@ -100,7 +91,10 @@ export default function CommunityDetail() {
           setEditCommentText("");
         })
         .catch((error) => {
-          console.error("댓글 수정에 실패했습니다:", error);
+          console.error(
+            "댓글 수정에 실패했습니다:",
+            error.response ? error.response.data : error.message
+          );
         });
     }
   };
@@ -109,16 +103,13 @@ export default function CommunityDetail() {
     axios
       .delete(`http://localhost:8080/api/community/${id}/comments/${commentId}`)
       .then(() => {
-        const updatedComments = comments.filter((c) => c.id !== commentId);
-        setComments(updatedComments);
-        // Reset edit state if deleting the currently edited comment
-        if (editCommentId === commentId) {
-          setEditCommentId(null);
-          setEditCommentText("");
-        }
+        setComments(comments.filter((comment) => comment.id !== commentId));
       })
       .catch((error) => {
-        console.error("댓글 삭제에 실패했습니다:", error);
+        console.error(
+          "댓글 삭제에 실패했습니다:",
+          error.response ? error.response.data : error.message
+        );
       });
   };
 
@@ -129,8 +120,19 @@ export default function CommunityDetail() {
         navigate("/community");
       })
       .catch((error) => {
-        console.error("게시글 삭제에 실패했습니다:", error);
+        console.error(
+          "게시글 삭제에 실패했습니다:",
+          error.response ? error.response.data : error.message
+        );
       });
+  };
+
+  const handleEdit = (commentId) => {
+    setEditCommentId(commentId);
+    const commentToEdit = comments.find((c) => c.id === commentId);
+    if (commentToEdit) {
+      setEditCommentText(commentToEdit.comment);
+    }
   };
 
   return (
@@ -140,14 +142,12 @@ export default function CommunityDetail() {
         title_en={"Community"}
         title_kr={"커뮤니티"}
       />
-      <div>
-        <div className="container_fix">
-          <div className="detail_title">
-            <h5>{post?.title || "게시글이 존재하지 않습니다."}</h5>
-          </div>
-          <div className="detail_content">
-            <div dangerouslySetInnerHTML={{ __html: post?.content || "" }} />
-          </div>
+      <div className="container_fix">
+        <div className="detail_title">
+          <h5>{post?.title || "게시글이 존재하지 않습니다."}</h5>
+        </div>
+        <div className="detail_content">
+          <div dangerouslySetInnerHTML={{ __html: post?.content || "" }} />
         </div>
       </div>
       <div className="comment_section">
@@ -186,7 +186,7 @@ export default function CommunityDetail() {
         <div className="comment_form_section">
           <form
             className="comment_form"
-            onSubmit={editCommentId ? handleSaveEdit : handleSubmit}
+            onSubmit={editCommentId ? handleEditSubmit : handleSubmit}
           >
             <textarea
               className="comment_textarea"
@@ -224,7 +224,7 @@ export default function CommunityDetail() {
           <Link to="/community" className="list_button">
             목록
           </Link>
-          <Link to={`/communityEditChange/${id}`} className="write_button">
+          <Link to={`/editChange/${id}`} className="write_button">
             수정
           </Link>
           <button onClick={handlePostDelete} className="delete_button">

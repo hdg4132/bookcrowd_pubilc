@@ -23,7 +23,6 @@ public class CommunityEntity {
 
   private String title;
 
-  @Column(columnDefinition = "TEXT")
   private String content;
 
   private String writer;

@@ -1,4 +1,3 @@
-
 // import "./App.css";
 import React, { useEffect, useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
@@ -27,7 +26,10 @@ import KeepingRegister from "./component/BookKeeping/KeepingRegister";
 import Login from "./component/Login/Login";
 import Signup from "./component/Signup/Signup";
 import Mypage from "./component/Mypage/Mypage";
-import Editprofile from "./component/Editprofile/Editprofile";
+import WishList from "./component/Mypage/Wishlist";
+import Editprofile from "./component/Signup/Editprofile";
+
+
 
 import AdminRegisterBook from "./component/admin/AdminRegisterBook";
 import AdminRegisterList from "./component/admin/AdminRegisterList";
@@ -69,18 +71,19 @@ function App() {
         <Route path="/rent_admin_return" element={<Rent_admin_return />} />
         <Route path="/rent_admin_canceled" element={<Rent_admin_canceled />} />
         <Route path="/userchat" element={<UserChatPage />} />
-        <Route path="/realchat" element={<RealChatPage />} />
-        <Route path="/chatpage" element={<ChatPage />} />
+        <Route path="/admin/realchat" element={<RealChatPage />} />
+        <Route path="/admin/chatpage" element={<ChatPage />} />
         <Route path="/bookmatch" element={<RentBookmatch />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/mypage" element={<Mypage />} />
+        <Route path="/mypage/:page" element={<Mypage />} />
+        <Route path="/wishlist" element={<WishList />} />
         <Route path="/editprofile" element={<Editprofile />} />
         {/* 240805 kwj 커뮤니티 */}
         <Route path="/community" element={<CommunityList />} />
         <Route path="/community/:id" element={<CommunityDetail />} />
         <Route path="/communityEdit" element={<CommunityEdit />} />
-        <Route path="/communityEditChange/:id" element={<CommunityEditChange />} />
+        <Route path="/EditChange/:id" element={<CommunityEditChange />} />
         {/* 240805 kwj 커뮤니티 */}
       </Routes>
       <Footer />
@@ -89,4 +92,3 @@ function App() {
 }
 
 export default App;
-

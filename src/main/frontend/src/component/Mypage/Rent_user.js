@@ -1,8 +1,9 @@
 import React from "react";
 import "./Rent_user.css";
 
-const Rent_item = ({ rentId, bookName, isbn, userName, borrowedId, borrowedName, applicationDate }) => {
+const Rent_item = ({ rentId, bookname, isbn, userName, borrowedId, borrowedName, applicationDate }) => {
   return (
+    <div className="rent_item">
     <li className="rent_item_li">
       <div className="rent_item_wrap">
         <div className="rent_item_up">
@@ -10,7 +11,7 @@ const Rent_item = ({ rentId, bookName, isbn, userName, borrowedId, borrowedName,
             <p>신청번호: {rentId}</p>
           </div>
           <div className="rentBookname">
-            <p>책 제목: {bookName}</p>
+            <p>책 제목: {bookname}</p>
           </div>
           <div className="rentISBN">
             <p>ISBN: {isbn}</p>
@@ -32,6 +33,7 @@ const Rent_item = ({ rentId, bookName, isbn, userName, borrowedId, borrowedName,
         </div>
       </div>
     </li>
+    </div>
   );
 };
 

@@ -74,7 +74,7 @@ function Main() {
       </Link>
       <br />
       <br />
-      <Link to="/mypage">
+      <Link to="/mypage/1">
         마이페이지로 <Outlet />
       </Link>
       <br />
@@ -84,17 +84,7 @@ function Main() {
       </Link>
       <br />
       <br />
-      <Link to="/realchat">
-        관리자 채팅으로<Outlet />
-      </Link>
-      <br />
-      <br />
-      <Link to="/userchat">
-        사용자 채팅으로<Outlet />
-      </Link>
-      <br />
-      <br />
-      <Link to="/adm/chatpage">
+      <Link to="/admin/chatpage">
         채팅목록으로<Outlet />
       </Link>
     </div>

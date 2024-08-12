@@ -4,6 +4,7 @@ import axios from "axios";
 import "./Signup.css";
 import Text1 from "./SignupText1";
 import Text2 from "./SignupText2";
+import SubBanner from "../SubBanner";
 
 const Signup = () => {
   const [formValues, setFormValues] = useState({
@@ -16,7 +17,7 @@ const Signup = () => {
     detailAddress: "",
     userType: "1",
   });
-
+//
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(true);
   const [emailDuplication, setEmailDuplication] = useState(false);
@@ -141,14 +142,8 @@ const Signup = () => {
 
   return (
     <div>
-      <div id="sub_banner">
-        <div className="container_fix">
-          <h2>Join</h2>
-          <p>회원가입</p>
-        </div>
-      </div>
+      <SubBanner page_name={"storage"} title_en={"Signup"} title_kr={"회원가입"} />
       <main>
-        <h3>회원가입</h3>
         <form className="signup_form" onSubmit={handleSubmit}>
           <div className="signup_form_con">
             <label htmlFor="name">성함</label>
@@ -266,7 +261,7 @@ const Signup = () => {
                 checked={agreeToPolicy}
                 onChange={() => setAgreeToPolicy(!agreeToPolicy)}
               />
-              <label htmlFor="agreeToPolicy">개인정보 처리방침에 동의합니다</label>
+              <label className="checkbox_text" htmlFor="agreeToPolicy">개인정보 처리방침에 동의합니다</label>
             </div>
           </div>
           <div className="signup_form_TermsofUse">
@@ -281,7 +276,7 @@ const Signup = () => {
                 checked={agreeToTerms}
                 onChange={() => setAgreeToTerms(!agreeToTerms)}
               />
-              <label htmlFor="agreeToTerms">이용약관에 동의합니다</label>
+              <label className="checkbox_text" htmlFor="agreeToTerms">이용약관에 동의합니다</label>
             </div>
           </div>
           <div id="btn_signup">

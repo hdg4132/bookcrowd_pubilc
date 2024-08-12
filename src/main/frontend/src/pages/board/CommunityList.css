@@ -10,6 +10,7 @@
   display: flex;
   align-items: center;
   border-bottom: 1px solid black;
+  text-align: start;
 }
 .list_title {
   width: 80%;
@@ -61,7 +62,6 @@
   margin: 0 5px;
   padding: 5px 10px;
   cursor: pointer;
-  border: none;
   background-color: white;
   color: #ccc;
   border-radius: 4px;

@@ -1,3 +1,9 @@
+.rent_item {
+    width: 100%;
+    text-align: center;
+    padding-right: 40px;
+}
+
 .rent_item li {
     display: flex;
     width: 100%;

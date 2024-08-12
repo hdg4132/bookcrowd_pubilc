@@ -3,6 +3,7 @@ import './RentList.css'
 import RentItem from './RentItem'
 import {useEffect, useState} from "react";
 import axios from "axios";
+import UserChatPage from '../component/realChat/UserChatPage';
 
 
 const RentList =()=>{
@@ -50,6 +51,7 @@ const RentList =()=>{
     }
     return(
         <div className='CheckoutList'>
+            <UserChatPage />
             <SubBanner page_name={"checkout"} title_en={"Checkout Book"} title_kr={"책 대여하기"} search onSearch={handleSearch}/>
 
             <div className='container_fix'>

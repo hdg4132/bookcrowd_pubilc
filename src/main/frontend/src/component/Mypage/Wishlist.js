@@ -1,24 +1,46 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./Wishlist.css";
+import "./Mypage.css";
+import SubBanner from "../SubBanner";
+import Pagination from "./Pagination";
 
 function MyPage() {
     const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10); // 페이지당 아이템 수
+    const [wishlistItems, setWishlistItems] = useState([]);
+    const [totalItems, setTotalItems] = useState(0);
     const [showPopup, setShowPopup] = useState(false);
-    const itemsPerPage = 10;
     const navigate = useNavigate();
 
+    const userInfo = JSON.parse(sessionStorage.getItem("userData"));
+
     useEffect(() => {
-        const userInfo = sessionStorage.getItem("userData");
         if (!userInfo) {
             navigate("/login");
+        } else {
+            fetchWishlistItems();
         }
-    }, [navigate]);
+    }, [navigate, currentPage]);
 
-    const onPageChange = (pageNumber) => {
+    console.log(userInfo.userId);
+
+    const fetchWishlistItems = async () => {
+        try {
+            const response = await axios.get(`api/api/wishlist/${userInfo.userId}?page=${currentPage}`);
+            console.log(response);
+            setWishlistItems(response.data); // 현재 페이지의 항목들 설정
+            setTotalItems(parseInt(response.headers['x-total-count'], 10)); // 총 항목 수 설정
+        } catch (error) {
+            console.error("위시리스트 내역을 불러오는 중 오류가 발생했습니다:", error);
+        }
+    };
+
+    const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
+    console.log(totalItems, itemsPerPage, currentPage);
 
     const handleDeleteAccount = async () => {
         const userData = JSON.parse(sessionStorage.getItem("userData"));
@@ -27,21 +49,18 @@ function MyPage() {
             return;
         }
 
-        const { email } = userData; // userData에서 이메일을 가져옵니다.
+        const { email } = userData;
 
         try {
             const response = await axios.delete('api/api/auth/deleteAccount', {
-                params: { email } // 쿼리 파라미터로 이메일을 전달
+                params: { email }
             });
+            console.log("탈퇴 완료");
 
             if (response.data.success) {
-                setShowPopup(true);
-                sessionStorage.clear(); // 세션 정보 초기화
-                setTimeout(() => {
-                    navigate('/login'); // 3초 후 로그인 페이지로 리다이렉션
-                }, 3000); // 3초 후 이동
+                alert("탈퇴 완료되었습니다.");
             } else {
-                alert("사용자 탈퇴에 실패하였습니다.");
+                window.location.href = '/login';
             }
         } catch (error) {
             console.error("사용자 탈퇴 오류:", error);
@@ -50,28 +69,22 @@ function MyPage() {
     };
 
     const handleConfirm = () => {
-        setShowPopup(false);
+        setShowPopup(true);
         navigate("/login");
     };
 
+    // totalPages 계산
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
     return (
         <div>
-            <div id="sub_banner">
-                <div className="container_fix">
-                    <h2>MyPage</h2>
-                    <p>마이페이지</p>
-                </div>
-            </div>
+           <SubBanner page_name={"storage"} title_en={"My page"} title_kr={"마이페이지"} search />
             <div className="mypage">
-                <div className="mypage_header">
-                    <p className="mypage_text">마이페이지</p>
-                    <div className="Line3"></div>
-                </div>
                 <div className="mypage_side">
                     <div className="sidebox">
                         <ul>
                             <li className="sidebox_text">
-                                <button className="sidebox_quitbutton" onClick={() => navigate("/mypage")}>나의 대여내역</button>
+                                <button className="sidebox_quitbutton" onClick={() => navigate("/mypage/1")}>나의 대여내역</button>
                             </li>
                             <li className="sidebox_text">
                                 <button className="sidebox_quitbutton" onClick={() => navigate("/mybookstorage")}>나의 보관내역</button>
@@ -89,8 +102,24 @@ function MyPage() {
                     </div>
                 </div>
                 <div className="MyTicketing">
-                    <h3>위시리스트</h3>
-                    <div className="post_line" />
+                    <p>위시리스트</p>
+                    <div className="wishlist_line" />
+                    <ul className="wishlist_items">
+                        {wishlistItems && wishlistItems.map((item) => (
+                            <li key={item.id} className="wishlist_item">
+                                <p>{item.name}</p>
+                                {/* <button onClick={() => handleRemoveFromWishlist(item.id)}>제거하기</button> */}
+                            </li>
+                        ))}
+                    </ul>
+                    {totalPages > 1 && (
+                        <Pagination
+                            totalItems={totalItems}
+                            itemsPerPage={itemsPerPage}
+                            onPageChange={handlePageChange}
+                            currentPage={currentPage}
+                        />
+                    )}
                 </div>
             </div>
             {showPopup && (

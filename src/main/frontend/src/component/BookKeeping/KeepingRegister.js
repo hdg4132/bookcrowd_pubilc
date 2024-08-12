@@ -5,6 +5,7 @@ import "../../assets/css/style.css";
 import TermsKeeping from "../../util/TermsKeeping";
 import TermsKeeping1 from "../../util/TermsKeeping1";
 import SubBanner from "../SubBanner";
+import UserChatPage from "../realChat/UserChatPage";
 
 export default function KeepingRegister() {
   const [formData, setFormData] = useState({
@@ -69,6 +70,7 @@ useEffect(() => {
 
   return (
     <>
+    <UserChatPage />
       <SubBanner
         page_name={"storage"}
         title_en={"Book Storage"}
