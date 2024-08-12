@@ -14,4 +14,6 @@ public interface UserMessageRepository extends JpaRepository<UserMessageEntity, 
 
     // 특정 채팅방에 읽지 않은 메시지가 있는지 확인하는 메서드
     boolean existsByRoomIdAndReadStatusIsFalse(Long roomId);
+    // 0813 추가
+    void deleteByRoomId(Long roomId);
 }

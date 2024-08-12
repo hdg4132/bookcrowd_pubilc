@@ -221,4 +221,25 @@ public class ChatService {
     private java.util.Date convertToKST(java.util.Date date) {
         return java.util.Date.from(date.toInstant().atZone(ZoneId.of("Asia/Seoul")).toInstant());
     }
+    // 0813 추가
+    // 특정 사용자와 관련된 모든 채팅방과 메시지를 삭제
+    @Transactional
+    public void deleteChatRoomsByUserId(Long userId) {
+        Optional<ChatRoomEntity> chatRoomOptional = chatRoomRepository.findByUserId(userId);
+
+        // chatRoomOptional이 비어있지 않은 경우에만 처리
+        if (chatRoomOptional.isPresent()) {
+            ChatRoomEntity room = chatRoomOptional.get();
+            // 채팅방에 관련된 모든 메시지 삭제
+            userMessageRepository.deleteByRoomId(room.getRoomId());
+            adminMessageRepository.deleteByRoomId(room.getRoomId());
+            // 채팅방 삭제
+            chatRoomRepository.delete(room);
+
+            System.out.println("사용자 ID " + userId + "와 관련된 채팅방이 삭제되었습니다.");
+        } else {
+            System.out.println("사용자 ID " + userId + "와 관련된 채팅방이 없습니다.");
+        }
+    }
+
 }
