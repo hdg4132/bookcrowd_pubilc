@@ -27,5 +27,5 @@ public class CommunityEntity {
 
   private String writer;
 
-  private String date;
+  private LocalDateTime date;
 }
