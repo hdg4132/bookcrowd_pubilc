@@ -6,6 +6,7 @@
 .main_banner .logo,
 .bottom_banner_content {
   text-align: center;
+  position: relative;
 }
 .main_banner .main_banner_text {
   padding: 370px 0 50px 0;
@@ -18,7 +19,7 @@
 }
 .scroll {
   position: absolute;
-  top: 854px;
+  bottom: -300px;
   transform: translateX(-50%);
   border: none;
   background-color: transparent;
