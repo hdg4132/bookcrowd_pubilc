@@ -48,7 +48,7 @@ const ChatPage = () => {
   // 채팅방 클릭 시 해당 채팅방으로 이동
   const handleChat = (roomId, email) => {
     if (roomId && email) {
-      navigate(`/adm/realchat?roomId=${roomId}&email=${email}`);
+      navigate(`/admin/realchat?roomId=${roomId}&email=${email}`);
     } else {
       console.error("Invalid roomId or email:", roomId, email);
     }
