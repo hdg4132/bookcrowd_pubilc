@@ -118,6 +118,11 @@ html, body {
     justify-content: space-around;
 }
 
+.booklist_con{
+    margin-top: 20px;
+    width: 100%;
+}
+
 .mypage_container .content_body{
     flex-basis: 80%;
 }
@@ -130,4 +135,51 @@ html, body {
 
 .mypage_pagination .pagination li{
     margin-right: 10px;
+}
+
+.search_form input::placeholder{
+    color:#ccc
+}
+
+.search_form button{
+    background: none;
+    border:none;
+}
+
+.search_form .booksearch_icon{
+    width: 13px;
+    height: 13px;
+    position: relative;
+    display: block;
+    left: 5px;
+}
+
+.search_form input{
+    border:1px solid #199AE2;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.search_form .booksearch_icon:before{
+    content:'';
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius:50%;
+    border:1px solid #199AE2;
+    position: absolute;
+    left: 0;
+    top: 0;}
+
+.search_form .booksearch_icon:after{
+    content:'';
+    display: block;
+    width: 5px;
+    height: 1px;
+    background:#199AE2;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transform:rotate(45deg)
+    translate(-50%,-150%)
 }

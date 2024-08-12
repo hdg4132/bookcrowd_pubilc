@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import "./Header.css";
 import bookLogo from "../assets/MainLogo.png";
-import {Link, useLocation} from "react-router-dom";
-
-
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const userInfo = JSON.parse(sessionStorage.getItem("userData"));
+
   useEffect(() => {
     const topscroll = function () {
       const navbar = document.getElementById("header");
@@ -25,11 +27,26 @@ const Header = () => {
   });
 
   const location = useLocation();
-  const isHeaderHidden = location.pathname.includes('/adm/')
+  const isHeaderHidden = location.pathname.includes("/adm/");
 
-  if(isHeaderHidden){
+  if (isHeaderHidden) {
     return null;
   }
+
+  const handleLogout = async () => {
+    try {
+      // 로그아웃 API 호출 (백엔드에 로그아웃 처리를 추가해야 합니다)
+      await axios.post("http://localhost:8080/api/auth/logout");
+      // 세션에서 사용자 정보 제거
+      sessionStorage.removeItem("userData");
+      // 로그인 페이지로 이동
+      navigate("/login");
+    } catch (error) {
+      console.error("로그아웃 오류:", error);
+      alert("로그아웃 중 오류가 발생했습니다.");
+    }
+  };
+
   return (
     <header id="header">
       <div className="container_fix">
@@ -59,13 +76,27 @@ const Header = () => {
         </nav>
         <nav id="navbar_2">
           <div className="nav_auth">
-            <Link to="/login" className="nav_auth_line">
-              <span>로그인</span>
-            </Link>
-            <div className="nav_auth_bar" />
-            <Link to="/signup" className="nav_auth_line">
-              <span>회원가입</span>
-            </Link>
+            {userInfo ? (
+              <>
+                <span className="nav_auth_line" onClick={handleLogout} style={{cursor: 'pointer'}}>
+                  로그아웃
+                </span>
+                <div className="nav_auth_bar" />
+                <Link to="/mypage" className="nav_auth_line">
+                  마이페이지
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="nav_auth_line">
+                  로그인
+                </Link>
+                <div className="nav_auth_bar" />
+                <Link to="/signup" className="nav_auth_line">
+                  회원가입
+                </Link>
+              </>
+            )}
           </div>
         </nav>
       </div>

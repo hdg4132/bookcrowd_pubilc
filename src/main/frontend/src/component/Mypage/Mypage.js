@@ -6,6 +6,7 @@ import RentItem from "./Rent_user.js";
 import Pagination from "./Pagination.js";
 import SubBanner from "../SubBanner.js";
 
+
 const MyPage = () => {
     const userInfo = JSON.parse(sessionStorage.getItem("userData"));
 
@@ -70,6 +71,18 @@ const MyPage = () => {
         setCurrentPage(page);
     };
 
+    const handleLogout = async () => {
+        try {
+            const response = await axios.post('api/api/auth/logout');
+            console.log(response.data); // 로그아웃 완료 메시지
+            sessionStorage.removeItem("userData"); // 클라이언트 측 세션 정보 삭제
+            nav("/login"); // 로그인 페이지로 리다이렉트
+        } catch (error) {
+            console.error("로그아웃 오류:", error);
+            alert("로그아웃 중 오류가 발생했습니다.");
+        }
+    };
+
     const handleDeleteAccount = async () => {
         const userData = JSON.parse(sessionStorage.getItem("userData"));
         if (!userData) {
@@ -103,7 +116,7 @@ const MyPage = () => {
             <SubBanner page_name={"storage"} title_en={"My page"} title_kr={"마이페이지"} />
             <form action="" className="search_form">
                 <input type="text" placeholder="검색어를 입력하세요" value={search} onChange={onChangeSearch} />
-                <button type="submit"><span className="search"></span></button>
+                <button type="submit"><span className="booksearch_icon"></span></button>
             </form>
             <div className="mypage_container">
             <div className="mypage">
@@ -131,7 +144,7 @@ const MyPage = () => {
             </div>
             <div className="content_body">
                 <div className="mypage_list">
-                    <ul className="movie_con">
+                    <ul className="booklist_con">
                         {currentPosts && currentPosts.map((it) => (
                             <RentItem key={it.id}{...it} />))}
                     </ul>

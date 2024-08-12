@@ -255,7 +255,7 @@ const Editprofile = () => {
             </div>
           </div>
           <div id="btn_signup">
-            <Link to="/mypage" type="reset" className="btn_back">
+            <Link to="/mypage/1" type="reset" className="btn_back">
               뒤로가기
             </Link>
             <button type="submit" className="btn_signup" disabled={isSubmit}>
