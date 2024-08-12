@@ -5,6 +5,7 @@ import "./Mypage.css";
 import RentItem from "./Rent_user.js";
 import Pagination from "./Pagination.js";
 import SubBanner from "../SubBanner.js";
+import UserChatPage from "../realChat/UserChatPage.js";
 
 function MyPage() {
     const [currentPage, setCurrentPage] = useState(1);
@@ -80,6 +81,7 @@ function MyPage() {
 
     return (
         <div>
+            <UserChatPage />
             <SubBanner page_name={"storage"} title_en={"My page"} title_kr={"마이페이지"} search />
             <div className="mypage">
                     <div className="postLine" />
