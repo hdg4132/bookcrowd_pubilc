@@ -3,10 +3,10 @@ import "swiper/css";
 import "./HomeBookList.css";
 import { Autoplay } from "swiper/modules";
 
-
 const importAll = (i) => i.keys().map(i);
-const book_images = importAll(require.context('../assets/book_images', false,/\.(png|jpe?g|svg)$/));
-
+const book_images = importAll(
+  require.context("../assets/book_images", false, /\.(png|jpe?g|svg)$/)
+);
 
 export default function HomeBookList() {
   return (
@@ -19,10 +19,10 @@ export default function HomeBookList() {
       modules={[Autoplay]}
     >
       {book_images.map((src, index) => (
-      <SwiperSlide>
-        <img key={index} src={src} alt={`Image ${index}`} />
-      </SwiperSlide>
-      ))}  
+        <SwiperSlide>
+          <img key={index} src={src} alt={`Image ${index}`} />
+        </SwiperSlide>
+      ))}
     </Swiper>
   );
 }

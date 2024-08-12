@@ -27,12 +27,8 @@ import KeepingRegister from "./component/BookKeeping/KeepingRegister";
 import Login from "./component/Login/Login";
 import Signup from "./component/Signup/Signup";
 import Mypage from "./component/Mypage/Mypage";
-<<<<<<< HEAD
 import Editprofile from "./component/Signup/Editprofile"
-=======
-import Editprofile from "./component/Signup/Editprofile";
 
->>>>>>> main
 import AdminRegisterBook from "./component/admin/AdminRegisterBook";
 import AdminRegisterList from "./component/admin/AdminRegisterList";
 import Home from "./component/Home";
@@ -84,7 +80,7 @@ function App() {
         <Route path="/community" element={<CommunityList />} />
         <Route path="/community/:id" element={<CommunityDetail />} />
         <Route path="/communityEdit" element={<CommunityEdit />} />
-        <Route path="/communityEditChange/:id" element={<CommunityEditChange />} />
+        <Route path="/EditChange/:id" element={<CommunityEditChange />} />
         {/* 240805 kwj 커뮤니티 */}
       </Routes>
       <Footer />

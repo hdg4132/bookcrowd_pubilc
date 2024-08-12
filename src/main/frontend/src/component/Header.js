@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./Header.css";
 import bookLogo from "../assets/MainLogo.png";
-import {Link, useLocation} from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
   useEffect(() => {
@@ -23,9 +23,9 @@ const Header = () => {
   });
 
   const location = useLocation();
-  const isHeaderHidden = location.pathname.includes('/adm/')
+  const isHeaderHidden = location.pathname.includes("/adm/");
 
-  if(isHeaderHidden){
+  if (isHeaderHidden) {
     return null;
   }
   return (
