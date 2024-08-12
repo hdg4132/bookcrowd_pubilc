@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Signup.css";
+import SubBanner from "../SubBanner";
 
 const Editprofile = () => {
   const navigate = useNavigate();
@@ -151,14 +152,8 @@ const Editprofile = () => {
 
   return (
     <div>
-      <div id="sub_banner">
-        <div className="container_fix">
-          <h2>회원정보 수정</h2>
-          <p>회원정보를 수정하세요.</p>
-        </div>
-      </div>
+      <SubBanner page_name={"storage"} title_en={"Editprofile"} title_kr={"회원정보 수정"} />
       <main>
-        <h3>회원정보 수정</h3>
         <form className="signup_form" onSubmit={handleUpdate}>
           <div className="signup_form_con">
             <label htmlFor="name">성함</label>
@@ -260,7 +255,7 @@ const Editprofile = () => {
             </div>
           </div>
           <div id="btn_signup">
-            <Link to="/mypage" type="reset" className="btn_back">
+            <Link to="/mypage/1" type="reset" className="btn_back">
               뒤로가기
             </Link>
             <button type="submit" className="btn_signup" disabled={isSubmit}>

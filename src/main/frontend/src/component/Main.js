@@ -74,7 +74,7 @@ function Main() {
       </Link>
       <br />
       <br />
-      <Link to="/mypage">
+      <Link to="/mypage/1">
         마이페이지로 <Outlet />
       </Link>
       <br />

@@ -1,4 +1,3 @@
-
 // import "./App.css";
 import React, { useEffect, useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
@@ -75,6 +74,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/mypage" element={<Mypage />} />
+        <Route path="/wishlist" element={<WishList />} />
         <Route path="/editprofile" element={<Editprofile />} />
         {/* 240805 kwj 커뮤니티 */}
         <Route path="/community" element={<CommunityList />} />
@@ -89,4 +89,3 @@ function App() {
 }
 
 export default App;
-

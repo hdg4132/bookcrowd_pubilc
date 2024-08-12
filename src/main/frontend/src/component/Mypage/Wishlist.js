@@ -80,12 +80,11 @@ function MyPage() {
         <div>
            <SubBanner page_name={"storage"} title_en={"My page"} title_kr={"마이페이지"} search />
             <div className="mypage">
-                    <div className="postLine" />
                 <div className="mypage_side">
                     <div className="sidebox">
                         <ul>
                             <li className="sidebox_text">
-                                <button className="sidebox_quitbutton" onClick={() => navigate("/mypage")}>나의 대여내역</button>
+                                <button className="sidebox_quitbutton" onClick={() => navigate("/mypage/1")}>나의 대여내역</button>
                             </li>
                             <li className="sidebox_text">
                                 <button className="sidebox_quitbutton" onClick={() => navigate("/mybookstorage")}>나의 보관내역</button>
@@ -103,7 +102,7 @@ function MyPage() {
                     </div>
                 </div>
                 <div className="MyTicketing">
-                    <h3>위시리스트</h3>
+                    <p>위시리스트</p>
                     <div className="wishlist_line" />
                     <ul className="wishlist_items">
                         {wishlistItems && wishlistItems.map((item) => (
