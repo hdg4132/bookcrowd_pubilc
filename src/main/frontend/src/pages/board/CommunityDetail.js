@@ -12,7 +12,7 @@ export default function CommunityDetail() {
   const [comments, setComments] = useState([]);
   const [editCommentId, setEditCommentId] = useState(null);
   const [editCommentText, setEditCommentText] = useState("");
-  const loggedInUser = "사용자명";
+  const loggedInUser = "사용자명"; // 실제 로그인 사용자로 변경해야 함
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,7 +22,10 @@ export default function CommunityDetail() {
         setPost(response.data);
       })
       .catch((error) => {
-        console.error("게시글을 가져오는 데 실패했습니다:", error);
+        console.error(
+          "게시글을 가져오는 데 실패했습니다:",
+          error.response ? error.response.data : error.message
+        );
       });
 
     axios
@@ -31,7 +34,10 @@ export default function CommunityDetail() {
         setComments(response.data);
       })
       .catch((error) => {
-        console.error("댓글을 가져오는 데 실패했습니다:", error);
+        console.error(
+          "댓글을 가져오는 데 실패했습니다:",
+          error.response ? error.response.data : error.message
+        );
       });
   }, [id]);
 
@@ -56,25 +62,24 @@ export default function CommunityDetail() {
           setComment("");
         })
         .catch((error) => {
-          console.error("댓글을 추가하는 데 실패했습니다:", error);
+          console.error(
+            "댓글 추가에 실패했습니다:",
+            error.response ? error.response.data : error.message
+          );
         });
     }
   };
 
-  const handleEdit = (commentId) => {
-    const commentToEdit = comments.find((c) => c.id === commentId);
-    setEditCommentId(commentId);
-    setEditCommentText(commentToEdit.comment);
-  };
-  const handleSaveEdit = (event) => {
+  const handleEditSubmit = (event) => {
     event.preventDefault();
     if (editCommentText.trim()) {
       axios
         .put(
           `http://localhost:8080/api/community/${id}/comments/${editCommentId}`,
           {
+            writer: loggedInUser,
             comment: editCommentText,
-            postId: id, // postId를 포함합니다.
+            postId: id,
           }
         )
         .then((response) => {
@@ -86,26 +91,25 @@ export default function CommunityDetail() {
           setEditCommentText("");
         })
         .catch((error) => {
-          console.error("댓글 수정에 실패했습니다:", error.response ? error.response.data : error.message);
+          console.error(
+            "댓글 수정에 실패했습니다:",
+            error.response ? error.response.data : error.message
+          );
         });
     }
   };
-  
-  
+
   const handleDelete = (commentId) => {
     axios
       .delete(`http://localhost:8080/api/community/${id}/comments/${commentId}`)
       .then(() => {
-        const updatedComments = comments.filter((c) => c.id !== commentId);
-        setComments(updatedComments);
-        // Reset edit state if deleting the currently edited comment
-        if (editCommentId === commentId) {
-          setEditCommentId(null);
-          setEditCommentText("");
-        }
+        setComments(comments.filter((comment) => comment.id !== commentId));
       })
       .catch((error) => {
-        console.error("댓글 삭제에 실패했습니다:", error);
+        console.error(
+          "댓글 삭제에 실패했습니다:",
+          error.response ? error.response.data : error.message
+        );
       });
   };
 
@@ -116,8 +120,19 @@ export default function CommunityDetail() {
         navigate("/community");
       })
       .catch((error) => {
-        console.error("게시글 삭제에 실패했습니다:", error);
+        console.error(
+          "게시글 삭제에 실패했습니다:",
+          error.response ? error.response.data : error.message
+        );
       });
+  };
+
+  const handleEdit = (commentId) => {
+    setEditCommentId(commentId);
+    const commentToEdit = comments.find((c) => c.id === commentId);
+    if (commentToEdit) {
+      setEditCommentText(commentToEdit.comment);
+    }
   };
 
   return (
@@ -127,14 +142,12 @@ export default function CommunityDetail() {
         title_en={"Community"}
         title_kr={"커뮤니티"}
       />
-      <div>
-        <div className="container_fix">
-          <div className="detail_title">
-            <h5>{post?.title || "게시글이 존재하지 않습니다."}</h5>
-          </div>
-          <div className="detail_content">
-            <div dangerouslySetInnerHTML={{ __html: post?.content || "" }} />
-          </div>
+      <div className="container_fix">
+        <div className="detail_title">
+          <h5>{post?.title || "게시글이 존재하지 않습니다."}</h5>
+        </div>
+        <div className="detail_content">
+          <div dangerouslySetInnerHTML={{ __html: post?.content || "" }} />
         </div>
       </div>
       <div className="comment_section">
@@ -173,7 +186,7 @@ export default function CommunityDetail() {
         <div className="comment_form_section">
           <form
             className="comment_form"
-            onSubmit={editCommentId ? handleSaveEdit : handleSubmit}
+            onSubmit={editCommentId ? handleEditSubmit : handleSubmit}
           >
             <textarea
               className="comment_textarea"
