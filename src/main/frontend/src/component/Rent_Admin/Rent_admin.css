@@ -203,11 +203,8 @@
     height: 100%;
 }
 
-.Rent_Admin_List .Admin_LOGO{
-    height: 90px;
-    border-bottom: 1px solid white;
-    align-content: center;
-
+.Rent_Admin_List .Admin_LOGO img{
+    width: 50%;
 }
 
 .Rent_Admin_List .rent_admin_wrap .rent_admin_header{
