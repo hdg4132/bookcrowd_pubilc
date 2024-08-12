@@ -19,19 +19,20 @@ const WishList = () => {
     const { page } = useParams();
     const postPerPage = 4;
 
-    // 위시리스트 불러오기
     useEffect(() => {
         fetch(`http://localhost:8080/wishlist/${userInfo.userId}`, {
             method: "GET",
         })
             .then(response => response.json())
             .then(data => {
-                setPosts(data);  // 데이터를 posts에 설정
-                setCount(data.length);  // count에 데이터 길이 설정
+                setPosts(data);
+                setCount(data.length);
                 console.log(data);
             })
             .catch(error => console.error('Error fetching posts:', error));
-    }, [userInfo.userId]); // 의존성 배열에 userInfo.userId를 추가하여 해당 값이 변경될 때만 재호출
+
+        setCount(posts.length);
+    }, []);
     
     // 검색 및 페이지네이션 처리
     useEffect(() => {
@@ -119,8 +120,8 @@ const WishList = () => {
                             <div className="wishlist_list">
                                 {currentPosts.map((item) => (
                                     <WishlistItem
-                                        key={item.ISBN13}
-                                        bookname={item.bookname}
+                                        id={item.Id}
+                                        userId={item.userId}
                                         ISBN13={item.ISBN13}
                                     />
                                 ))}
