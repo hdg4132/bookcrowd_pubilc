@@ -3,6 +3,7 @@ import axios from "axios"; // axios를 사용하여 데이터를 가져옵니다
 import { Link } from "react-router-dom";
 import SubBanner from "../../component/SubBanner";
 import "./CommunityList.css";
+import UserChatPage from "../../component/realChat/UserChatPage";
 
 const parseDate = (dateString) => {
   const parsedDate = new Date(dateString);
@@ -89,6 +90,7 @@ export default function CommunityList() {
 
   return (
     <div>
+      <UserChatPage />
       <SubBanner
         page_name={"checkout"}
         title_en={"Community"}

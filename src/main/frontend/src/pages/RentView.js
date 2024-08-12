@@ -6,6 +6,7 @@ import './RentView.css';
 import icon_off from '../assets/icon_heart_off.png';
 import icon_on from '../assets/icon_heart_on.png';
 import { getCurrentDateTime } from "../util/util";
+import UserChatPage from "../component/realChat/UserChatPage";
 
 const RentView =()=>{
     const baseUrl = "http://localhost:8080";
@@ -65,6 +66,7 @@ const RentView =()=>{
 
     return(
         <div className="RentView">
+            <UserChatPage />
             <SubBanner page_name={"checkout"} title_en={"Checkout Book"} title_kr={"책 대여하기"}/>
             <div className="container_fix">
                 {data && (

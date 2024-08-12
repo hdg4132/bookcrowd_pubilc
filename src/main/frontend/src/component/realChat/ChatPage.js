@@ -6,28 +6,31 @@ import "./ChatPage.css";
 import AdmLayout from "../AdmLayout";
 
 const ChatPage = () => {
-  const navigate = useNavigate();
-  const [chatRooms, setChatRooms] = useState([]);
-  const itemsPerPage = 8;
-  const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate(); // 페이지 이동을 위한 훅
+  const [chatRooms, setChatRooms] = useState([]); // 전체 채팅방 목록 상태
+  const itemsPerPage = 8; // 페이지당 표시할 항목 수
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
 
+  // 컴포넌트가 마운트될 때 서버에서 채팅방 목록을 가져옴
   useEffect(() => {
     axios
       .get("http://localhost:8080/chat/rooms")
       .then((response) => {
-        setChatRooms(response.data);
+        setChatRooms(response.data); // 가져온 채팅방 목록을 상태에 저장
       })
       .catch((error) => {
         console.error("채팅방 목록을 가져오는 중 오류 발생:", error);
       });
   }, []);
 
+  // 페이지 번호를 변경하는 함수
   const handlePageChange = (pageNumber) => {
     if (pageNumber >= 1 && pageNumber <= Math.ceil(chatRooms.length / itemsPerPage)) {
-      setCurrentPage(pageNumber);
+      setCurrentPage(pageNumber); // 현재 페이지 상태 업데이트
     }
   };
 
+  // 페이지네이션
   const handleManyPageChange = (increment) => {
     let targetPage = currentPage + increment;
     if (targetPage < 1) {
@@ -35,12 +38,14 @@ const ChatPage = () => {
     } else if (targetPage > Math.ceil(chatRooms.length / itemsPerPage)) {
       targetPage = Math.ceil(chatRooms.length / itemsPerPage);
     }
-    setCurrentPage(targetPage);
+    setCurrentPage(targetPage); // 현재 페이지 상태 업데이트
   };
 
+  // 현재 페이지에 해당하는 채팅방 목록을 계산하여 표시
   const startIdx = (currentPage - 1) * itemsPerPage;
   const currentChatRooms = chatRooms.slice(startIdx, startIdx + itemsPerPage);
 
+  // 채팅방 클릭 시 해당 채팅방으로 이동
   const handleChat = (roomId, email) => {
     if (roomId && email) {
       navigate(`/adm/realchat?roomId=${roomId}&email=${email}`);
@@ -49,6 +54,23 @@ const ChatPage = () => {
     }
   };
 
+  // 채팅방 목록을 불러와서, 읽지 않은 메시지가 있는 채팅방을 위로 정렬
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/chat/rooms")
+      .then((response) => {
+        const sortedRooms = response.data.sort((a, b) => {
+          if (a.unread && !b.unread) return -1; // a가 unread이고 b가 읽은 상태면 a가 먼저 오도록 함
+          if (!a.unread && b.unread) return 1;  // b가 unread이고 a가 읽은 상태면 b가 먼저 오도록 함
+          return 0;
+        });
+        setChatRooms(sortedRooms); // 정렬된 채팅방 목록을 상태에 저장
+      })
+      .catch((error) => {
+        console.error("채팅방 목록을 가져오는 중 오류 발생:", error);
+      });
+  }, []);
+  
   return (
     <div>
       <AdmLayout />

@@ -5,6 +5,7 @@ import "./Mypage.css";
 import RentItem from "./Rent_user.js";
 import Pagination from "./Pagination.js";
 import SubBanner from "../SubBanner.js";
+import UserChatPage from "../realChat/UserChatPage.js";
 
 
 const MyPage = () => {
@@ -112,6 +113,9 @@ const MyPage = () => {
 
 
     return (
+        <div>
+            <UserChatPage />
+            <SubBanner page_name={"storage"} title_en={"My page"} title_kr={"마이페이지"} search />
         <div className="mypage_body">
             <SubBanner page_name={"storage"} title_en={"My page"} title_kr={"마이페이지"} />
             <form action="" className="search_form">
@@ -150,16 +154,16 @@ const MyPage = () => {
                     </ul>
                 </div>
             </div>
-            
+
             <div className="content_tail">
                 <div className="mypage_container">
                     {userInfo != null ? <div className="btn_list">
                     </div> : ''}
 
-                    
+
                 </div>
             </div>
-            
+
         </div>
         <Pagination page={page || currentPage} count={count} handleChangePage={handleChangePage} postPerPage={postPerPage} />
         </div>
