@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import SubBanner from "../../component/SubBanner";
@@ -9,7 +9,19 @@ import "./CommunityEdit.css";
 const CommunityEdit = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // 로그인 상태 확인
+    const userInfo = JSON.parse(sessionStorage.getItem("userData"));
+    if (!userInfo) {
+      // 로그인하지 않은 경우 로그인 페이지로 리디렉션
+      navigate("/login");
+    } else {
+      setIsLoggedIn(true);
+    }
+  }, [navigate]);
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -18,13 +30,14 @@ const CommunityEdit = () => {
   const handleContentChange = (value) => {
     setContent(value);
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const newPost = {
       title,
       content,
       date: new Date().toISOString(),
-      writer: "작성자명",
+      writer: "작성자명", // 로그인한 사용자 정보로 대체할 수 있습니다
     };
 
     axios
@@ -36,6 +49,9 @@ const CommunityEdit = () => {
         console.error("게시글 작성에 실패했습니다:", error);
       });
   };
+
+  // 로그인되지 않은 경우 컴포넌트를 렌더링하지 않음
+  if (!isLoggedIn) return null;
 
   return (
     <div>

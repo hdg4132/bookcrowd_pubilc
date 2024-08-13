@@ -10,19 +10,32 @@ const CommunityEditChange = () => {
   const { id } = useParams(); // 게시글 ID를 URL에서 가져옴
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태
+  const [loading, setLoading] = useState(true); // 데이터 로딩 상태
   const navigate = useNavigate();
 
   useEffect(() => {
+    // 로그인 상태 확인
+    const userInfo = JSON.parse(sessionStorage.getItem("userData"));
+    if (!userInfo) {
+      navigate("/login"); // 로그인하지 않은 경우 로그인 페이지로 리디렉션
+      return;
+    }
+    setIsLoggedIn(true);
+
+    // 게시글 데이터 가져오기
     axios
       .get(`http://localhost:8080/api/community/${id}`)
       .then((response) => {
         setTitle(response.data.title);
         setContent(response.data.content);
+        setLoading(false); // 데이터 로딩 완료
       })
       .catch((error) => {
         console.error("게시글을 불러오는 데 실패했습니다:", error);
+        setLoading(false); // 데이터 로딩 완료
       });
-  }, [id]);
+  }, [id, navigate]);
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -38,7 +51,7 @@ const CommunityEditChange = () => {
       title,
       content,
       date: new Date().toISOString(), // 현재 날짜를 새로 설정
-      writer: "작성자명", // 또는 실제 작성자명을 가져올 수 있으면 설정
+      writer: JSON.parse(sessionStorage.getItem("userData")).username, // 로그인 사용자명
     };
 
     axios
@@ -50,6 +63,11 @@ const CommunityEditChange = () => {
         console.error("게시글 수정에 실패했습니다:", error);
       });
   };
+
+  // 로그인 상태가 확인되기 전에는 로딩 상태를 표시
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>

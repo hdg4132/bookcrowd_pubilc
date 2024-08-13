@@ -57,6 +57,7 @@ export default function CommunityList() {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -73,6 +74,11 @@ export default function CommunityList() {
     };
 
     fetchPosts();
+  }, []);
+
+  useEffect(() => {
+    const userInfo = JSON.parse(sessionStorage.getItem("userData"));
+    setIsLoggedIn(!!userInfo); // 로그인 정보가 있으면 true, 없으면 false
   }, []);
 
   const currentItems = posts.slice(
@@ -159,11 +165,13 @@ export default function CommunityList() {
             &raquo;
           </button>
         </div>
-        <div className="write_button_box container_fix">
-          <Link to={`/communityEdit`} className="write_button">
-            글쓰기
-          </Link>
-        </div>
+        {isLoggedIn && (
+          <div className="write_button_box container_fix">
+            <Link to={`/communityEdit`} className="write_button">
+              글쓰기
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
