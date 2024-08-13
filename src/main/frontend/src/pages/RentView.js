@@ -106,10 +106,12 @@ const RentView =()=>{
                                     </li>
                                 </ul>
                             </div>
-                            <div className="book_btn">
-                                <button className="btn"><img src={icon_off}/> 위시리스트</button>
-                                <button className="btn btn_color" onClick={rentRequest}>대여하기</button>
-                            </div>
+                            {data.stock>0 ?
+                                (<div className="book_btn">
+                                     <button className="btn"><img src={icon_off}/> 위시리스트</button>
+                                     <button className="btn btn_color" onClick={rentRequest}>대여하기</button>
+                                 </div>)
+                            :''}
                         </div>
                     </div>
 
@@ -121,7 +123,7 @@ const RentView =()=>{
                     </div>
 
                 )}
-                {user &&(
+                {user.userType==2 &&(
                 <div className="btn_sec">
                     <Link className="btn" to={`/adm/rent/edit/${id}`}>수정</Link>
                     <button className="btn" onClick={deletePost}>삭제</button>

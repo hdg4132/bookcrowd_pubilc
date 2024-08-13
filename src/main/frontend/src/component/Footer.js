@@ -4,8 +4,16 @@ import bookLogo from "../assets/MainLogo.png";
 import { FaInstagram } from "react-icons/fa";
 import { FaFacebookSquare } from "react-icons/fa";
 import { FaSquareTwitter } from "react-icons/fa6";
+import {useLocation} from "react-router-dom";
 
 export default function Footer() {
+
+  const location = useLocation();
+  const isHeaderHidden = location.pathname.includes('/adm/')
+
+  if(isHeaderHidden){
+    return null;
+  }
   return (
     <footer>
       <div className="container_fix">

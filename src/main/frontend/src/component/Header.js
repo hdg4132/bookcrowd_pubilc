@@ -6,7 +6,11 @@ import {Link, useLocation} from "react-router-dom";
 
 
 const Header = () => {
+
+  const location = useLocation();
+  const isHeaderHidden = location.pathname.includes('/adm/');
   useEffect(() => {
+    if(!isHeaderHidden){
     const topscroll = function () {
       const navbar = document.getElementById("header");
       if (
@@ -22,10 +26,8 @@ const Header = () => {
     return () => {
       window.removeEventListener("scroll", topscroll);
     };
+    }
   });
-
-  const location = useLocation();
-  const isHeaderHidden = location.pathname.includes('/adm/')
 
   if(isHeaderHidden){
     return null;
