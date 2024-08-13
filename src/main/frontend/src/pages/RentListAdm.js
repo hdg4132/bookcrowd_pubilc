@@ -56,7 +56,7 @@ const RentListAdm=()=>{
                 <ul className="checkout_list">
 
                     {filteredData ? (
-                        filteredData.map((item) => (
+                        filteredData.reverse().map((item) => (
                             <RentItem key={item.id} {...item} />
                         ))
                     ) : (
