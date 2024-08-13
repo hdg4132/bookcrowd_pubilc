@@ -123,4 +123,10 @@ public class BookController {
     bookDTO.setKeyword(keyword);
     return bookService.getSearchList(keyword);
   }
+
+  @GetMapping("/import")
+  public String importBooks() {
+    bookService.saveBooksFromCSV();
+    return "Books imported successfully";
+  }
 }

@@ -1,5 +1,6 @@
 package com.example.demo3.model;
 
+import com.mysql.cj.protocol.ColumnDefinition;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,8 +25,9 @@ public class BookEntity {
     private String publishDate;
     private String genre;
     private int pages;
+    @Lob
+    @Column(columnDefinition = "text")
     private String description;
-    private int available;
     private int stock;
     private int totalQuantity;
 }

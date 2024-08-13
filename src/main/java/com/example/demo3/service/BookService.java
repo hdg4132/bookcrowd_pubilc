@@ -3,15 +3,23 @@ package com.example.demo3.service;
 import com.example.demo3.dto.BookDTO;
 import com.example.demo3.model.BookEntity;
 import com.example.demo3.persistence.BookRepository;
+import com.example.demo3.util.EncodingUtil;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -114,7 +122,6 @@ public class BookService {
                 .genre(bookDTO.getGenre())
                 .pages(bookDTO.getPages())
                 .description(bookDTO.getDescription())
-                .available(bookDTO.getAvailable())
                 .stock(bookDTO.getStock())
                 .totalQuantity(bookDTO.getTotalQuantity())
                 .build();
@@ -131,7 +138,6 @@ public class BookService {
                 .genre(book.getGenre())
                 .pages(book.getPages())
                 .description(book.getDescription())
-                .available(book.getAvailable())
                 .stock(book.getStock())
                 .totalQuantity(book.getTotalQuantity())
                 .build();
@@ -158,5 +164,41 @@ public class BookService {
         }
     }
 
+    public void saveBooksFromCSV() {
+        String filePath = "src/main/resources/data/book4_clean.csv";
+        List<BookEntity> books = new ArrayList<>();
+
+        try (Reader reader = new InputStreamReader(new FileInputStream(filePath), "UTF-8");
+             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader())) {
+
+            for (CSVRecord record : csvParser) {
+                try {
+                    BookEntity book = BookEntity.builder()
+                            .ISBN(record.get(5))  // ISBN 필드를 String으로 그대로 사용
+                            .bookName(record.get(1))  // title
+                            .bookImgUrl(record.get(9))  // book_img_url
+                            .publisher(record.get(3))  // publisher
+                            .author(record.get(2))  // author
+                            .publishDate(record.get(4))  // publishDate
+                            .genre(record.get(7))  // genre
+                            .pages(Integer.parseInt(record.get(6)))  // pages
+                            .description(record.get(8))  // description
+                            .stock(Integer.parseInt(record.get(10)))  // stock
+                            .totalQuantity(Integer.parseInt(record.get(11)))  // totalQuantity
+                            .build();
+                    books.add(book);
+                } catch (NumberFormatException e) {
+                    System.out.println("can't turn into Int: " + e.getMessage() + " in line: " + record);
+                }
+            }
+            bookRepository.saveAll(books);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isBooksTableEmpty() {
+        return bookRepository.count() == 0;
+    }
 
 }

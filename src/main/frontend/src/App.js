@@ -27,7 +27,7 @@ import KeepingRegister from "./component/BookKeeping/KeepingRegister";
 import Login from "./component/Login/Login";
 import Signup from "./component/Signup/Signup";
 import Mypage from "./component/Mypage/Mypage";
-import Editprofile from "./component/Editprofile/Editprofile";
+import Editprofile from "./component/Signup/Editprofile";
 
 import AdminRegisterBook from "./component/admin/AdminRegisterBook";
 import AdminRegisterList from "./component/admin/AdminRegisterList";
@@ -63,8 +63,8 @@ function App() {
         <Route path="/books" element={<KeepingList />} />
         <Route path="/register" element={<KeepingRegister />} />
         <Route path="/book/:id" element={<KeepingItem />} />
-        <Route path="/admin/list" element={<AdminRegisterList />} />
-        <Route path="/admin/register" element={<AdminRegisterBook />} />
+        <Route path="/adm/list" element={<AdminRegisterList />} />
+        <Route path="/adm/register" element={<AdminRegisterBook />} />
         <Route path="/rent_admin" element={<Rent_admin />} />
         <Route path="/rent_admin_return" element={<Rent_admin_return />} />
         <Route path="/rent_admin_canceled" element={<Rent_admin_canceled />} />
