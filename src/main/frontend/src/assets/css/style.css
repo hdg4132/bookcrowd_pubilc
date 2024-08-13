@@ -236,6 +236,15 @@ body {
 .book-keeping-register-container-flex5 {
   display: flex;
 }
+.book-keeping-register-container input[type="text"].highlight {
+  border: none;
+  border-bottom: 1px solid red;
+}
+
+.book-keeping-register-container-flex1 .btn_write{
+  width: 147px;
+  margin-left: 10px;
+}
 .book-keeping-register-container-flex2 label {
   margin-right: 20px;
   font-size: 18px;

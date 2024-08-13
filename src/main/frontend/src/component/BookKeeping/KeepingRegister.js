@@ -16,17 +16,19 @@ export default function KeepingRegister() {
   });
   const [isValid, setIsValid] = useState(true);
   const [userData, setUserData] = useState(null);
+  const [highlightBookName, setHighlightBookName] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
-useEffect(() => {
-  const storedUserData = sessionStorage.getItem("userData");
-  if (storedUserData) {
-    setUserData(JSON.parse(storedUserData));
-  } else {
-    navigate("/login")
-  }
-}, [navigate])
+  useEffect(() => {
+    const storedUserData = sessionStorage.getItem("userData");
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    } else {
+      navigate("/login");
+    }
+  }, [navigate]);
 
   // const userId = JSON.parse(sessionStorage.getItem("userData")).userId;
 
@@ -40,7 +42,7 @@ useEffect(() => {
     } else if (name !== "isbn") {
       setFormData({
         ...formData,
-        [name]: type === "checkbox" ? checked : value
+        [name]: type === "checkbox" ? checked : value,
       });
     }
   };
@@ -49,7 +51,7 @@ useEffect(() => {
     e.preventDefault();
     if (formData.isbn.length !== 13) {
       setIsValid(false);
-      alert("ISBN 13자리를 모두 입력해주세요")
+      alert("ISBN 13자리를 모두 입력해주세요");
       return;
     }
     const requestData = {
@@ -68,9 +70,36 @@ useEffect(() => {
       });
   };
 
+  const fetchBookData = async () => {
+    if (formData.isbn) {
+      try {
+        const response = await axios.get(
+          `/api/books/fetchBookData?isbn=${formData.isbn}`
+        );
+        if (response.data) {
+          setFormData({
+            ...formData,
+            bookName: response.data.bookName,
+          });
+          setHighlightBookName(false);
+          setErrorMessage("");
+        } else {
+          setErrorMessage(
+            "ISBN에 맞는 책을 찾을수 없습니다. 수기로 작성 부탁드립니다"
+          );
+          setHighlightBookName(true);
+        }
+      } catch (error) {
+        console.error("Error fetching book data:", error);
+        setErrorMessage("책 데이터를 불러오는 중 오류가 발생했습니다.");
+        setHighlightBookName(true);
+      }
+    }
+  };
+
   return (
     <>
-    <UserChatPage />
+      <UserChatPage />
       <SubBanner
         page_name={"storage"}
         title_en={"Book Storage"}
@@ -87,6 +116,8 @@ useEffect(() => {
               value={formData.bookName}
               onChange={handleChange}
               required
+              className={highlightBookName ? "highlight" : ""}
+              placeholder={highlightBookName ? "데이터가 없습니다. 수기로 작성부탁드려요" : "도서 명을 입력하세요"}
             />
           </div>
           <div className="book-keeping-register-container-flex1">
@@ -103,6 +134,9 @@ useEffect(() => {
               onChange={handleChange}
               required
             />
+            <button className="btn_write" type="button" onClick={fetchBookData}>
+              정보 가져오기
+            </button>
           </div>
           <div className="book-keeping-register-container-flex2">
             <span>대여가능 여부</span>
