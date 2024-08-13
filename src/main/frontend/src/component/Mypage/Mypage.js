@@ -75,7 +75,7 @@ const MyPage = () => {
         const { email } = userData;
 
         try {
-            const response = await axios.delete('api/api/auth/deleteAccount', {
+            const response = await axios.delete('http://localhost:8080/api/auth/deleteAccount', {
                 params: { email }
             });
             console.log("탈퇴 완료");
