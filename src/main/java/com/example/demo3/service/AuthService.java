@@ -14,6 +14,9 @@ public class AuthService {
 
     @Autowired
     private UserRepository userRepository;
+    // lsw : ChatService 필드를 불러옴
+    @Autowired
+    private ChatService chatService;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -98,6 +101,9 @@ public class AuthService {
                 return ResponseDTO.setFailed("비밀번호가 일치하지 않거나 사용자가 존재하지 않습니다.");
             }
 
+            // lsw : 사용자 탈퇴 시 채팅 데이터 삭제
+            chatService.deleteChatDataByUserId(user.getUserId());
+
             userRepository.delete(user);
             return ResponseDTO.setSuccess("회원 탈퇴가 완료되었습니다.");
         } catch (Exception e) {
@@ -109,10 +115,15 @@ public class AuthService {
         Optional<UserEntity> optionalUser = userRepository.findByEmail(email);
 
         if (optionalUser.isPresent()) {
+
+            // lsw : 사용자 탈퇴 시 채팅 데이터 삭제
+            chatService.deleteChatDataByUserId(optionalUser.get().getUserId());
+
             userRepository.delete(optionalUser.get());
             return true;
         }
 
         return false;
     }
+
 }

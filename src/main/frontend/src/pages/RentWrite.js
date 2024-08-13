@@ -64,7 +64,7 @@ const RentWrite =()=>{
                        }
                    })
                .then((res) => {
-                   nav(`../../rent/${res.data.bookId}`)
+                   nav(-1)
                    console.log(JSON.stringify(res.data))
                })
        }else{
@@ -76,7 +76,7 @@ const RentWrite =()=>{
                        }
                    })
                .then((res) => {
-                   nav(`../../rent/${res.data.bookId}`)
+                   nav(-1)
                    console.log(JSON.stringify(res.data))
                })
        }

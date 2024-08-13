@@ -28,4 +28,5 @@ public class BookEntity {
     private int available;
     private int stock;
     private int totalQuantity;
+
 }

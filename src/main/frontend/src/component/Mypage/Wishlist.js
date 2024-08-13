@@ -20,17 +20,24 @@ const WishList = () => {
     const postPerPage = 4;
     const [list, setList] =useState([]);
 
-    // 위시리스트 불러오기
     useEffect(() => {
         fetch(`http://localhost:8080/wishlist/${userInfo.userId}`, {
             method: "GET",
         })
             .then(response => response.json())
             .then(data => {
+<<<<<<< HEAD
                 setList(data); 
+=======
+                setPosts(data);
+                setCount(data.length);
+                console.log(data);
+>>>>>>> 05e35728335f4d66afa6b945e6a63f63a328e602
             })
             .catch(error => console.error('Error fetching posts:', error));
-    }, [userInfo.userId]); // 의존성 배열에 userInfo.userId를 추가하여 해당 값이 변경될 때만 재호출
+
+        setCount(posts.length);
+    }, []);
     
     useEffect(() => {
         if(list != null){
