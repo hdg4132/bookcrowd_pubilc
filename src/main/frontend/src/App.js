@@ -66,10 +66,9 @@ function App() {
         <Route path="/register" element={<KeepingRegister />} />
         <Route path="/book/:id" element={<KeepingItem />} />
         <Route path="/adm/list" element={<AdminRegisterList />} />
-        <Route path="/adm/register" element={<AdminRegisterBook />} />
-        <Route path="/rent_admin" element={<Rent_admin />} />
-        <Route path="/rent_admin_return" element={<Rent_admin_return />} />
-        <Route path="/rent_admin_canceled" element={<Rent_admin_canceled />} />
+        <Route path="/adm/rent_admin" element={<Rent_admin />} />
+        <Route path="/adm/rent_admin_return" element={<Rent_admin_return />} />
+        <Route path="/adm/rent_admin_canceled" element={<Rent_admin_canceled />} />
         <Route path="/userchat" element={<UserChatPage />} />
         <Route path="/adm/realchat" element={<RealChatPage />} />
         <Route path="/adm/chatpage" element={<ChatPage />} />

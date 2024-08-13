@@ -4,6 +4,7 @@ import "./Rent_admin.css";
 import axios from "axios";
 import Rent_item_cancel from "./Rent_item_cancel.js";
 import bookLogo from "../../assets/MainLogo.png";
+import AdmLayout from "../AdmLayout"
 
 const Rent_admin_canceled = () => {
   const [posts, setPosts] = useState([]);
@@ -24,32 +25,9 @@ const Rent_admin_canceled = () => {
 
   return (
     <div className="Rent_Admin_List">
-      <div className="Admin_side">
-      <div className="Admin_LOGO"> <img src={bookLogo}/> </div>
-        <div className="Admin_side_link">
-          <div>
-            <a href="">회원관리</a>
-          </div>
-          <div>
-            <Link to="/rent_admin">
-              대여목록으로 <Outlet />
-            </Link>
-            
-          </div>
-          <div>
-          <Link to="/rent_admin_return">
-              반납등록으로 <Outlet />
-            </Link>
-          </div>
-          <div>
-          <Link to="/">
-              메인으로 <Outlet />
-            </Link>
-          </div>
-        </div>
-      </div>
+      <AdmLayout/>
 
-      <div className="rent_admin_wrap">
+      <div className="rent_admin_wrap adm_con">
         <div className="rent_admin_header">
           <h3 className="rent_admin_tt">반려처리목록</h3>
         </div>

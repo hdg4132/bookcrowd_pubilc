@@ -35,7 +35,6 @@ function Home() {
   return (
     <div>
       <UserChatPage />
-      <Main />
       <div className="main_banner">
         <div className="logo">
           <p className="main_banner_text">책 대여 보관 시스템</p>
