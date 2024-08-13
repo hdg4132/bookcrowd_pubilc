@@ -139,4 +139,10 @@ public class BookController {
     bookService.saveBooksFromCSV();
     return "Books imported successfully";
   }
+
+  // ISBN을 통해 도서 정보 조회
+  @GetMapping("/fetchBookData")
+  public BookDTO fetchBookData(@RequestParam String isbn) {
+    return bookService.fetchBookDataByISBN(isbn);
+  }
 }

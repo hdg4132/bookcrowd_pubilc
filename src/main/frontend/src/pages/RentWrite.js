@@ -39,6 +39,30 @@ const RentWrite =()=>{
         setFile(e.target.files[0]);
     };
 
+    const fetchBookData = async() => {
+        if (input.isbn) {
+            try {
+                const response = await axios.get(`/api/books/fetchBookData?isbn=${input.isbn}`);
+                console.log(response.data)
+                if (response.data) {
+                    setInput({
+                        ...input,
+                        bookName: response.data.bookName,
+                        author: response.data.author,
+                        publishDate: response.data.publishDate,
+                        publisher:response.data.publisher,
+                        genre: response.data.genre,
+                    });
+                } else {
+                    alert('최신 도서는 등록되어 있지 않습니다');
+                }
+            } catch (error) {
+                console.error("Error fetching book data:", error);
+            }
+        }
+    };
+
+
     const formSubmit =async(e)=>{
         e.preventDefault();
         const formData = new FormData();
@@ -118,6 +142,7 @@ const RentWrite =()=>{
                     <p>
                         <label htmlFor="isbn">ISBN</label>
                         <input onChange={onChangeInput} type="text" name="isbn" id="isbn" value={isEdit?input.isbn :(location.state?.isbn || '')} required/>
+                        <button className='btn1 btn_write' type='button' onClick={fetchBookData}>정보 가져오기</button>
                     </p>
                     <p>
                         <label htmlFor="author">저자</label>
