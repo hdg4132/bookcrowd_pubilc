@@ -4,22 +4,13 @@ import { Link } from "react-router-dom";
 import SubBanner from "../../component/SubBanner";
 import "./CommunityList.css";
 
-// 날짜 문자열을 'yyyy/MM/dd HH:mm:ss' 형식으로 파싱합니다.
 const parseDate = (dateString) => {
   const [datePart, timePart] = dateString.split(" ");
   const [year, month, day] = datePart.split("/");
   const [hour, minute, second] = timePart.split(":");
 
-  const parsedDate = new Date(
-    year,
-    month - 1, // JavaScript의 month는 0부터 시작합니다.
-    day,
-    hour,
-    minute,
-    second
-  );
+  const parsedDate = new Date(year, month - 1, day, hour, minute, second);
 
-  // 날짜가 유효한지 확인
   if (isNaN(parsedDate.getTime())) {
     console.error("잘못된 날짜 형식:", dateString);
     return null;
@@ -28,7 +19,6 @@ const parseDate = (dateString) => {
   return parsedDate;
 };
 
-// 날짜를 포맷팅하여 출력합니다.
 const formatDate = (dateString) => {
   const postDate = parseDate(dateString);
 
@@ -58,12 +48,12 @@ export default function CommunityList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState(""); // 사용자 ID
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get("http://localhost:8080/api/community");
-        console.log("Fetched posts:", response.data); // 응답 데이터 로그
         setPosts(response.data);
         setTotalPages(Math.ceil(response.data.length / itemsPerPage));
       } catch (error) {
@@ -78,7 +68,10 @@ export default function CommunityList() {
 
   useEffect(() => {
     const userInfo = JSON.parse(sessionStorage.getItem("userData"));
-    setIsLoggedIn(!!userInfo); // 로그인 정보가 있으면 true, 없으면 false
+    setIsLoggedIn(!!userInfo);
+    if (userInfo) {
+      setUserId(userInfo.name); // 사용자 ID 설정
+    }
   }, []);
 
   const currentItems = posts.slice(
@@ -131,7 +124,7 @@ export default function CommunityList() {
                   <Link to={`/community/${item.id}`}>{item.title}</Link>
                 </span>
                 <div className="list_info">
-                  <span className="writer">{item.writer || "작성자 없음"}</span>
+                  <span className="writer">{item.writer}</span>
                   <span className="date">{formatDate(item.createdDate)}</span>
                 </div>
               </li>

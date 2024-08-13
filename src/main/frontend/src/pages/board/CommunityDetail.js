@@ -4,7 +4,6 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import SubBanner from "../../component/SubBanner";
 import "./CommunityDetail.css";
 
-
 export default function CommunityDetail() {
   const { id } = useParams();
   const [post, setPost] = useState(null);
@@ -12,7 +11,8 @@ export default function CommunityDetail() {
   const [comments, setComments] = useState([]);
   const [editCommentId, setEditCommentId] = useState(null);
   const [editCommentText, setEditCommentText] = useState("");
-  const loggedInUser = "사용자명"; // 실제 로그인 사용자로 변경해야 함
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [postWriter, setPostWriter] = useState(""); // 게시글 작성자
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,6 +20,7 @@ export default function CommunityDetail() {
       .get(`http://localhost:8080/api/community/${id}`)
       .then((response) => {
         setPost(response.data);
+        setPostWriter(response.data.writer); // 게시글 작성자 설정
       })
       .catch((error) => {
         console.error(
@@ -41,20 +42,31 @@ export default function CommunityDetail() {
       });
   }, [id]);
 
-  const handleCommentChange = (event) => {
-    setComment(event.target.value);
+  useEffect(() => {
+    const userInfo = JSON.parse(sessionStorage.getItem("userData"));
+    setIsLoggedIn(!!userInfo); // 로그인 정보가 있으면 true, 없으면 false
+  }, []);
+
+  const handleCommentChange = (e) => {
+    setComment(e.target.value);
   };
 
-  const handleEditChange = (event) => {
-    setEditCommentText(event.target.value);
+  const handleEditChange = (e) => {
+    setEditCommentText(e.target.value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const userInfo = JSON.parse(sessionStorage.getItem("userData"));
+    if (!userInfo) {
+      navigate("/login");
+      return;
+    }
+
     if (comment.trim()) {
       axios
         .post(`http://localhost:8080/api/community/${id}/comments`, {
-          writer: loggedInUser,
+          writer: userInfo.name,
           comment,
         })
         .then((response) => {
@@ -70,16 +82,21 @@ export default function CommunityDetail() {
     }
   };
 
-  const handleEditSubmit = (event) => {
-    event.preventDefault();
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    const userInfo = JSON.parse(sessionStorage.getItem("userData"));
+    if (!userInfo) {
+      navigate("/login");
+      return;
+    }
+
     if (editCommentText.trim()) {
       axios
         .put(
           `http://localhost:8080/api/community/${id}/comments/${editCommentId}`,
           {
-            writer: loggedInUser,
+            writer: userInfo.name,
             comment: editCommentText,
-            postId: id,
           }
         )
         .then((response) => {
@@ -135,6 +152,11 @@ export default function CommunityDetail() {
     }
   };
 
+  if (!post) return <div>Loading...</div>;
+
+  const userInfo = JSON.parse(sessionStorage.getItem("userData")) || {};
+  const loggedInUser = userInfo.name;
+
   return (
     <div>
       <SubBanner
@@ -164,11 +186,20 @@ export default function CommunityDetail() {
                     <div className="comment_content">{c.comment}</div>
                   </div>
                   <div className="comment_actions">
-                    {loggedInUser === c.writer && (
+                    {(loggedInUser === c.writer ||
+                      loggedInUser === postWriter) && (
                       <>
-                        <button onClick={() => handleEdit(c.id)}>수정</button>
-                        <div className="nav_auth_bar" />
-                        <button onClick={() => handleDelete(c.id)}>삭제</button>
+                        {loggedInUser === c.writer && (
+                          <>
+                            <button onClick={() => handleEdit(c.id)}>
+                              수정
+                            </button>
+                            <div className="nav_auth_bar" />
+                            <button onClick={() => handleDelete(c.id)}>
+                              삭제
+                            </button>
+                          </>
+                        )}
                       </>
                     )}
                   </div>
@@ -188,14 +219,18 @@ export default function CommunityDetail() {
             className="comment_form"
             onSubmit={editCommentId ? handleEditSubmit : handleSubmit}
           >
-            <textarea
-              className="comment_textarea"
-              value={editCommentId ? editCommentText : comment}
-              onChange={editCommentId ? handleEditChange : handleCommentChange}
-              placeholder={
-                editCommentId ? "댓글을 수정하세요" : "댓글을 입력하세요"
-              }
-            ></textarea>
+            {isLoggedIn && (
+              <textarea
+                className="comment_textarea"
+                value={editCommentId ? editCommentText : comment}
+                onChange={
+                  editCommentId ? handleEditChange : handleCommentChange
+                }
+                placeholder={
+                  editCommentId ? "댓글을 수정하세요" : "댓글을 입력하세요"
+                }
+              ></textarea>
+            )}
             <div className="button_container">
               {editCommentId ? (
                 <>
@@ -211,9 +246,13 @@ export default function CommunityDetail() {
                   </button>
                 </>
               ) : (
-                <button className="submit_button" type="submit">
-                  글쓰기
-                </button>
+                <>
+                  {isLoggedIn && (
+                    <button className="submit_button" type="submit">
+                      글쓰기
+                    </button>
+                  )}
+                </>
               )}
             </div>
           </form>
@@ -224,12 +263,20 @@ export default function CommunityDetail() {
           <Link to="/community" className="list_button">
             목록
           </Link>
-          <Link to={`/editChange/${id}`} className="write_button">
-            수정
-          </Link>
-          <button onClick={handlePostDelete} className="delete_button">
-            삭제
-          </button>
+          {isLoggedIn && (
+            <>
+              {loggedInUser === postWriter && (
+                <>
+                  <Link to={`/editChange/${id}`} className="write_button">
+                    수정
+                  </Link>
+                  <button onClick={handlePostDelete} className="delete_button">
+                    삭제
+                  </button>
+                </>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>

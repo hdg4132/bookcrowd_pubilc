@@ -9,17 +9,19 @@ import "./CommunityEdit.css";
 const CommunityEdit = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const [userId, setUserId] = useState(""); 
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 로그인 상태 확인
+    // 로그인 상태 및 사용자 이메일 확인
     const userInfo = JSON.parse(sessionStorage.getItem("userData"));
     if (!userInfo) {
       // 로그인하지 않은 경우 로그인 페이지로 리디렉션
       navigate("/login");
     } else {
       setIsLoggedIn(true);
+      setUserId(userInfo.name); // 사용자 이메일 설정
     }
   }, [navigate]);
 
@@ -33,16 +35,21 @@ const CommunityEdit = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!title.trim() || !content.trim()) {
+      alert("제목과 내용을 입력해주세요.");
+      return;
+    }
+
     const newPost = {
       title,
       content,
       date: new Date().toISOString(),
-      writer: "작성자명", // 로그인한 사용자 정보로 대체할 수 있습니다
+      writer: userId, // 로그인한 사용자 이메일을 작성자로 설정
     };
 
     axios
       .post("http://localhost:8080/api/community", newPost) // 서버 URL 확인
-      .then((response) => {
+      .then(() => {
         navigate("/community");
       })
       .catch((error) => {
@@ -50,7 +57,6 @@ const CommunityEdit = () => {
       });
   };
 
-  // 로그인되지 않은 경우 컴포넌트를 렌더링하지 않음
   if (!isLoggedIn) return null;
 
   return (

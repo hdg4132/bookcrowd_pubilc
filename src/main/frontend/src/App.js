@@ -83,7 +83,7 @@ function App() {
         <Route path="/community" element={<CommunityList />} />
         <Route path="/community/:id" element={<CommunityDetail />} />
         <Route path="/communityEdit" element={<CommunityEdit />} />
-        <Route path="/EditChange/:id" element={<CommunityEditChange />} />
+        <Route path="/editChange/:id" element={<CommunityEditChange />} />
         {/* 240805 kwj 커뮤니티 */}
       </Routes>
       <Footer />

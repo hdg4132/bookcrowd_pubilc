@@ -12,6 +12,7 @@ const CommunityEditChange = () => {
   const [content, setContent] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태
   const [loading, setLoading] = useState(true); // 데이터 로딩 상태
+  const [postWriter, setPostWriter] = useState(""); // 게시글 작성자
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,14 +22,17 @@ const CommunityEditChange = () => {
       navigate("/login"); // 로그인하지 않은 경우 로그인 페이지로 리디렉션
       return;
     }
+
     setIsLoggedIn(true);
 
     // 게시글 데이터 가져오기
     axios
       .get(`http://localhost:8080/api/community/${id}`)
       .then((response) => {
-        setTitle(response.data.title);
-        setContent(response.data.content);
+        const postData = response.data;
+        setTitle(postData.title);
+        setContent(postData.content);
+        setPostWriter(postData.writer); // 게시글 작성자 설정
         setLoading(false); // 데이터 로딩 완료
       })
       .catch((error) => {
@@ -47,16 +51,28 @@ const CommunityEditChange = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const userInfo = JSON.parse(sessionStorage.getItem("userData"));
+    if (!userInfo) {
+      navigate("/login"); // 로그인하지 않은 경우 로그인 페이지로 리디렉션
+      return;
+    }
+
     const updatedPost = {
       title,
       content,
       date: new Date().toISOString(), // 현재 날짜를 새로 설정
-      writer: JSON.parse(sessionStorage.getItem("userData")).username, // 로그인 사용자명
+      writer: userInfo.name, // 로그인 사용자명
     };
+
+    // 게시글 작성자와 현재 로그인한 사용자가 일치하는지 확인
+    if (postWriter !== userInfo.name) {
+      alert("권한이 없습니다. 작성자만 수정할 수 있습니다.");
+      return;
+    }
 
     axios
       .put(`http://localhost:8080/api/community/${id}`, updatedPost) // PUT 요청으로 수정
-      .then((response) => {
+      .then(() => {
         navigate(`/community/${id}`); // 수정 후 게시글 상세 페이지로 이동
       })
       .catch((error) => {
