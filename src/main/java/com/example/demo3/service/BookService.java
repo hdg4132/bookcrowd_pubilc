@@ -169,7 +169,7 @@ public class BookService {
         return (book != null) ? convertToDTO(book) : null;
     }
     public void saveBooksFromCSV() {
-        String filePath = "src/main/resources/data/book4_clean.csv";
+        String filePath = "Bookcrowd2/src/main/resources/data/book4_clean.csv";
         List<BookEntity> books = new ArrayList<>();
 
         try (Reader reader = new InputStreamReader(new FileInputStream(filePath), "UTF-8");

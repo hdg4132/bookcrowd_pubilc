@@ -9,7 +9,7 @@ public class ChatRoomDTO {
     private String adminId;
     private Timestamp creationTime;
     private boolean unread;
-    private String latestMessage; // 추가: 최신 메시지 필드
+    private String latestMessage;
 
     public Long getRoomId() {
         return roomId;

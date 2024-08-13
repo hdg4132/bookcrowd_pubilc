@@ -29,10 +29,6 @@
     font-style: normal;
 }
 
-html, body {
-    min-height: 100vh;
-}
-
 .mypage {
     margin: 0;
     flex-basis: 10%;
