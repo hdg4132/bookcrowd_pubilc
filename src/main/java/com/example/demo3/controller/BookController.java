@@ -133,4 +133,10 @@ public class BookController {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
+
+  @GetMapping("/import")
+  public String importBooks() {
+    bookService.saveBooksFromCSV();
+    return "Books imported successfully";
+  }
 }

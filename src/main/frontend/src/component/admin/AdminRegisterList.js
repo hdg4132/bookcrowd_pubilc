@@ -180,7 +180,7 @@ export default function AdminRegisterList() {
                         </button>
                       ) : item.keepStatus === 2 ? (
                         <button className="book-keeping-admin-btn2" style={{backgroundColor: '#FF24BD'}} disabled>
-                          대여중
+                          대여 중
                         </button>
                       ): item.keepStatus === 3 ? (
                         <button
