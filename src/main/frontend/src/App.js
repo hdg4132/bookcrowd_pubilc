@@ -65,19 +65,19 @@ function App() {
         <Route path="/books" element={<KeepingList />} />
         <Route path="/register" element={<KeepingRegister />} />
         <Route path="/book/:id" element={<KeepingItem />} />
-        <Route path="/admin/list" element={<AdminRegisterList />} />
-        <Route path="/admin/register" element={<AdminRegisterBook />} />
+        <Route path="/adm/list" element={<AdminRegisterList />} />
+        <Route path="/adm/register" element={<AdminRegisterBook />} />
         <Route path="/rent_admin" element={<Rent_admin />} />
         <Route path="/rent_admin_return" element={<Rent_admin_return />} />
         <Route path="/rent_admin_canceled" element={<Rent_admin_canceled />} />
         <Route path="/userchat" element={<UserChatPage />} />
-        <Route path="/admin/realchat" element={<RealChatPage />} />
-        <Route path="/admin/chatpage" element={<ChatPage />} />
+        <Route path="/adm/realchat" element={<RealChatPage />} />
+        <Route path="/adm/chatpage" element={<ChatPage />} />
         <Route path="/bookmatch" element={<RentBookmatch />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/mypage/:page" element={<Mypage />} />
-        <Route path="/wishlist" element={<WishList />} />
+        <Route path="/wishlist/:page" element={<WishList />} />
         <Route path="/editprofile" element={<Editprofile />} />
         {/* 240805 kwj 커뮤니티 */}
         <Route path="/community" element={<CommunityList />} />

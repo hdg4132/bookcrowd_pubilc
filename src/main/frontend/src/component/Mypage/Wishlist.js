@@ -18,22 +18,44 @@ const WishList = () => {
     const nav = useNavigate();
     const { page } = useParams();
     const postPerPage = 4;
+    const [list, setList] =useState([]);
 
-    // 위시리스트 불러오기
     useEffect(() => {
         fetch(`http://localhost:8080/wishlist/${userInfo.userId}`, {
             method: "GET",
         })
             .then(response => response.json())
             .then(data => {
-                setPosts(data);  // 데이터를 posts에 설정
-                setCount(data.length);  // count에 데이터 길이 설정
-                console.log(data);
+                setList(data); 
             })
             .catch(error => console.error('Error fetching posts:', error));
-    }, [userInfo.userId]); // 의존성 배열에 userInfo.userId를 추가하여 해당 값이 변경될 때만 재호출
+
+        setCount(posts.length);
+    }, []);
     
-    // 검색 및 페이지네이션 처리
+    useEffect(() => {
+        if(list != null){
+        {list && list.map((item) =>{
+            axios.get(`http://localhost:8080/books/getbooklist/${item.isbn}`)
+            .then((response) => {
+                setPosts(oldArray => [...oldArray, response.data])
+            })
+        })}
+    }
+    }, [list])
+
+    useEffect(() => {
+        setCount(posts.length)
+    }, [posts])
+
+    const onChangeSearch = (e) => {
+        setSearch(e.target.value);
+    };
+
+    const getSearchResult = () => {
+        return search === '' ? posts : posts.filter((it) => it.bookname.includes(search));
+    };
+
     useEffect(() => {
         const indexOfLastPost = (page || currentPage) * postPerPage;
         const indexOfFirstPost = indexOfLastPost - postPerPage;
@@ -44,14 +66,6 @@ const WishList = () => {
         const newUrl = `/wishlist/${page}`;
         nav(newUrl);
         setCurrentPage(page);
-    };
-
-    const onChangeSearch = (e) => {
-        setSearch(e.target.value);
-    };
-
-    const getSearchResult = () => {
-        return search === '' ? wishlist : wishlist.filter((it) => it.bookname.includes(search));
     };
 
     const handleDeleteAccount = async () => {
@@ -85,7 +99,7 @@ const WishList = () => {
         <div>
             <UserChatPage />
             <div className="mypage_body">
-                <SubBanner page_name={"storage"} title_en={"My page"} title_kr={"마이페이지"} />
+                <SubBanner page_name={"storage"} title_en={"My page"} title_kr={"위시리스트"} />
                 <form action="" className="search_form">
                     <input type="text" placeholder="검색어를 입력하세요" value={search} onChange={onChangeSearch} />
                     <button type="submit"><span className="booksearch_icon"></span></button>
@@ -102,7 +116,7 @@ const WishList = () => {
                                         <button className="sidebox_quitbutton" onClick={() => nav("/books")}>나의 보관내역</button>
                                     </li>
                                     <li className="sidebox_text">
-                                        <button className="sidebox_quitbutton" onClick={() => nav("/wishlist")}>위시리스트</button>
+                                        <button className="sidebox_quitbutton" onClick={() => nav("/wishlist/1")}>위시리스트</button>
                                     </li>
                                     <li className="sidebox_text">
                                         <button className="sidebox_quitbutton" onClick={() => nav("/editprofile")}>회원정보 수정</button>
@@ -117,15 +131,11 @@ const WishList = () => {
                     <div className="content_body">
                         <div className="mypage_list">
                             <div className="wishlist_list">
-                                {currentPosts.map((item) => (
-                                    <WishlistItem
-                                        key={item.ISBN13}
-                                        bookname={item.bookname}
-                                        ISBN13={item.ISBN13}
-                                    />
+                                {currentPosts && currentPosts.map((item) => (
+                                    <WishlistItem key={item.id} {...item} />
                                 ))}
                             </div>
-                            <Pagination page={currentPage} count={getSearchResult().length} handleChangePage={handleChangePage} postPerPage={postPerPage} />
+                            <Pagination page={page || currentPage} count={count} handleChangePage={handleChangePage} postPerPage={postPerPage} />
                         </div>
                     </div>
                 </div>

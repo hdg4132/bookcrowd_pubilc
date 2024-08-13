@@ -15,7 +15,7 @@ const RentItem =({bookId, bookImgUrl, bookName, author, publisher, description})
                         <li>저자: {author}</li>
                         <li>출판사: {publisher}</li>
                     </ul>
-                    <p className='con_con'>{description}</p>
+                    <p className='con_con'>{description} <span className="hidden_more">...더보기</span></p>
                 </div>
 
             </a>

@@ -14,3 +14,25 @@
 .wishlist_item p {
     margin: 5px 0 0;
 }
+
+.wishlist_list {
+    display: flex;
+}
+
+.wishlist_item{
+    flex-basis: 24%;
+    max-width: 15%;
+    margin: 50px 0 50px 9%;
+}
+
+.wishlist_item img{
+    max-width: 100%;
+}
+
+.mypage_list {
+    display: flex;
+    flex-direction: column;
+}
+
+
+

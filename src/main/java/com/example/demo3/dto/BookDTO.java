@@ -22,7 +22,7 @@ public class BookDTO {
     private String genre;
     private int pages;
     private String description;
-    private int available;
+
     private int stock;
     private int totalQuantity;
 

@@ -3,15 +3,30 @@ package com.example.demo3.service;
 import com.example.demo3.dto.BookDTO;
 import com.example.demo3.model.BookEntity;
 import com.example.demo3.persistence.BookRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponentsBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-import java.io.IOException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -114,7 +129,6 @@ public class BookService {
                 .genre(bookDTO.getGenre())
                 .pages(bookDTO.getPages())
                 .description(bookDTO.getDescription())
-                .available(bookDTO.getAvailable())
                 .stock(bookDTO.getStock())
                 .totalQuantity(bookDTO.getTotalQuantity())
                 .build();
@@ -131,7 +145,6 @@ public class BookService {
                 .genre(book.getGenre())
                 .pages(book.getPages())
                 .description(book.getDescription())
-                .available(book.getAvailable())
                 .stock(book.getStock())
                 .totalQuantity(book.getTotalQuantity())
                 .build();
@@ -158,5 +171,105 @@ public class BookService {
         }
     }
 
+    public BookDTO getBookByISBN(String ISBN) {
+        BookEntity book = bookRepository.findByISBN(ISBN).orElse(null);
+        return (book != null) ? convertToDTO(book) : null;
+    }
+    public void saveBooksFromCSV() {
+        String filePath = "Bookcrowd2/src/main/resources/data/book4_clean.csv";
+        List<BookEntity> books = new ArrayList<>();
 
+        try (Reader reader = new InputStreamReader(new FileInputStream(filePath), "UTF-8");
+             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader())) {
+
+            for (CSVRecord record : csvParser) {
+                try {
+                    BookEntity book = BookEntity.builder()
+                            .ISBN(record.get(5))  // ISBN 필드를 String으로 그대로 사용
+                            .bookName(record.get(1))  // title
+                            .bookImgUrl(record.get(9))  // book_img_url
+                            .publisher(record.get(3))  // publisher
+                            .author(record.get(2))  // author
+                            .publishDate(record.get(4))  // publishDate
+                            .genre(record.get(7))  // genre
+                            .pages(Integer.parseInt(record.get(6)))  // pages
+                            .description(record.get(8))  // description
+                            .stock(Integer.parseInt(record.get(10)))  // stock
+                            .totalQuantity(Integer.parseInt(record.get(11)))  // totalQuantity
+                            .build();
+                    books.add(book);
+                } catch (NumberFormatException e) {
+                    System.out.println("can't turn into Int: " + e.getMessage() + " in line: " + record);
+                }
+            }
+            bookRepository.saveAll(books);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isBooksTableEmpty() {
+        return bookRepository.count() == 0;
+    }
+
+    private final String apiKey = "af528ebbcc89187904b5aedbcd43dc9fdf67cb043dee213f6280ba7a46097ef5";
+    private final String baseUrl = "https://www.nl.go.kr/NL/search/openApi/search.do";
+
+    public BookDTO fetchBookDataByISBN(String ISBN) {
+        String url = UriComponentsBuilder.fromHttpUrl(baseUrl)
+                .queryParam("key", apiKey)
+                .queryParam("detailSearch", "true")  // 상세 검색 활성화
+                .queryParam("isbnOp", "isbn")        // ISBN 검색 옵션 추가
+                .queryParam("isbnCode", ISBN)
+                .toUriString();
+
+        RestTemplate restTemplate = new RestTemplate();
+        String xmlResponse = restTemplate.getForObject(url, String.class);
+        System.out.println("XML Response: " + xmlResponse);
+
+        try {
+            return parseXmlResponse(xmlResponse, ISBN);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private BookDTO parseXmlResponse(String xmlResponse, String ISBN) throws Exception {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(new ByteArrayInputStream(xmlResponse.getBytes()));
+
+        document.getDocumentElement().normalize();
+
+        NodeList itemList = document.getElementsByTagName("item");
+        if (itemList.getLength() > 0) {
+            Node itemNode = itemList.item(0);
+
+            if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element itemElement = (Element) itemNode;
+
+                String bookTitle = getTagValue("title_info", itemElement);
+                String author = getTagValue("author_info", itemElement);
+                String publisher = getTagValue("pub_info", itemElement);
+                String publishDate = getTagValue("pub_year_info", itemElement);
+                String category = getTagValue("kdc_name_1s", itemElement);
+
+                return BookDTO.builder()
+                        .ISBN(ISBN)
+                        .bookName(bookTitle)
+                        .author(author)
+                        .publisher(publisher)
+                        .publishDate(publishDate)
+                        .genre(category)
+                        .build();
+            }
+        }
+        return null;
+    }
+
+    private String getTagValue(String tag, Element element) {
+        NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
+        Node node = nodeList.item(0);
+        return node != null ? node.getNodeValue() : null;
+    }
 }

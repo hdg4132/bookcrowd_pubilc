@@ -160,9 +160,11 @@ export default function AdminRegisterList() {
                     <td className="col5 table-cell">{item.note}</td>
                     <td className="col6">{keepStatusMap[item.keepStatus]}</td>
                     <td className="col7">
-                      <button className="book-keeping-admin-btn1" onClick={()=>nav('/adm/rent/write', {state: {...item}})}>
+                      { item.keepStatus === 0 ?
+                      ( <button className="book-keeping-admin-btn1" onClick={()=>nav('/adm/rent/write', {state: {...item}})}>
                         책정보입력
-                      </button>
+                        </button>):''
+                      }
                     </td>
                     <td className="col8">
                       {item.keepStatus === 0 ? (
@@ -178,7 +180,7 @@ export default function AdminRegisterList() {
                         </button>
                       ) : item.keepStatus === 2 ? (
                         <button className="book-keeping-admin-btn2" style={{backgroundColor: '#FF24BD'}} disabled>
-                          대여중
+                          대여 중
                         </button>
                       ): item.keepStatus === 3 ? (
                         <button

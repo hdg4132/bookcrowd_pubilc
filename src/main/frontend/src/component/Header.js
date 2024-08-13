@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Header.css";
 import bookLogo from "../assets/MainLogo.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -7,9 +7,19 @@ import axios from "axios";
 
 const Header = () => {
   const navigate = useNavigate();
-  const userInfo = JSON.parse(sessionStorage.getItem("userData"));
+  const [userInfo, setUserInfo] = useState(null);
 
+  const info = sessionStorage.getItem("userData")
+  useEffect(() =>{
+    if(info != null){
+      setUserInfo(JSON.parse(info))
+    }
+  }, [info])
+
+  const location = useLocation();
+  const isHeaderHidden = location.pathname.includes('/adm/');
   useEffect(() => {
+    if(!isHeaderHidden){
     const topscroll = function () {
       const navbar = document.getElementById("header");
       if (
@@ -25,12 +35,11 @@ const Header = () => {
     return () => {
       window.removeEventListener("scroll", topscroll);
     };
+    }
   });
 
-  const location = useLocation();
-  const isHeaderHidden = location.pathname.includes("/adm/");
 
-  if (isHeaderHidden) {
+  if(isHeaderHidden){
     return null;
   }
 
@@ -40,6 +49,7 @@ const Header = () => {
       await axios.post("http://localhost:8080/api/auth/logout");
       // 세션에서 사용자 정보 제거
       sessionStorage.removeItem("userData");
+      setUserInfo(null)
       alert("로그아웃 완료되엇습니다.");
       // 로그인 페이지로 이동
       navigate("/login");
@@ -48,6 +58,9 @@ const Header = () => {
       alert("로그아웃 중 오류가 발생했습니다.");
     }
   };
+
+
+  console.log(userInfo)
 
   return (
     <header id="header">
@@ -78,9 +91,22 @@ const Header = () => {
         </nav>
         <nav id="navbar_2">
           <div className="nav_auth">
-            {userInfo ? (
+          
+            {userInfo != null ? (
               <>
-                <span className="nav_auth_line" onClick={handleLogout} style={{cursor: 'pointer'}}>
+               {userInfo.userType == "2" ? (
+                <>
+                <Link to="/adm/list" className="nav_auth_line">
+                  관리자 페이지
+                </Link>
+                <div className="nav_auth_bar" />
+              </>
+               ) : (<></>)}
+                <span
+                  className="nav_auth_line"
+                  onClick={handleLogout}
+                  style={{ cursor: "pointer" }}
+                >
                   로그아웃
                 </span>
                 <div className="nav_auth_bar" />
@@ -105,5 +131,6 @@ const Header = () => {
     </header>
   );
 };
+
 
 export default Header;
