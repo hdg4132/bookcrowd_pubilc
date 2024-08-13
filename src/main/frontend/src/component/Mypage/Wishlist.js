@@ -26,13 +26,7 @@ const WishList = () => {
         })
             .then(response => response.json())
             .then(data => {
-<<<<<<< HEAD
                 setList(data); 
-=======
-                setPosts(data);
-                setCount(data.length);
-                console.log(data);
->>>>>>> 05e35728335f4d66afa6b945e6a63f63a328e602
             })
             .catch(error => console.error('Error fetching posts:', error));
 
