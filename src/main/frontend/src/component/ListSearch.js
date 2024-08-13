@@ -21,7 +21,6 @@ const handleSearch = (e) => {
                     placeholder="검색어를 입력하세요"
                     value={changeSearchInput}
                     onChange={ChangeSearchInput}
-                   
                 />
                 <button type="submit" >
                     <span className="icon_search"></span>

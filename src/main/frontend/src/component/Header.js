@@ -9,7 +9,11 @@ const Header = () => {
   const navigate = useNavigate();
   const userInfo = JSON.parse(sessionStorage.getItem("userData"));
 
+
+  const location = useLocation();
+  const isHeaderHidden = location.pathname.includes('/adm/');
   useEffect(() => {
+    if(!isHeaderHidden){
     const topscroll = function () {
       const navbar = document.getElementById("header");
       if (
@@ -25,12 +29,11 @@ const Header = () => {
     return () => {
       window.removeEventListener("scroll", topscroll);
     };
+    }
   });
 
-  const location = useLocation();
-  const isHeaderHidden = location.pathname.includes("/adm/");
 
-  if (isHeaderHidden) {
+  if(isHeaderHidden){
     return null;
   }
 
