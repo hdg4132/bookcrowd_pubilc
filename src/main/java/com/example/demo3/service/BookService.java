@@ -3,23 +3,30 @@ package com.example.demo3.service;
 import com.example.demo3.dto.BookDTO;
 import com.example.demo3.model.BookEntity;
 import com.example.demo3.persistence.BookRepository;
-import com.example.demo3.util.EncodingUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponentsBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -205,4 +212,64 @@ public class BookService {
         return bookRepository.count() == 0;
     }
 
+    private final String apiKey = "af528ebbcc89187904b5aedbcd43dc9fdf67cb043dee213f6280ba7a46097ef5";
+    private final String baseUrl = "https://www.nl.go.kr/NL/search/openApi/search.do";
+
+    public BookDTO fetchBookDataByISBN(String ISBN) {
+        String url = UriComponentsBuilder.fromHttpUrl(baseUrl)
+                .queryParam("key", apiKey)
+                .queryParam("detailSearch", "true")  // 상세 검색 활성화
+                .queryParam("isbnOp", "isbn")        // ISBN 검색 옵션 추가
+                .queryParam("isbnCode", ISBN)
+                .toUriString();
+
+        RestTemplate restTemplate = new RestTemplate();
+        String xmlResponse = restTemplate.getForObject(url, String.class);
+        System.out.println("XML Response: " + xmlResponse);
+
+        try {
+            return parseXmlResponse(xmlResponse, ISBN);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private BookDTO parseXmlResponse(String xmlResponse, String ISBN) throws Exception {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(new ByteArrayInputStream(xmlResponse.getBytes()));
+
+        document.getDocumentElement().normalize();
+
+        NodeList itemList = document.getElementsByTagName("item");
+        if (itemList.getLength() > 0) {
+            Node itemNode = itemList.item(0);
+
+            if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element itemElement = (Element) itemNode;
+
+                String bookTitle = getTagValue("title_info", itemElement);
+                String author = getTagValue("author_info", itemElement);
+                String publisher = getTagValue("pub_info", itemElement);
+                String publishDate = getTagValue("pub_year_info", itemElement);
+                String category = getTagValue("kdc_name_1s", itemElement);
+
+                return BookDTO.builder()
+                        .ISBN(ISBN)
+                        .bookName(bookTitle)
+                        .author(author)
+                        .publisher(publisher)
+                        .publishDate(publishDate)
+                        .genre(category)
+                        .build();
+            }
+        }
+        return null;
+    }
+
+    private String getTagValue(String tag, Element element) {
+        NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
+        Node node = nodeList.item(0);
+        return node != null ? node.getNodeValue() : null;
+    }
 }

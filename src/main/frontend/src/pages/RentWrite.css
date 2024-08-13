@@ -25,3 +25,12 @@
     line-height: 1.2; cursor:pointer}
 .write_checkout .btn.btn_write{
     background: #199AE2; color:#fff;}
+
+.write_checkout .btn1{border-radius:5px;
+    padding: 5px 27px;
+    margin: 0px 10px;
+    background: #efefef;
+    display: inline-block; outline:none; border:none; font-size:16px;
+    line-height: 1.2; cursor:pointer}
+.write_checkout .btn1.btn_write{
+    background: #199AE2; color:#fff;}
