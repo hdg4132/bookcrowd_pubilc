@@ -8,9 +8,7 @@ function Rent() {
   const currentTime = getCurrentDateTime();
 
   const user1 = JSON.parse(localStorage.getItem("userInfo"));
-  // console.log(user1);
   const book1 = JSON.parse(localStorage.getItem("book"));
-  // console.log(book1);
 
   var rentSheet = {
     username: user1.name,
@@ -19,72 +17,53 @@ function Rent() {
   };
 
   const [double, setDoublecheck] = useState();
+  const [avilable, setAvilable] = useState();
+  const [isStore, setIsStore] = useState(false);
 
   const rentOnclick = (e) => {
     e.preventDefault();
     rentSheet.date = currentTime;
-    
-    if(double == null){
-    axios
-      .post("api/api/rent", {
-        rentSheet: rentSheet,
-      })
-      .then((response) => {
-        console.log(response.data)
-      });
-    axios
-      .put(`api/api/book/${book1.ISBN13}`, {
+
+    if (double == null) {
+      axios.post("api/api/rent", { rentSheet })
+        .then((response) => {
+          console.log(response.data);
+        });
+      axios.put(`api/api/book/${book1.ISBN13}`, {
         avilable: "2",
         approval: "1",
       })
       .then((response) => {
         alert("대여가 신청되었습니다");
         window.location.reload();
-      });}
-      else if(double == '1'){
-        alert("이미 신청 대기중인 건이 있습니다")
-      }
-      else if(double == '2'){
-        alert("신청이 승인되어 대여준비중인 건이 있습니다")
-      }
-  };
-
-  const wishlistSheet = {
-    userid: user1.id,
-    bookname: book1.bookname,
-    ISBN13: book1.ISBN13,
-  };
-
-  const wishlistOnclick = (e) => {
-    e.preventDefault();
-    axios
-      .post("api/api/wishlist", {
-        wishlistSheet: wishlistSheet,
-      })
-      .then((response) => {
-        alert("위시리스트에 추가하였습니다");
       });
+    } else if (double === '1') {
+      alert("이미 신청 대기중인 건이 있습니다");
+    } else if (double === '2') {
+      alert("신청이 승인되어 대여준비중인 건이 있습니다");
+    }
   };
 
-  const [avilable, setAvilable] = useState();
-  const [isStore, setIsStore] =useState(false);
+
   useEffect(() => {
     axios.get(`api/api/book/${book1.ISBN13}`).then((response) => {
       let data = response.data;
       setAvilable(data.length);
-      if (avilable == 0){
-        setIsStore(true)
+      if (avilable == 0) {
+        setIsStore(true);
       }
     });
+
     const params = {
       username: user1.name,
       ISBN13: book1.ISBN13,
-    }
-    axios.get(`api/api/rentdouble/${book1.ISBN13}`, {params})
-    .then((response) => {
-      const result = response.data
-      setDoublecheck(result[0].result)
-    })
+    };
+
+    axios.get(`api/api/rentdouble/${book1.ISBN13}`, { params })
+      .then((response) => {
+        const result = response.data;
+        setDoublecheck(result[0].result);
+      });
   }, []);
 
   return (
@@ -94,7 +73,7 @@ function Rent() {
       </div>
       <div className="bookInfo">
         <div className="book_img">
-          <img src={book1.bookimgurl} />
+          <img src={book1.bookimgurl} alt="Book Cover" />
         </div>
         <div className="info_detail">
           <div className="book_name">
@@ -125,7 +104,7 @@ function Rent() {
             <button className={`btn_rent ${isStore ? "store" : ""}`} disabled={isStore} onClick={rentOnclick}>
               대여하기
             </button>
-            <button className="btn_wish" onClick={wishlistOnclick}>
+            <button className="btn_wish">
               <IoMdHeartEmpty /> 위시리스트로
             </button>
           </div>

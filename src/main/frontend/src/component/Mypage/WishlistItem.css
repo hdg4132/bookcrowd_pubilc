@@ -1,0 +1,16 @@
+.wishlist_item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 10px 0;
+    background-color: #f9f9f9;
+}
+
+.wishlist_item h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.wishlist_item p {
+    margin: 5px 0 0;
+}

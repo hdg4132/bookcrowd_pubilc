@@ -14,7 +14,7 @@ const RentView =()=>{
     const [ data, setData ] = useState();
     const nav = useNavigate();
     const currentTime = getCurrentDateTime();
-    
+    const [existCheck, setExistCheck] = useState(false);
 
     useEffect(() => {
         putSpringData();
@@ -64,6 +64,46 @@ const RentView =()=>{
     }
     }
 
+    useEffect(() =>{
+            const user = JSON.parse(sessionStorage.getItem("userData"))
+            if(user != null && data != null)
+            axios.get(`http://localhost:8080/wishlist/${user.userId}/${data.isbn}`)
+            .then((response) =>{
+                console.log(response.data)
+                setExistCheck(response.data)
+            })
+    }, [data])
+
+
+    const wishlist = () => {
+        const user = JSON.parse(sessionStorage.getItem("userData"))
+        if(user == null) {
+            alert("로그인이 필요한 서비스입니다")
+            nav("/login")
+        }
+        else{
+            if(existCheck != true){
+            axios.post("http://localhost:8080/wishlist/register", {
+                isbn:data.isbn,
+                userId:user.userId,
+            })
+            .then((response) => {
+                console.log(response.data)
+                alert("위시리스트 등록이 완료되었습니다")
+                setExistCheck(true)
+            })
+        } else{
+            axios.delete(`http://localhost:8080/wishlist/${user.userId}/${data.isbn}`)
+            .then((response) =>{
+                console.log(response.data)
+                alert("위시리스트 해제가 완료되었습니다")
+                setExistCheck(false)
+            })
+        }
+    }
+    }
+
+
     return(
         <div className="RentView">
             <UserChatPage />
@@ -109,7 +149,7 @@ const RentView =()=>{
                                 </ul>
                             </div>
                             <div className="book_btn">
-                                <button className="btn"><img src={icon_off}/> 위시리스트</button>
+                                <button className="btn" onClick={wishlist}><img src={existCheck==true ? icon_on :icon_off} onClick={wishlist}/> 위시리스트</button>
                                 <button className="btn btn_color" onClick={rentRequest}>대여하기</button>
                             </div>
                         </div>

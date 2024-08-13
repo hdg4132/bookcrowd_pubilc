@@ -59,4 +59,10 @@ public class ChatController {
     public void saveMessage(@RequestBody ChatMessageDTO chatMessageDTO) {
         chatService.saveMessage(chatMessageDTO);
     }
+    // 0813 추가
+    // 특정 사용자와 관련된 모든 채팅방을 삭제
+    @DeleteMapping("/rooms/user/{userId}")
+    public void deleteChatRoomsByUserId(@PathVariable Long userId) {
+        chatService.deleteChatRoomsByUserId(userId);
+    }
 }
