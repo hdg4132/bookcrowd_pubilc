@@ -1,6 +1,5 @@
 package com.example.demo3.service;
 
-
 import com.example.demo3.dto.CommunityDTO;
 import com.example.demo3.model.CommunityEntity;
 import com.example.demo3.persistence.CommunityRepository;
@@ -18,9 +17,9 @@ public class CommunityService {
   private CommunityRepository repository;
 
   public List<CommunityDTO> findAll() {
-    return repository.findAllByOrderByDateDesc().stream()
-            .map(this::convertToDTO)
-            .collect(Collectors.toList());
+    return repository.findAllByOrderByCreatedDateDesc().stream()
+        .map(this::convertToDTO)
+        .collect(Collectors.toList());
   }
 
   public Optional<CommunityDTO> findById(Long id) {
@@ -38,21 +37,21 @@ public class CommunityService {
 
   private CommunityDTO convertToDTO(CommunityEntity entity) {
     return CommunityDTO.builder()
-            .id(entity.getId())
-            .title(entity.getTitle())
-            .content(entity.getContent())
-            .writer(entity.getWriter())
-            .date(entity.getDate())
-            .build();
+        .id(entity.getId())
+        .title(entity.getTitle())
+        .content(entity.getContent())
+        .writer(entity.getWriter())
+        .createdDate(entity.getCreatedDate())  // Format is handled in BaseTimeEntity
+        .modifiedDate(entity.getModifiedDate())  // Format is handled in BaseTimeEntity
+        .build();
   }
 
   private CommunityEntity convertToEntity(CommunityDTO dto) {
     return CommunityEntity.builder()
-            .id(dto.getId())
-            .title(dto.getTitle())
-            .content(dto.getContent())
-            .writer(dto.getWriter())
-            .date(dto.getDate())
-            .build();
+        .id(dto.getId())
+        .title(dto.getTitle())
+        .content(dto.getContent())
+        .writer(dto.getWriter())
+        .build();
   }
 }

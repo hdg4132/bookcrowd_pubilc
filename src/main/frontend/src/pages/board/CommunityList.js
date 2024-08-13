@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"; // axios를 사용하여 데이터를 가져옵니다.
+import axios from "axios";
 import { Link } from "react-router-dom";
 import SubBanner from "../../component/SubBanner";
 import "./CommunityList.css";
-import UserChatPage from "../../component/realChat/UserChatPage";
 
+// 날짜 문자열을 'yyyy/MM/dd HH:mm:ss' 형식으로 파싱합니다.
 const parseDate = (dateString) => {
-  const parsedDate = new Date(dateString);
+  const [datePart, timePart] = dateString.split(" ");
+  const [year, month, day] = datePart.split("/");
+  const [hour, minute, second] = timePart.split(":");
+
+  const parsedDate = new Date(
+    year,
+    month - 1, // JavaScript의 month는 0부터 시작합니다.
+    day,
+    hour,
+    minute,
+    second
+  );
 
   // 날짜가 유효한지 확인
   if (isNaN(parsedDate.getTime())) {
@@ -17,6 +28,7 @@ const parseDate = (dateString) => {
   return parsedDate;
 };
 
+// 날짜를 포맷팅하여 출력합니다.
 const formatDate = (dateString) => {
   const postDate = parseDate(dateString);
 
@@ -42,14 +54,15 @@ export default function CommunityList() {
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState([]);
-  const [totalPages, setTotalPages] = useState(1); // 총 페이지 수 상태 추가
-  const [loading, setLoading] = useState(true); // 로딩 상태 추가
-  const [error, setError] = useState(null); // 에러 상태 추가
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get("http://localhost:8080/api/community");
+        console.log("Fetched posts:", response.data); // 응답 데이터 로그
         setPosts(response.data);
         setTotalPages(Math.ceil(response.data.length / itemsPerPage));
       } catch (error) {
@@ -90,7 +103,6 @@ export default function CommunityList() {
 
   return (
     <div>
-      <UserChatPage />
       <SubBanner
         page_name={"checkout"}
         title_en={"Community"}
@@ -113,8 +125,8 @@ export default function CommunityList() {
                   <Link to={`/community/${item.id}`}>{item.title}</Link>
                 </span>
                 <div className="list_info">
-                  <span className="writer">{item.author || "작성자 없음"}</span>
-                  <span className="date">{formatDate(item.date)}</span>
+                  <span className="writer">{item.writer || "작성자 없음"}</span>
+                  <span className="date">{formatDate(item.createdDate)}</span>
                 </div>
               </li>
             ))}

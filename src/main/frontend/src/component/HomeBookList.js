@@ -19,8 +19,8 @@ export default function HomeBookList() {
       modules={[Autoplay]}
     >
       {book_images.map((src, index) => (
-        <SwiperSlide>
-          <img key={index} src={src} alt={`Image ${index}`} />
+        <SwiperSlide key={index}>
+          <img src={src} alt={`Image ${index}`} />
         </SwiperSlide>
       ))}
     </Swiper>
