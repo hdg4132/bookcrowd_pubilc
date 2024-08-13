@@ -123,4 +123,14 @@ public class BookController {
     bookDTO.setKeyword(keyword);
     return bookService.getSearchList(keyword);
   }
+
+  @GetMapping("/getbooklist/{ISBN}")
+  ResponseEntity<BookDTO> getBookByISBN(@PathVariable String ISBN) {
+    BookDTO book = bookService.getBookByISBN(ISBN);
+    if (book != null) {
+      return new ResponseEntity<>(book, HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+  }
 }

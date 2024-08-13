@@ -77,7 +77,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/mypage/:page" element={<Mypage />} />
-        <Route path="/wishlist" element={<WishList />} />
+        <Route path="/wishlist/:page" element={<WishList />} />
         <Route path="/editprofile" element={<Editprofile />} />
         {/* 240805 kwj 커뮤니티 */}
         <Route path="/community" element={<CommunityList />} />

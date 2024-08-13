@@ -158,5 +158,8 @@ public class BookService {
         }
     }
 
-
+    public BookDTO getBookByISBN(String ISBN) {
+        BookEntity book = bookRepository.findByISBN(ISBN).orElse(null);
+        return (book != null) ? convertToDTO(book) : null;
+    }
 }

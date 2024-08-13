@@ -113,7 +113,7 @@ const MyPage = () => {
                                         <button className="sidebox_quitbutton" onClick={() => nav("/books")}>나의 보관내역</button>
                                     </li>
                                     <li className="sidebox_text">
-                                        <button className="sidebox_quitbutton" onClick={() => nav("/wishlist")}>위시리스트</button>
+                                        <button className="sidebox_quitbutton" onClick={() => nav("/wishlist/1")}>위시리스트</button>
                                     </li>
                                     <li className="sidebox_text">
                                         <button className="sidebox_quitbutton" onClick={() => nav("/editprofile")}>회원정보 수정</button>
