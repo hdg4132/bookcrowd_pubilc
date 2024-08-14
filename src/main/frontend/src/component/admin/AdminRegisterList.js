@@ -98,6 +98,17 @@ export default function AdminRegisterList() {
     setPage(0);
   }
 
+  const handleRegisterClick = () => {
+    axios
+    .post(`/api/keepings/initializeKeepings`)
+    .then((response) => {
+      // console.log(response);
+    })
+    .catch((error) => {
+      console.error("Error adding books in admin account")
+    })
+  };
+
   const keepStatusMap = {
     0: "승인 대기",
     1: "보관 중",
@@ -146,7 +157,7 @@ export default function AdminRegisterList() {
             <tbody>
               {data.length === 0 ? (
                 <tr>
-                  <td colSpan="8">데이터가 없습니다.</td>
+                  <td colSpan="8">데이터가 없습니다. <button className="btn-register-data" onClick={handleRegisterClick}>등록하기</button></td>
                 </tr>
               ) : (
                 data.map((item) => (

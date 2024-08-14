@@ -96,6 +96,12 @@ public class KeepingController {
         return new ResponseEntity<>(keepings, HttpStatus.OK);
     }
 
+    @PostMapping("/initializeKeepings")
+    public ResponseEntity<String> initializeKeepings() {
+        keepingService.initializeStockAndCreateKeepingForZeroQuantityBooks();
+        return ResponseEntity.ok("Keepings initialized and created successfully.");
+    }
+
     @PutMapping("/matching")
     public ResponseEntity<?> Bookmatching(@RequestBody KeepingDTO keepingDTO) {
         try{
