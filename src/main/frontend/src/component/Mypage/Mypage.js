@@ -17,6 +17,15 @@ const MyPage = () => {
     const { page } = useParams();
     const postPerPage = 4;
 
+    // 로그인 여부 체크
+    useEffect(() => {
+        if (!userInfo) {
+            alert("로그인이 필요합니다.");
+            // nav("/login"); // 로그인 페이지로 리다이렉트
+            window.location.href="/login";
+        }
+    }, [userInfo, nav]);
+
     useEffect(() => {
         fetch(`http://localhost:8080/rents/rentlist/${userInfo.userId}`, {
             method: "GET",

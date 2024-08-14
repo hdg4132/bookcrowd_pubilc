@@ -1,71 +1,103 @@
-.rent_item {
+.mypage_body .rent_item {
     width: 100%;
-    text-align: center;
-    padding-right: 40px;
-}
-
-.rent_item li {
-    display: flex;
-    width: 100%;
-    align-items: center;
     text-align: left;
-    font-size: 14px;
-    margin-top: 20px;
-    margin-left: 20px;
+    padding: 10px 0; 
 }
 
-.rent_item_wrap {
-    display: inline-block;
-    flex-basis: 80%;
-}
-
-.rent_item_up{
+.mypage_body .rent_item_wrap {
     display: flex;
-}
-.rent_item_up .rentId{
-    flex-basis: 8%;
-}
-
-.rent_item_up .rentBookname{
-    flex-basis: 25%;  
-    margin-left: 60px;
-    text-overflow:ellipsis;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 0;
 }
 
-.rent_item_up .rentDate{
-    flex-basis: 23%;
-}
-
-.rent_item_up .rentUsername{
-    flex-basis: 12%;
-}
-
-.rent_item_up .rentISBN{
-    flex-basis: 20%;
-}
-
-.rent_item_up .rentButton{
+.mypage_body .rent_item_up,
+.mypage_body .rent_item_down {
     display: flex;
+    width: 100%;
+    justify-content: space-between; 
+    padding: 5px 0; 
+}
+
+.mypage_body .rent_item_up .rentId,
+.mypage_body .rent_item_up .rentBookname,
+.mypage_body .rent_item_up .rentDate,
+.mypage_body .rent_item_up .rentUsername,
+.mypage_body .rent_item_up .rentISBN,
+.mypage_body .rent_item_up .rentButton,
+.mypage_body .rent_item_down .rentUsername,
+.mypage_body .rent_item_down .rentUserID,
+.mypage_body .rent_item_down .rentLimit {
+    text-align: left; 
+    flex-basis: 48%; 
+}
+
+.mypage_body .rent_item_down .rentCurrent {
+    text-align: right;  
+    flex-basis: 30%;
+    padding-right: 0px; 
+    justify-content: flex-end; 
+}
+
+.mypage_body .rent_item_up .rentId,
+.mypage_body .rent_item_down .rentUsername {
+    flex-basis: 20%; 
+}
+
+.mypage_body .rent_item_up .rentBookname,
+.mypage_body .rent_item_down .rentUserID {
+    flex-basis: 50%; 
+}
+
+.mypage_body .rent_item_up .rentDate,
+.mypage_body .rent_item_up .rentISBN,
+.mypage_body .rent_item_down .rentLimit {
+    flex-basis: 30%; 
+}
+
+.mypage_body .rent_item_up .rentButton {
+    flex-basis: 10%;
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
-.rent_item_down{
-    display: flex;
-    margin-top: 10px;
+.mypage_body .disable {
+    display: none;
 }
 
-.rent_item_down .rentUsername{
-    flex-basis: 14%;   
+.rent_item_line {
+    border-top: 1px solid #5c5c5c;
+    width: 100%;
+    margin-top: 15px;
 }
 
-.rent_item_down .rentUserID{
-    flex-basis: 25%;
+
+.rentCurrent {
+    font-size: 20px;
+    text-align: center; 
+    padding-right: 30px; 
+    border-radius: 4px; 
+    background-color: transparent; 
+    max-width: 150px; 
 }
 
-.rent_item_down .rentCurrent{
-    flex-basis: 25%;
+.rentCurrent.pending {
+    color: skyblue; /* 대여 승인 대기중 */
 }
 
-.rent_item_down .rentLimit{
-    flex-basis: 25%;
+.rentCurrent.borrowing {
+    color: green; /* 대여 중 */
+}
+
+.rentCurrent.rejected {
+    color: red; /* 반려처리 됨 */
+}
+
+.rentCurrent.returned {
+    color: blue; /* 반납완료 */
+}
+
+.rentCurrent.error {
+    color: orange; /* 반납중 이상발생 */
 }

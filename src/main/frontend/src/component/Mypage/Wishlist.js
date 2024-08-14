@@ -129,14 +129,14 @@ const WishList = () => {
                         </div>
                     </div>
                     <div className="content_body">
-                        <div className="mypage_list">
-                            <div className="wishlist_list">
+                        <div className="wishlist_list">
+                            <div className="wishlist_items">
                                 {currentPosts && currentPosts.map((item) => (
                                     <WishlistItem key={item.id} {...item} />
                                 ))}
                             </div>
-                            <Pagination page={page || currentPage} count={count} handleChangePage={handleChangePage} postPerPage={postPerPage} />
                         </div>
+                        <Pagination page={page || currentPage} count={count} handleChangePage={handleChangePage} postPerPage={postPerPage} />
                     </div>
                 </div>
             </div>

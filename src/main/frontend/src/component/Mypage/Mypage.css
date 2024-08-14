@@ -34,13 +34,6 @@
     flex-basis: 10%;
 }
 
-.postLine{
-    text-align: center;
-    border-top: 1px solid #000000;
-    padding: 1px 30px 0 0;  
-    margin: 0 auto;
-    width: 1440px;
-}
 
 .mypage_side {
     width: 220px;
@@ -89,13 +82,6 @@
 
 .sidebox_quitbutton:hover {
     color: #199AE2;
-}
-
-
-.post_line{ 
-    border-top: 1px solid #000000;
-    width: 970px;
-    height: 1px;
 }
 
   
@@ -182,4 +168,27 @@
 
 .mypage_paging {
     margin: 100px 70px 50px 0;
+}
+
+.mypage_item_line {
+    border-top: 1px solid #000000;
+    width: 1000px;
+    margin-top: 60px;
+    margin-bottom: -40px;
+}
+
+
+.wishlist_list {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap; 
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+.wishlist_items {
+    padding-top: 40px;
+    flex-basis: 24%;
+    max-width: 300px; 
+    box-sizing: border-box;
 }
