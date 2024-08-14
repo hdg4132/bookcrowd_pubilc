@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../assets/css/style.css";
 import AdmLayout from "../AdmLayout";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ListSearch from "../ListSearch";
 
 export default function AdminRegisterList() {
@@ -17,9 +17,9 @@ export default function AdminRegisterList() {
 
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   // console.log(userData)
-  if (!userData || userData.userType != 2){
-    alert("관리자 계정이 필요한 페이지입니다, 관리자 계정으로 접속해 주세요")
-    nav("/login")
+  if (!userData || userData.userType != 2) {
+    alert("관리자 계정이 필요한 페이지입니다, 관리자 계정으로 접속해 주세요");
+    nav("/login");
   }
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function AdminRegisterList() {
     }
 
     if (keyword) {
-      url = `/api/keepings/search?keyword=${keyword}&page=${page}&size=10`
+      url = `/api/keepings/search?keyword=${keyword}&page=${page}&size=10`;
     }
     axios
       .get(url)
@@ -52,21 +52,21 @@ export default function AdminRegisterList() {
   };
 
   const handleApproveKeeping = (ISBN, bookName) => {
-    axios.put(`/api/keepings/updateStatus/${ISBN}`, null, {
+    axios
+      .put(`/api/keepings/updateStatus/${ISBN}`, null, {
         params: {
-            bookName: bookName
-        }
-    })
-    .then((response) => {
+          bookName: bookName,
+        },
+      })
+      .then((response) => {
         fetchKeepings(currentStatus, page);
-        console.log("KeepStatus updated")
-    })
-    .catch((error) => {
+        console.log("KeepStatus updated");
+      })
+      .catch((error) => {
         alert("Error occurred while approving keeping");
         console.error("Error approving keeping:", error);
-    });
-};
-
+      });
+  };
 
   const handleApproveReturn = (keepingId) => {
     axios
@@ -96,17 +96,17 @@ export default function AdminRegisterList() {
   const handleSearch = (keyword) => {
     setSearchKeyword(keyword);
     setPage(0);
-  }
+  };
 
   const handleRegisterClick = () => {
     axios
-    .post(`/api/keepings/initializeKeepings`)
-    .then((response) => {
-      // console.log(response);
-    })
-    .catch((error) => {
-      console.error("Error adding books in admin account")
-    })
+      .post(`/api/keepings/initializeKeepings`)
+      .then((response) => {
+        // console.log(response);
+      })
+      .catch((error) => {
+        console.error("Error adding books in admin account");
+      });
   };
 
   const keepStatusMap = {
@@ -124,7 +124,7 @@ export default function AdminRegisterList() {
     <>
       <AdmLayout />
       <div className="book-keeping-admin-container adm_con">
-        <ListSearch onSearch={handleSearch} searchKeyword={searchKeyword}/>
+        <ListSearch onSearch={handleSearch} searchKeyword={searchKeyword} />
         <section className="member-management">
           <div className="member-flex">
             <h1>회원관리</h1>
@@ -157,7 +157,21 @@ export default function AdminRegisterList() {
             <tbody>
               {data.length === 0 ? (
                 <tr>
-                  <td colSpan="8">데이터가 없습니다. <button className="btn-register-data" onClick={handleRegisterClick}>등록하기</button></td>
+                  <td colSpan="8">
+                    {currentStatus === "all" ? (
+                      <>
+                        데이터가 없습니다.{" "}
+                        <button
+                          className="btn-register-data"
+                          onClick={handleRegisterClick}
+                        >
+                          등록하기
+                        </button>
+                      </>
+                    ) : (
+                      "데이터가 없습니다."
+                    )}
+                  </td>
                 </tr>
               ) : (
                 data.map((item) => (
@@ -171,38 +185,59 @@ export default function AdminRegisterList() {
                     <td className="col5 table-cell">{item.note}</td>
                     <td className="col6">{keepStatusMap[item.keepStatus]}</td>
                     <td className="col7">
-                      { item.keepStatus === 0 ?
-                      ( <button className="book-keeping-admin-btn1" onClick={()=>nav('/adm/rent/write', {state: {...item}})}>
-                        책정보입력
-                        </button>):''
-                      }
+                      {item.keepStatus === 0 ? (
+                        <button
+                          className="book-keeping-admin-btn1"
+                          onClick={() =>
+                            nav("/adm/rent/write", { state: { ...item } })
+                          }
+                        >
+                          책정보입력
+                        </button>
+                      ) : (
+                        ""
+                      )}
                     </td>
                     <td className="col8">
                       {item.keepStatus === 0 ? (
                         <button
                           className="book-keeping-admin-btn2"
-                          onClick={() => handleApproveKeeping(item.isbn, item.bookName)}
+                          onClick={() =>
+                            handleApproveKeeping(item.isbn, item.bookName)
+                          }
                         >
                           보관 승인
                         </button>
                       ) : item.keepStatus === 1 ? (
-                        <button className="book-keeping-admin-btn2" style={{backgroundColor: '#FE7070'}} disabled>
+                        <button
+                          className="book-keeping-admin-btn2"
+                          style={{ backgroundColor: "#FE7070" }}
+                          disabled
+                        >
                           책 보관중
                         </button>
                       ) : item.keepStatus === 2 ? (
-                        <button className="book-keeping-admin-btn2" style={{backgroundColor: '#FF24BD'}} disabled>
-                          대여 중
-                        </button>
-                      ): item.keepStatus === 3 ? (
                         <button
                           className="book-keeping-admin-btn2"
-                          style={{backgroundColor: '#14ae5c'}}
+                          style={{ backgroundColor: "#FF24BD" }}
+                          disabled
+                        >
+                          대여 중
+                        </button>
+                      ) : item.keepStatus === 3 ? (
+                        <button
+                          className="book-keeping-admin-btn2"
+                          style={{ backgroundColor: "#14ae5c" }}
                           onClick={() => handleApproveReturn(item.keepingId)}
                         >
                           반환 승인
                         </button>
                       ) : item.keepStatus === 4 ? (
-                        <button className="book-keeping-admin-btn2" style={{backgroundColor: '#FFB800'}} disabled>
+                        <button
+                          className="book-keeping-admin-btn2"
+                          style={{ backgroundColor: "#FFB800" }}
+                          disabled
+                        >
                           반환 완료
                         </button>
                       ) : null}
