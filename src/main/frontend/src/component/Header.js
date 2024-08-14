@@ -73,7 +73,7 @@ const Header = () => {
         <nav id="navbar_1">
           <ul className="nav_menu">
             <li>
-              <Link to="/register" className="nav_menu_line">
+              <Link to="/books" className="nav_menu_line">
                 책 보관하기
               </Link>
             </li>
