@@ -7,6 +7,7 @@ import axios from "axios";
 
 export default function HomeBookList() {
   const [bookImages, setBookImages] = useState([]);
+  const book = JSON.parse(localStorage.getItem("book"));
 
   useEffect(() => {
     axios.get('http://localhost:8080/books')
@@ -21,15 +22,16 @@ export default function HomeBookList() {
 
   return (
     <Swiper
-      slidesPerView={2}
-      spaceBetween={10} // Increase space for visibility
+      slidesPerView={5}
+      spaceBetween={30}
+      loop={true} 
       speed={3000}
-      autoplay={{ delay: 3000, disableOnInteraction: false }} // Adjust delay
+      autoplay={{ delay: 0, disableOnInteraction: false }} 
       modules={[Autoplay]}
     >
       {bookImages.map((imgUrl, index) => (
         <SwiperSlide key={index}>
-          <img src="images" alt={`Book ${index + 1}`} className="book-image" />
+          <img src={`http://localhost:8080/files/${imgUrl}`} alt={`Book ${index + 1}`}/>
         </SwiperSlide>
       ))}
     </Swiper>
