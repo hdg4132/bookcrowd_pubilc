@@ -56,6 +56,17 @@ public class RentController {
         }
     }
 
+    @PutMapping("/update/reject")
+    public ResponseEntity<?> updateRentReject(@RequestBody RentDTO rentDTO) {
+        try {
+            RentEntity entity = RentDTO.toEntity(rentDTO);
+            RentDTO updatedRent = rentService.updateRentReject(entity);
+            return ResponseEntity.ok(updatedRent);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @GetMapping("/approval/{approval}")
     public List<RentDTO> findByApproval(@PathVariable String approval) {
         return rentService.findByapproval(approval);

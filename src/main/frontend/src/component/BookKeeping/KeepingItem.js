@@ -54,7 +54,7 @@ export default function KeepingItem() {
       })
       .catch((error) => {
         console.error("Error submitting return request:", error);
-        alert("해당 책을 보유하고 있지 않습니다");
+        alert("해당 책이 대여중입니다. 보관중일때 다시 신청해주세요");
       });
   };
 

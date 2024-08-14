@@ -252,6 +252,34 @@ public class KeepingService {
                 .map(KeepingDTO::new);
     }
 
+    @Transactional
+    public void initializeStockAndCreateKeepingForZeroQuantityBooks() {
+        // Step 1: stock과 totalQuantity가 0인 도서를 조회합니다.
+        List<BookEntity> zeroQuantityBooks = bookRepository.findByStockAndTotalQuantity(0, 0);
+
+        for (BookEntity book : zeroQuantityBooks) {
+            // Step 2: 각 도서의 stock과 totalQuantity를 1씩 증가시킵니다.
+            book.setStock(1);
+            book.setTotalQuantity(1);
+            bookRepository.save(book);
+
+            // Step 3: userId가 1인 새로운 키핑 엔티티를 생성합니다.
+            KeepingEntity newKeeping = KeepingEntity.builder()
+                    .userId(1L)  // userId가 1인 사용자
+                    .bookId(book.getBookId())
+                    .bookName(book.getBookName())
+                    .ISBN(book.getISBN())
+                    .keepStatus(1)  // 초기 상태
+                    .keepDate(LocalDateTime.now())
+                    .rentable(true)  // 기본적으로 대여 가능 상태로 설정
+                    .build();
+
+            keepingRepository.save(newKeeping);
+        }
+
+        log.info("Stock and totalQuantity initialized, and Keepings created for zero quantity books");
+    }
+
 
     public  List<KeepingDTO> findByISBN(String ISBN) {
         log.info("List of all rentable");

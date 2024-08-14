@@ -24,12 +24,25 @@ const Editprofile = () => {
   useEffect(() => {
     const userInfo = JSON.parse(sessionStorage.getItem("userData"));
     if (userInfo != null) {
-      setUserid(userInfo.userId);
+      setUserid(userInfo.userId)
+      setFormValues(
+        {
+          name: userInfo.name,
+          email: userInfo.email,
+          password: "",
+          confirmPassword: "",
+          phoneNumber: userInfo.phoneNumber,
+          address: userInfo.address,
+          detailAddress: userInfo.detailAddress,
+        }
+      );
     } else {
       navigate("/");
     }
   }, [navigate]);
-  
+
+
+
   console.log(userid);
 
   const handleChange = (e) => {
@@ -38,9 +51,9 @@ const Editprofile = () => {
       ...formValues,
       [name]: value,
     });
-  
+
   };
-  
+
 
   const validate = (values) => {
     const errors = {};
@@ -86,16 +99,16 @@ const Editprofile = () => {
       alert("이메일을 입력해 주세요.");
       return;
     }
-  
+
     try {
       const response = await axios.post(
-        'api/api/users/checkEmailDuplication', 
+        'http://localhost:8080/api/users/checkEmailDuplication',
         { email: formValues.email },
         { headers: { 'Content-Type': 'application/json' } }
       );
       console.log("서버 응답:", response.data);
       setEmailDuplication(response.data.result);
-  
+
       if (response.data.success) {
         setFormErrors((prevErrors) => {
           const { email, ...otherErrors } = prevErrors;
@@ -109,18 +122,19 @@ const Editprofile = () => {
       alert("이메일 중복 확인 중 오류가 발생했습니다.");
     }
   };
-  
-  
+
+
 
   const handleUpdate = async (e) => {
     e.preventDefault();
     const errors = validate(formValues);
     setFormErrors(errors);
-  
-    if (true) {
+
+    if (!errors.password) {
       setIsSubmit(true);
+      console.log(formValues);
       try {
-        const response = await axios.put("api/api/auth/editprofile", {
+        const response = await axios.put("http://localhost:8080/api/auth/editprofile", {
           name: formValues.name,
           password: formValues.password,
           email: formValues.email,
@@ -131,7 +145,7 @@ const Editprofile = () => {
         });
         console.log("서버 응답:", response.data);
         alert("회원정보가 수정되었습니다.");
-        navigate("/mypage");
+        navigate("/mypage/1");
       } catch (error) {
         if (error.response) {
           console.log("서버 응답 오류:", error.response.status, error.response.data);
@@ -148,7 +162,7 @@ const Editprofile = () => {
       }
     }
   };
-  
+
 
   return (
     <div>
@@ -181,7 +195,7 @@ const Editprofile = () => {
                 onChange={handleChange}
               />
               <button type="button" className="btn_check" onClick={checkEmailDuplication}>중복 확인</button>
-              {formErrors.email && <p className="emailerror">{formErrors.email}</p>}
+              {/* {formErrors.email && <p className="emailerror">{formErrors.email}</p>} */}
             </div>
           </div>
           <div className="signup_form_con">

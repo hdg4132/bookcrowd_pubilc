@@ -146,7 +146,7 @@ export default function KeepingList() {
       <SubBanner
         page_name={"storage"}
         title_en={"Book Storage"}
-        title_kr={"책 보관하기"}
+        title_kr={"보관내역"}
         search
         onSearch={handleSearch}
         searchKeyword={searchKeyword}

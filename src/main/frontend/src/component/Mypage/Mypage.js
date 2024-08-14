@@ -17,6 +17,15 @@ const MyPage = () => {
     const { page } = useParams();
     const postPerPage = 4;
 
+    // 로그인 여부 체크
+    useEffect(() => {
+        if (!userInfo) {
+            alert("로그인이 필요합니다.");
+            // nav("/login"); // 로그인 페이지로 리다이렉트
+            window.location.href="/login";
+        }
+    }, [userInfo, nav]);
+
     useEffect(() => {
         fetch(`http://localhost:8080/rents/rentlist/${userInfo.userId}`, {
             method: "GET",
@@ -72,7 +81,7 @@ const MyPage = () => {
             return;
         }
 
-        const { email } = userData;
+        const email = userData.email;
 
         try {
             const response = await axios.delete('http://localhost:8080/api/auth/deleteAccount', {
@@ -84,6 +93,7 @@ const MyPage = () => {
                 alert("탈퇴 완료");
             } else {
                 alert("탈퇴 완료되었습니다.");
+                sessionStorage.removeItem("userData")
                 window.location.href = '/login';
             }
         } catch (error) {

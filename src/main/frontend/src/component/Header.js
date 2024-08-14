@@ -49,6 +49,7 @@ const Header = () => {
       await axios.post("http://localhost:8080/api/auth/logout");
       // 세션에서 사용자 정보 제거
       sessionStorage.removeItem("userData");
+      sessionStorage.removeItem("keepingList");
       setUserInfo(null)
       alert("로그아웃 완료되엇습니다.");
       // 로그인 페이지로 이동
