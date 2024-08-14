@@ -87,7 +87,7 @@ function Home() {
               <div className="main_list_text">
                 <h4>대여 가능한 도서</h4>
                 <div>
-                  <a href="/checkout">
+                  <a href="/rent">
                     <span>+ 더보기</span>
                   </a>
                 </div>
