@@ -7,7 +7,6 @@ import axios from "axios";
 
 export default function HomeBookList() {
   const [bookImages, setBookImages] = useState([]);
-  const book = JSON.parse(localStorage.getItem("book"));
 
   useEffect(() => {
     axios.get('http://localhost:8080/books')
@@ -16,7 +15,7 @@ export default function HomeBookList() {
         setBookImages(images);
       })
       .catch(error => {
-        console.error('Error fetching book images:', error);
+        console.error('이미지 에러:', error);
       });
   }, []);
 
