@@ -3,9 +3,6 @@ package com.example.demo3.service;
 import com.example.demo3.dto.BookDTO;
 import com.example.demo3.model.BookEntity;
 import com.example.demo3.persistence.BookRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -28,6 +25,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -54,6 +52,11 @@ public class BookService {
     }
 
     public BookDTO addBook(BookDTO bookDTO, MultipartFile file) {
+        Optional<BookEntity> existingBook = bookRepository.findByISBN(bookDTO.getISBN());
+        if (existingBook.isPresent()) {
+            throw new RuntimeException("ISBN 넘버 " + bookDTO.getISBN() + "은 이미 등록되었습니다");
+        }
+
         // 파일 저장 처리
         if (file != null) {
 

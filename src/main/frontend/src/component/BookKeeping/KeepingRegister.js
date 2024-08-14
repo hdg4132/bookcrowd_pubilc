@@ -107,19 +107,7 @@ export default function KeepingRegister() {
       />
       <div className="book-keeping-register-container">
         <form onSubmit={handleSubmit}>
-          <div className="book-keeping-register-container-flex0">
-            <span>도서 명</span>
-            <input
-              type="text"
-              id="book-name"
-              name="bookName"
-              value={formData.bookName}
-              onChange={handleChange}
-              required
-              className={highlightBookName ? "highlight" : ""}
-              placeholder={highlightBookName ? "데이터가 없습니다. 수기로 작성부탁드려요" : "도서 명을 입력하세요"}
-            />
-          </div>
+          
           <div className="book-keeping-register-container-flex1">
             <span>ISBN 넘버</span>
             <input
@@ -137,6 +125,19 @@ export default function KeepingRegister() {
             <button className="btn_write" type="button" onClick={fetchBookData}>
               정보 가져오기
             </button>
+          </div>
+          <div className="book-keeping-register-container-flex0">
+            <span>도서 명</span>
+            <input
+              type="text"
+              id="book-name"
+              name="bookName"
+              value={formData.bookName}
+              onChange={handleChange}
+              required
+              className={highlightBookName ? "highlight" : ""}
+              placeholder={highlightBookName ? "데이터가 없습니다. 수기로 작성부탁드려요" : "도서 명을 입력하세요"}
+            />
           </div>
           <div className="book-keeping-register-container-flex2">
             <span>대여가능 여부</span>
