@@ -32,7 +32,7 @@ const Rent_item = ({
     if (approval == true) {
       const cause = window.prompt("사유를 적어주세요");
       axios
-        .put("api/rents/update/reject", {
+        .put("http://localhost:8080/rents/update/reject", {
           rentId: rentId,
           approval: "3",
           cause: cause,

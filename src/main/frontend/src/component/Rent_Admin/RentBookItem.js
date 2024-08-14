@@ -9,7 +9,7 @@ const RentBookItem = ({ keepingId, userId, bookId, bookName, rentable, note, kee
 
     const approval = (e) => {
       const instance = axios.create({
-        baseURL: "api",
+        baseURL: "http://localhost:8080",
         timeout: 10000,
       });
       
@@ -30,7 +30,7 @@ const RentBookItem = ({ keepingId, userId, bookId, bookName, rentable, note, kee
             })
             .then(
                 alert("매칭이 완료되었습니다"),
-                nav("/rent_admin_return")
+                nav("/adm/rent_admin")
             )
             .catch((error) => console.error("Error fetching posts:", error))
     }

@@ -150,7 +150,7 @@ const RentView =()=>{
                             </div>
                             {data.stock>0 ?
                                 (<div className="book_btn">
-                                     <button className="btn"><img src={icon_off}/> 위시리스트</button>
+                                     <button className="btn" onClick={wishlist}><img src={existCheck ? icon_on : icon_off}/> 위시리스트</button>
                                      <button className="btn btn_color" onClick={rentRequest}>대여하기</button>
                                  </div>)
                             :''}

@@ -19,7 +19,7 @@ const Rent_admin = () => {
 
   useEffect(() => {
     const instance = axios.create({
-      baseURL: "api",
+      baseURL: "http://localhost:8080",
       timeout: 10000,
     });
     instance
