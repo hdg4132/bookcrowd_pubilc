@@ -65,45 +65,55 @@ const RentWrite =()=>{
 
     const formSubmit =async(e)=>{
         e.preventDefault();
-        const formData = new FormData();
-        formData.append("bookId",input.bookId);
-        formData.append("ISBN",location.state?.isbn);
-        formData.append("bookName",location.state?.bookName);
-        if (file) {
-            formData.append("file", file);
-        }
-        formData.append("publisher",input.publisher);
-        formData.append("author",input.author);
-        formData.append("publishDate",input.publishDate);
-        formData.append("genre",input.genre);
-        formData.append("pages",input.pages);
-        formData.append("description",input.description);
+        try{
+            const formData = new FormData();
+            formData.append("bookId",input.bookId);
+            formData.append("ISBN",location.state?.isbn);
+            formData.append("bookName",location.state?.bookName);
+            if (file) {
+                formData.append("file", file);
+            }
+            formData.append("publisher",input.publisher);
+            formData.append("author",input.author);
+            formData.append("publishDate",input.publishDate);
+            formData.append("genre",input.genre);
+            formData.append("pages",input.pages);
+            formData.append("description",input.description);
 
-       if(isEdit){
-           await axios
-               .put(`http://localhost:8080/books/edit/${id}`,
-                   formData, {
-                       headers: {
-                           'Content-Type': 'multipart/form-data'
-                       }
-                   })
-               .then((res) => {
-                   nav(-1)
-                   console.log(JSON.stringify(res.data))
-               })
-       }else{
-           await axios
-               .post('http://localhost:8080/books/write',
-                   formData, {
-                       headers: {
-                           'Content-Type': 'multipart/form-data'
-                       }
-                   })
-               .then((res) => {
-                   nav(-1)
-                   console.log(JSON.stringify(res.data))
-               })
-       }
+            if(isEdit){
+                await axios
+                    .put(`http://localhost:8080/books/edit/${id}`,
+                        formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                     .then((res) => {
+                        nav(-1)
+                         console.log(JSON.stringify(res.data))
+                    })
+            }else{
+                await axios
+                    .post('http://localhost:8080/books/write',
+                        formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                    .then((res) => {
+                        nav(-1)
+                        console.log(JSON.stringify(res.data))
+                    })
+            }
+        } catch (error) {
+            if (error.response && error.response.data) {
+                alert(error.response.data.message);
+                nav(-1)
+            } else {
+                console.error("Error submitting form:", error);
+            }
+
+        }
 
     }
     useEffect(() => {
