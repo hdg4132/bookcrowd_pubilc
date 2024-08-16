@@ -1,8 +1,6 @@
 package com.example.demo3.dto;
 
-import com.example.demo3.model.BookEntity;
 import com.example.demo3.model.KeepingEntity;
-import com.example.demo3.model.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

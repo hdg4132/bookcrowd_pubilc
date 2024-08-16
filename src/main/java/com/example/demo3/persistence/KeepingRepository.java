@@ -17,8 +17,6 @@ public interface KeepingRepository extends JpaRepository <KeepingEntity, Integer
     Page<KeepingEntity> findByKeepStatus(int keepStatus, Pageable pageable);
     List<KeepingEntity> findByISBNAndRentableAndKeepStatus(String ISBN, boolean rentable, int keepStatus);
     List<KeepingEntity> findByUserId(Long userId);
-    List<KeepingEntity> findByBookIdAndLastBorrowedIsNullOrderByKeepDateAsc(int bookId);
-    List<KeepingEntity> findByBookIdAndLastBorrowedIsNotNullOrderByLastBorrowedAsc(int bookId);
     Page<KeepingEntity> findByISBNContainingOrBookNameContaining (String ISBNKeyword, String bookNameKeyword, Pageable pageable);
     @Query("SELECT k FROM KeepingEntity k WHERE k.userId = :userId AND (" +
             "k.bookName LIKE %:keyword% OR " +

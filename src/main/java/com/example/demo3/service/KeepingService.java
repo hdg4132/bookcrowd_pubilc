@@ -141,51 +141,6 @@ public class KeepingService {
         }
     }
 
-
-
-    @Transactional
-    public void borrowBook(int bookId) {
-        // lastBorrowed가 null인 KeepingEntity를 먼저 조회
-        List<KeepingEntity> nullBorrowedKeepings = keepingRepository.findByBookIdAndLastBorrowedIsNullOrderByKeepDateAsc(bookId);
-
-        KeepingEntity keepingToBorrow = null;
-
-        if (!nullBorrowedKeepings.isEmpty()) {
-            // lastBorrowed가 null인 KeepingEntity 중 첫 번째 항목을 선택
-            keepingToBorrow = nullBorrowedKeepings.get(0);
-        } else {
-            // lastBorrowed가 null인 KeepingEntity가 없으면, lastBorrowed가 가장 오래된 KeepingEntity를 조회
-            List<KeepingEntity> borrowedKeepings = keepingRepository.findByBookIdAndLastBorrowedIsNotNullOrderByLastBorrowedAsc(bookId);
-
-            if (!borrowedKeepings.isEmpty()) {
-                // lastBorrowed가 가장 오래된 KeepingEntity 중 첫 번째 항목을 선택
-                keepingToBorrow = borrowedKeepings.get(0);
-            }
-        }
-
-        if (keepingToBorrow == null) {
-            throw new RuntimeException("All books are currently rented or not available");
-        }
-
-        // 대여할 책 정보 조회
-        BookEntity book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new IllegalArgumentException("There is not a matching book found"));
-        if (book.getStock() <= 0) {
-            throw new RuntimeException("All the books are currently rented");
-        }
-
-        // 대여 상태로 변경
-        keepingToBorrow.setKeepStatus(2); // 상태를 대여 중으로 변경
-        keepingToBorrow.setLastBorrowed(LocalDateTime.now()); // 대여 시각 업데이트
-        keepingRepository.save(keepingToBorrow);
-
-        // 책 재고 감소
-        book.setStock(book.getStock() - 1);
-        bookRepository.save(book);
-
-        log.info("Book rented: {}", book.getBookId());
-    }
-
     public KeepingDTO returnedBook(KeepingEntity entity) {
         KeepingEntity keeping = keepingRepository.findById(entity.getKeepingId())
                 .orElseThrow(() -> new IllegalArgumentException("There is no kept nor rented item"));
@@ -311,19 +266,4 @@ public class KeepingService {
         }
     }
 
-    public KeepingDTO BookReturn(final KeepingEntity entity) {
-        final Optional<KeepingEntity> original = keepingRepository.findById(entity.getKeepingId());
-        if (original.isPresent()) {
-            KeepingEntity keeping = original.get();
-            keeping.setKeepingId(entity.getKeepingId());
-            keeping.setKeepStatus(entity.getKeepStatus());
-            keeping.setLastBorrowed(entity.getLastBorrowed());
-            keepingRepository.save(keeping);
-            log.info("rent updated:{}", keeping.getKeepingId());
-            return new KeepingDTO(keeping);
-        } else {
-            log.warn("rent not found: {}", entity.getKeepingId());
-            throw new RuntimeException("rent not found");
-        }
-    }
 }
