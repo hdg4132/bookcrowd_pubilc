@@ -227,20 +227,20 @@ public class BookService {
                 .toUriString();
 
         RestTemplate restTemplate = new RestTemplate();
-        String xmlResponse = restTemplate.getForObject(url, String.class);
-        System.out.println("XML Response: " + xmlResponse);
+        String centralLibraryResponse = restTemplate.getForObject(url, String.class);
+        System.out.println("XML Response: " + centralLibraryResponse);
 
         try {
-            return parseXmlResponse(xmlResponse, ISBN);
+            return parsecentralLibraryResponse(centralLibraryResponse, ISBN);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private BookDTO parseXmlResponse(String xmlResponse, String ISBN) throws Exception {
+    private BookDTO parsecentralLibraryResponse(String centralLibraryResponse, String ISBN) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(new ByteArrayInputStream(xmlResponse.getBytes()));
+        Document document = builder.parse(new ByteArrayInputStream(centralLibraryResponse.getBytes()));
 
         document.getDocumentElement().normalize();
 
