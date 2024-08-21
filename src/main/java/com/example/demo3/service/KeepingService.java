@@ -201,6 +201,7 @@ public class KeepingService {
 
         log.info("Book stock and totalQuantity decreased for bookId: {}", book.getBookId());
     }
+
     public Page<KeepingDTO> getKeepingsByStatus(int keepStatus, Pageable pageable) {
         log.info("Fetching keepings by status: {}", keepStatus);
         return keepingRepository.findByKeepStatus(keepStatus, pageable)
