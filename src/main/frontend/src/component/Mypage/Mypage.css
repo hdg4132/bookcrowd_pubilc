@@ -187,8 +187,9 @@
 }
 
 .wishlist_items {
+    display: flex;
     padding-top: 40px;
     flex-basis: 24%;
-    max-width: 300px; 
+    /* max-width: 300px; */
     box-sizing: border-box;
 }

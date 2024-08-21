@@ -37,6 +37,7 @@
     flex-basis: 30%;
     padding-right: 0px; 
     justify-content: flex-end; 
+    position: relative;
 }
 
 .mypage_body .rent_item_up .rentId,
@@ -80,6 +81,7 @@
     border-radius: 4px; 
     background-color: transparent; 
     max-width: 150px; 
+    
 }
 
 .rentCurrent.pending {
@@ -100,4 +102,9 @@
 
 .rentCurrent.error {
     color: orange; /* 반납중 이상발생 */
+}
+
+.rentCurrent .cause{
+    position: absolute;
+    left: -100%;
 }

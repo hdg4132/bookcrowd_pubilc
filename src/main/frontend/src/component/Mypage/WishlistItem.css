@@ -1,11 +1,12 @@
 .wishlist_item {
-    box-sizing: border-box; 
+    flex-basis: 24%;
+    box-sizing: border-box;
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 15px;
-    margin: 10px;
+    margin: 10px 0 0 50px;
     background-color: #f9f9f9;
-    display: flex; 
+    display: flex;
     align-items: center;
     flex-direction: row;
 }

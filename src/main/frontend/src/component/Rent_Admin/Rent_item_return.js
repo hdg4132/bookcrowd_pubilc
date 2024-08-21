@@ -49,15 +49,19 @@ const Rent_item_return = ({
     const approval = window.confirm("특이사항이 있습니까?");
     if (approval == true) {
       const significant = window.prompt("내용을 적어주세요");
-
-      axios.put(`/bookreturn`, {
+      
+      const instance = axios.create({
+        baseURL: "http://localhost:8080",
+        timeout: 10000,
+      });
+      instance.put(`/rents/bookreturn`, {
         rentId: rentId,
         approval: "5",
         returnDate: date,
         description: significant,
       });
-      axios
-        .put(`api/keepings/bookreturn`, {
+      instance
+        .put(`/keepings/bookreturn`, {
           keepingId: keepingId,
           keepingStatus: 0,
           note: significant,

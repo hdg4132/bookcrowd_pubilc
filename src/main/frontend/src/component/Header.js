@@ -111,7 +111,7 @@ const Header = () => {
                   로그아웃
                 </span>
                 <div className="nav_auth_bar" />
-                <Link to="/mypage/:page" className="nav_auth_line">
+                <Link to="/mypage/1" className="nav_auth_line">
                   마이페이지
                 </Link>
               </>

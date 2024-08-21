@@ -53,9 +53,7 @@ const Rent_item = ({ rentId, bookname, isbn, userName, borrowedId, borrowedName,
           </div>
           <div className={`rentCurrent ${currentClass}`}>
             <p>{currentState}</p>
-          </div>
-          <div className={cause != null ? "cause" : "disable"}>
-            <p>반려 사유 : {cause}</p>
+            <p className={cause != null ? "cause" : "disable"}>반려 사유 : {cause}</p>
           </div>
         </div>
       </div>
