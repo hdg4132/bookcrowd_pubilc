@@ -231,13 +231,13 @@ public class BookService {
         System.out.println("XML Response: " + centralLibraryResponse);
 
         try {
-            return parsecentralLibraryResponse(centralLibraryResponse, ISBN);
+            return parseCentralLibraryResponse(centralLibraryResponse, ISBN);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private BookDTO parsecentralLibraryResponse(String centralLibraryResponse, String ISBN) throws Exception {
+    private BookDTO parseCentralLibraryResponse(String centralLibraryResponse, String ISBN) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(new ByteArrayInputStream(centralLibraryResponse.getBytes()));
