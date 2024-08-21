@@ -44,6 +44,10 @@ public class RentService {
         log.info("new rent: {}", rentDTO);
         RentEntity rentEntity = RentDTO.toEntity(rentDTO);
         rentEntity = rentRepository.save(rentEntity);
+        List<RentEntity> count = rentRepository.findByBorrowedId(rentDTO.getBorrowedId());
+        count.forEach(rent ->
+                rent.setRentBookCount(rentRepository.countByborrowedIdAndApproval(rentDTO.getBorrowedId(), "2")));
+        rentRepository.saveAll(count);
         log.info("rent sucess: {}", rentEntity);
         return new RentDTO(rentEntity);
     }
